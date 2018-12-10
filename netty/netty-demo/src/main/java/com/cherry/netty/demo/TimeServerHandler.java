@@ -11,7 +11,6 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
 
 	private int counter;
 
-	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		// super.channelRead(ctx, msg);
 		ByteBuf buf = (ByteBuf) msg;
@@ -46,7 +45,6 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
 
 	}
 
-	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		// TODO Auto-generated method stub
 		ctx.flush();

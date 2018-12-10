@@ -10,7 +10,6 @@ public class EchoServerHandler extends ChannelHandlerAdapter {
 
 	private int counter = 0;
 
-	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		/*String body = (String) msg;
 		System.out.println("this is "+ ++counter+" times receive client:["+body+"]");
@@ -21,7 +20,6 @@ public class EchoServerHandler extends ChannelHandlerAdapter {
 
 	}
 
-	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		// TODO Auto-generated method stub
 		ctx.flush();
