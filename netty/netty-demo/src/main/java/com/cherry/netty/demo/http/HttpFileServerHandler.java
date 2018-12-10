@@ -21,6 +21,9 @@ import io.netty.handler.stream.ChunkedFile;
 
 public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
+	public HttpFileServerHandler(String url) {
+	}
+
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
 		if(!request.getDecoderResult().isSuccess()){
