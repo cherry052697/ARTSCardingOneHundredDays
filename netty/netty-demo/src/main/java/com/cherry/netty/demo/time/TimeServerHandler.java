@@ -1,4 +1,4 @@
-package com.cherry.netty.demo;
+package com.cherry.netty.demo.time;
 
 import java.sql.Date;
 

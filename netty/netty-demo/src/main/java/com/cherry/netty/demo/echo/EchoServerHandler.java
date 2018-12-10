@@ -1,4 +1,4 @@
-package com.cherry.netty.demo;
+package com.cherry.netty.demo.echo;
 
 
 import io.netty.buffer.ByteBuf;

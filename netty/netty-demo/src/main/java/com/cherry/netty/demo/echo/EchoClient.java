@@ -1,6 +1,8 @@
-package com.cherry.netty.demo;
+package com.cherry.netty.demo.echo;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -8,10 +10,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
-public class TimeClient {
+public class EchoClient {
 	public void connect(int port,String host) throws InterruptedException{
 		EventLoopGroup group = new  NioEventLoopGroup();
 		try {
@@ -21,11 +23,10 @@ public class TimeClient {
 			.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				protected void initChannel(SocketChannel sc) throws Exception {
-//					sc.pipeline().addLast(new TimeClientHandler());
-					// tcp粘包问题解决
-					sc.pipeline().addLast(new LineBasedFrameDecoder(1024));
+					ByteBuf delimiter = Unpooled.copiedBuffer("$_".getBytes());
+					sc.pipeline().addLast(new DelimiterBasedFrameDecoder(1024,delimiter));
 					sc.pipeline().addLast(new StringDecoder());
-					sc.pipeline().addLast(new TimeClientHandler());
+					sc.pipeline().addLast(new EchoClientHandler());
 				}
 			});
 			ChannelFuture f = b.connect(host,port).sync();
@@ -39,7 +40,7 @@ public class TimeClient {
 		if(args != null && args.length > 0){
 			port = Integer.valueOf(args[0]);
 		}
-		new TimeClient().connect(port, "127.0.0.1");
+		new EchoClient().connect(port, "127.0.0.1");
 	}
 
 }
