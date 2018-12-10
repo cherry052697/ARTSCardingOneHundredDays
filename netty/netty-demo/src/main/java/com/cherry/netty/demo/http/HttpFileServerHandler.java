@@ -4,7 +4,6 @@ package com.cherry.netty.demo.http;
 import java.io.File;
 import java.io.RandomAccessFile;
 
-import org.hibernate.validator.internal.util.privilegedactions.SetContextClassLoader;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
