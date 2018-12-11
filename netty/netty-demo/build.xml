@@ -14,7 +14,7 @@
 		<echo message="Running bindGen tool" />
 		<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
 			<classpath>
-			<fileset dir="${jibx-home}/lib" includes="*.jar" />
+				<fileset dir="${jibx-home}/lib" includes="*.jar" />
 			</classpath>
 		</taskdef>
 		<bind binding="${basedir}/binding.xml" >
