@@ -31,5 +31,13 @@ public abstract class AbstractHttpXmlEncoder<T> extends MessageToMessageEncoder<
 		ByteBuf encodeBuf = Unpooled.copiedBuffer(xmlStr,UTF_8);
 		return encodeBuf;
 	}
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx,Throwable cause) throws IOException{
+		if(writer!=null){
+			writer.close();
+			writer = null;
+		}
+	}
+	
 
 }
