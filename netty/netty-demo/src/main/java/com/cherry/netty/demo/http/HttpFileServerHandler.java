@@ -43,18 +43,10 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 	}
 
 
-	private boolean isKeepalive(FullHttpRequest request) {
-		return false;
-	}
 
 	private void setContentTypeHeader(HttpResponse response, File file) {
 		 MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
 	        response.headers().set(HttpHeaderNames.CONTENT_TYPE, mimetypesFileTypeMap.getContentType(file.getPath()));
-		
-	}
-
-	private void setContentLength(HttpResponse response, long fileLength) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -160,10 +152,10 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 		}
 		long fileLength = randomAccessFile.length();
 		HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-		setContentLength(response,fileLength);
+		HttpHeaderUtil.setContentLength(response, fileLength);
 		setContentTypeHeader(response,file);
-		if(isKeepalive(request)){
-			response.headers().set("CONNECTION",HttpHeaderValues.KEEP_ALIVE);
+		if(HttpHeaderUtil.isKeepAlive(request)){
+			response.headers().set(HttpHeaderNames.CONNECTION,HttpHeaderValues.KEEP_ALIVE);
 		}
 		ctx.write(response);
 		ChannelFuture sendFileFuture;
@@ -196,7 +188,14 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 	
 	}
 
-
+	 @Override
+	    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+	            throws Exception {
+	        cause.printStackTrace();
+	        if(ctx.channel().isActive())
+	            sendError(ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR);
+	    }
+	
 	private void sendRedirect(ChannelHandlerContext ctx, String string) {
 		FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FOUND);
 		response.headers().set(HttpHeaderNames.LOCATION,string);
