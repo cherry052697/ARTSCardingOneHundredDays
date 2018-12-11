@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="AntTestDemo" default="run" basedir=".">
+<property name="src" value="src/main/java/com/cherry/netty/demo/domain/"/>
+<property name="dest" value="classes"/>
+<property name="Address_jar" value="Address.jar"/>
+<target name="init">
+   <mkdir dir="${dest}"/>
+</target>
+<target name="compile" depends="init">
+   <javac srcdir="${src}" destdir="${dest}" includeantruntime="no"/>
+</target>
+<target name="build" depends="compile">
+   <jar jarfile="${Address_jar}" basedir="${dest}"/>
+</target>
+<target name="run" depends="build">
+   <java classname="com.cherry.netty.demo.domain" classpath="${Address_jar}"/>
+</target>
+<target name="clean">
+   <delete dir="${dest}" />
+   <delete file="${Address_jar}" />
+</target>
+<target name="rerun" depends="clean,run">
+   <ant target="clean" />
+   <ant target="run" />
+</target>
+</project>
