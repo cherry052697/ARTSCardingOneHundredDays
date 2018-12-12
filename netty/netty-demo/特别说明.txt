@@ -1,0 +1,18 @@
+java -cp bin;D:\tools\jibx_1_3_1\jibx\lib\jibx-tools.jar org.jibx.binding.generator.BindGen -b binding.xml com.cherry.netty.demo.domain.Order 
+
+java -cp bin;D:\tools\jibx_1_3_1\jibx\lib\jibx-tools.jar org.jibx.binding.generator.BindGen -b binding.xml com.cherry.netty.demo.domain.Order 
+
+
+[ERROR] No plugin found for prefix 'jibx' in the current project and in the
+in groups [org.apache.maven.plugins, org.codehaus.mojo] available from the
+itories [local (D:\apache-maven-3.1.0-bin\apache-maven-3.1.0\repository), n
+aliyun (http://maven.aliyun.com/nexus/content/groups/public)] -> [Help 1]
+
+
+D:\tools\jibx_1_3_1\jibx\lib
+
+java -jar D:\tools\jibx_1_3_1\jibx\lib\jibx-bind.jar binding.xml
+
+java -cp D:\tools\jibx_1_3_1\jibx\lib\jibx-bind.jar org.jibx.binding.Compile binding.xml
+
+java -cp .;lib/support.jar;D:\tools\jibx_1_3_1\jibx\lib\jibx-bind.jar org.jibx.binding.Compile binding.xml
