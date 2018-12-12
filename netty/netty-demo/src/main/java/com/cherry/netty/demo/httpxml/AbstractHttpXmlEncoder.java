@@ -19,7 +19,7 @@ public abstract class AbstractHttpXmlEncoder<T> extends MessageToMessageEncoder<
 	StringWriter writer = null;
 	final static String CHARSET_NAME = "UTF-8";
 	final static Charset UTF_8 = Charset.forName(CHARSET_NAME);
-	protected ByteBuf encode0(ChannelHandlerContext ctx,Object body) throws JiBXException, IOException{
+	protected ByteBuf encode2Xml(ChannelHandlerContext ctx,Object body) throws JiBXException, IOException{
 		factory = BindingDirectory.getFactory(body.getClass());
 		writer = new StringWriter();
 		IMarshallingContext mctx = factory.createMarshallingContext();
@@ -28,6 +28,7 @@ public abstract class AbstractHttpXmlEncoder<T> extends MessageToMessageEncoder<
 		String xmlStr = writer.toString();
 		writer.close();
 		writer = null;
+		System.out.println("AbstractHttpXmlEncoder.encode0():\n"+xmlStr);
 		ByteBuf encodeBuf = Unpooled.copiedBuffer(xmlStr,UTF_8);
 		return encodeBuf;
 	}

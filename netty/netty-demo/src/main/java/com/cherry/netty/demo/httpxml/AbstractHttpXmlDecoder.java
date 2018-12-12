@@ -30,7 +30,7 @@ public abstract class AbstractHttpXmlDecoder<T> extends MessageToMessageDecoder<
 		this.isPrint = isPrint2;
 	}
 	
-	protected Object decode0(ChannelHandlerContext arg0,ByteBuf body) throws JiBXException{
+	protected Object decode2Object(ChannelHandlerContext arg0,ByteBuf body) throws JiBXException{
 		factory = BindingDirectory.getFactory(clazz);
 		String content = body.toString(UTF_8);
 		if(isPrint)

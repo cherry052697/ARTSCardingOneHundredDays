@@ -12,6 +12,7 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
 import com.cherry.netty.demo.domain.Order;
+import com.cherry.netty.demo.httpxml.OrderFactory;
 
 public class TestOrder {
 	private IBindingFactory factory = null;
@@ -35,11 +36,11 @@ public class TestOrder {
 		Order order = (Order) uctx.unmarshalDocument(reader);
 		return order;
 	}
-	public static void main(String[] args) {
-		/*TestOrder test = new TestOrder();
-		Order order = OrderFactory.create(123);
+	public static void main(String[] args) throws JiBXException, IOException {
+		TestOrder test = new TestOrder();
+		Order order = (Order) OrderFactory.create(123);
 		String body = test.encode2Xml(order);
 		Order order2 = test.decode2Order(body);
-		System.out.println(order2);*/
+		System.out.println(order2);
 	}
 }

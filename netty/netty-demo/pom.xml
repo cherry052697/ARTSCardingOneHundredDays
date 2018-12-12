@@ -86,5 +86,43 @@
 
 	</dependencies>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+				<!-- 生成jibx class信息   -->
+					<groupId>org.jibx</groupId>
+					<artifactId>jibx-maven-plugin</artifactId>
+					<version>1.3.1</version>
+					<configuration>
+						<schemaBindingDirectory>${basedir}/target/classes/jibx</schemaBindingDirectory>
+						<includeSchemaBindings>
+							<includeSchemaBindings>*binding.xml</includeSchemaBindings>
+						</includeSchemaBindings>
+						<verbose>true</verbose>
+					</configuration>
+					<executions>
+						<execution>
+							<id>jibx-bind</id>
+							<!-- 把jibx绑定到了comile编译阶段   -->
+							<phase>compile</phase>
+							<goals>
+								<goal>bind</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>
+
+<!-- 
+java -jar D:\tools\jibx_1_3_1\jibx\lib\jibx-bind.jar binding.xml
+
+java -cp D:\tools\jibx_1_3_1\jibx\lib\jibx-bind.jar org.jibx.binding.Compile binding.xml
+
+
+ -->
+

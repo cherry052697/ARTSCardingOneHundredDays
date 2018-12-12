@@ -19,7 +19,7 @@ public class HttpXmlRequestEncoder extends AbstractHttpXmlEncoder<HttpXmlRequest
 
 	@Override
 	protected void encode(ChannelHandlerContext ctx, HttpXmlRequest msg, List<Object> out) throws Exception {
-		ByteBuf body = encode0(ctx, msg.getBody());
+		ByteBuf body = encode2Xml(ctx, msg.getBody());
 		FullHttpRequest request = msg.getRequest();
 		if(request == null){
 			request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/do",body);
