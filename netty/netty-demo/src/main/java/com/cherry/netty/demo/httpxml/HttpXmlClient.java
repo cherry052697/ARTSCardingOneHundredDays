@@ -14,7 +14,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpRequestEncoder;
 import io.netty.handler.codec.http.HttpResponseDecoder;
 
 public class HttpXmlClient {
@@ -31,7 +31,7 @@ public class HttpXmlClient {
 					ch.pipeline().addLast("http-decoder",new HttpResponseDecoder());
 					ch.pipeline().addLast("http-aggregator",new HttpObjectAggregator(65536));
 					ch.pipeline().addLast("xml-decoder",new HttpXmlResponseDecoder(Order.class, true));
-					ch.pipeline().addLast("http-encoder",new HttpRequestDecoder());
+					ch.pipeline().addLast("http-encoder",new HttpRequestEncoder());
 					ch.pipeline().addLast("xml-encoder",new HttpXmlRequestEncoder());
 					ch.pipeline().addLast("xmlClintHandler",new HttpXmlClientHandler());
 				}
