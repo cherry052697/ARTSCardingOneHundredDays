@@ -1,5 +1,6 @@
 package com.cherry.netty.demo.protocolstack;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -39,10 +40,10 @@ public class NettyClient {
 
 			});
 			
-			/*ChannelFuture future = b.connect(
+			ChannelFuture future = b.connect(
 					new InetSocketAddress(host, port), 
-					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();*/
-			ChannelFuture future = b.bind(host, port).sync();
+					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();
+//			ChannelFuture future = b.bind(host, port).sync();
 			
 			future.channel().closeFuture().sync();
 			
