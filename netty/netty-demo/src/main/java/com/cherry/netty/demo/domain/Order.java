@@ -1,10 +1,6 @@
 package com.cherry.netty.demo.domain;
 
-import org.json.JSONObject;
-
-import io.netty.handler.codec.json.JsonObjectDecoder;
-import net.sf.json.JSON;
-import netscape.javascript.JSObject;
+import com.cherry.netty.utils.JsonUtil;
 
 public class Order {
 	private long orderNumber;
@@ -49,6 +45,11 @@ public class Order {
 	public void setTotal(float total) {
 		this.total = total;
 	}
+	@Override
+	public String toString() {
+		return JsonUtil.toJson(this);
+	}
+	
 	
 
 }

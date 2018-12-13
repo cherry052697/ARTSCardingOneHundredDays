@@ -4,6 +4,7 @@ import com.cherry.netty.demo.domain.Address;
 import com.cherry.netty.demo.domain.Customer;
 import com.cherry.netty.demo.domain.Order;
 import com.cherry.netty.demo.domain.Shipping;
+import com.cherry.netty.utils.JsonUtil;
 
 public class OrderFactory {
 
@@ -28,6 +29,7 @@ public class OrderFactory {
 		order.setShipto(address);
 		order.setTotal(9999.99f);
 		
+		System.out.println("OrderFactory.create(): "+JsonUtil.toJson(order));
 		return order;
 	}
 
