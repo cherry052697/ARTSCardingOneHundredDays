@@ -1,6 +1,5 @@
 package com.cherry.netty.demo.protocolstack;
 
-import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +20,6 @@ public class NettyClient {
 	
 	EventLoopGroup group = new NioEventLoopGroup();
 	
-	
 	public void connect(int port,String host) throws InterruptedException{
 		try {
 			Bootstrap b = new Bootstrap();
@@ -36,7 +34,9 @@ public class NettyClient {
 					ch.pipeline().addLast("ReadTimeoutHandler",new ReadTimeoutHandler(50));
 					ch.pipeline().addLast("LoginAuthHandler",new LoginAuthReqHandler());
 					ch.pipeline().addLast("HeartBeatHandler",new HeartBeatReqHandler());
+					
 				}
+
 			});
 			
 			/*ChannelFuture future = b.connect(
