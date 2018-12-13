@@ -1,6 +1,7 @@
 package com.cherry.netty.demo.protocolstack;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -32,10 +33,11 @@ public class NettyServer {
 			}
 		});
 		
-		b.bind(NettyConstant.REMOTEIP,NettyConstant.PORT).sync();
+		ChannelFuture future = b.bind(NettyConstant.REMOTEIP,NettyConstant.PORT).sync();
 		
 		System.out.println("netty server start ok : "+(NettyConstant.REMOTEIP+":"+NettyConstant.PORT));
 		
+		future.channel().closeFuture().sync();
 	}
 	public static void main(String[] args) throws InterruptedException {
 		new NettyServer().bind();

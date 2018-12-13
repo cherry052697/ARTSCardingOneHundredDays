@@ -39,9 +39,10 @@ public class NettyClient {
 				}
 			});
 			
-			ChannelFuture future = b.connect(
+			/*ChannelFuture future = b.connect(
 					new InetSocketAddress(host, port), 
-					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();
+					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();*/
+			ChannelFuture future = b.bind(host, port).sync();
 			
 			future.channel().closeFuture().sync();
 			

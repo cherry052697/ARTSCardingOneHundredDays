@@ -17,7 +17,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 	     * 本地缓存
 	     */
 	    private Map<String, Boolean> nodeCheck = new ConcurrentHashMap<String, Boolean>();
-	    private String[] whitekList = {"127.0.0.1", "192.168.22.246"};
+	    private String[] whitekList = {"127.0.0.1", "192.168.11.246","192.168.31.242"};
 
 	    /**
 	     * Calls {@link ChannelHandlerContext#fireChannelRead(Object)} to forward to
