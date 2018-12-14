@@ -19,9 +19,9 @@ public class NettyClient {
 	
 	private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 	
-	EventLoopGroup group = new NioEventLoopGroup();
 	
 	public void connect(int port,String host) throws InterruptedException{
+		EventLoopGroup group = new NioEventLoopGroup();
 		try {
 			Bootstrap b = new Bootstrap();
 			b.group(group).channel(NioSocketChannel.class)
@@ -39,11 +39,16 @@ public class NettyClient {
 				}
 
 			});
-			
+			// 发起异步连接操作
 			ChannelFuture future = b.connect(
 					new InetSocketAddress(host, port), 
 					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();
-//			ChannelFuture future = b.bind(host, port).sync();
+			System.out.println("Netty client start ok . remoteAddress( "+host+":"+port+"),localAddress("+NettyConstant.LOCALIP+":"+NettyConstant.LOCAL_PORT+")");
+			/*ChannelFuture future = b.connect(
+					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)
+					,new InetSocketAddress(host, port)).sync();*/
+			// 对应的channel关闭的时候，就会返回对应的channel
+//			System.out.println("Netty client start ok . localAddress( "+host+":"+port+"),remoteAddress("+NettyConstant.LOCALIP+":"+NettyConstant.LOCAL_PORT+")");
 			
 			future.channel().closeFuture().sync();
 			
@@ -55,8 +60,10 @@ public class NettyClient {
 					try {
 						TimeUnit.SECONDS.sleep(5);
 						try {
-							connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
+							// 发起重连操作
+							connect(NettyConstant.REMOTE_PORT, NettyConstant.REMOTEIP);
 						} catch (Exception e) {
+							System.out.println("NettyClient 发起重连操作异常");
 							e.printStackTrace();
 						}
 					} catch (InterruptedException e) {
@@ -67,6 +74,6 @@ public class NettyClient {
 		}
 	}
 	public static void main(String[] args) throws InterruptedException {
-		new NettyClient().connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
+		new NettyClient().connect(NettyConstant.REMOTE_PORT, NettyConstant.REMOTEIP);
 	}
 }

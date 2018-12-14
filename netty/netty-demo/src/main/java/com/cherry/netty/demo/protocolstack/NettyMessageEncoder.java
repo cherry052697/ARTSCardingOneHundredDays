@@ -1,15 +1,13 @@
 package com.cherry.netty.demo.protocolstack;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageEncoder;
+import io.netty.handler.codec.MessageToByteEncoder;
 
-public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMessage> {
+public final class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage> {
 
 	MarshallingEncoder marshallingEncoder;
 	
@@ -20,10 +18,10 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext ctx, NettyMessage msg, List<Object> out) throws Exception {
+	protected void encode(ChannelHandlerContext ctx, NettyMessage msg, ByteBuf sendBuf) throws Exception {
 		if (msg == null || msg.getHeader() == null)
-			throw new Exception("the encode message is null");
-		ByteBuf sendBuf = Unpooled.buffer();
+			throw new Exception("The encode message is null");
+//		ByteBuf sendBuf = Unpooled.copiedBuffer(out);
 		sendBuf.writeInt(msg.getHeader().getCrcCode());
 		sendBuf.writeInt(msg.getHeader().getLength());
 		sendBuf.writeLong(msg.getHeader().getSessionID());
@@ -40,7 +38,7 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
 			sendBuf.writeInt(keyArray.length);
 			sendBuf.writeBytes(keyArray);
 			value = param.getValue();
-			marshallingEncoder.encode(value,sendBuf);
+//			marshallingEncoder.encode(value,sendBuf);
 		}
 		key = null;
 		keyArray = null;
@@ -49,8 +47,10 @@ public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMess
 			marshallingEncoder.encode(msg.getBody(),sendBuf);
 		}else{
 			sendBuf.writeInt(0);
-			sendBuf.setIndex(4, sendBuf.readableBytes());
+			//之前写了crcCode 4bytes，除去crcCode和length 8bytes即为更新之后的字节
+			sendBuf.setInt(4, sendBuf.readableBytes()-8);
 		}
+		
 	}
 
 }

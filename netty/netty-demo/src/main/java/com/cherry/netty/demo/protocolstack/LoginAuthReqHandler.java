@@ -7,29 +7,20 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class LoginAuthReqHandler extends ChannelHandlerAdapter {
 	
-	private static final Logger logger = Logger.getLogger(LoginAuthReqHandler.class.getName());
-	/**
-     * Calls {@link ChannelHandlerContext#fireChannelActive()} to forward to the
-     * next {@link ChannelHandler} in the {@link ChannelPipeline}.
-     * <p/>
-     * Sub-classes may override this method to change behavior.
-     */
+	private static final Logger logger = Logger.getLogger(LoginAuthReqHandler.class);
+	
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.writeAndFlush(buildLoginReq());
     }
 
-    /**
-     * Calls {@link ChannelHandlerContext#fireChannelRead(Object)} to forward to
-     * the next {@link ChannelHandler} in the {@link ChannelPipeline}.
-     * <p/>
-     * Sub-classes may override this method to change behavior.
-     */
+    
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
 
+//        System.out.println("LoginAuthReqHandler.message.getHeader().getType()="+message.getHeader().getType());
         // 如果是握手应答消息，需要判断是否认证成功
         if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.LOGIN_RESP.value()) {

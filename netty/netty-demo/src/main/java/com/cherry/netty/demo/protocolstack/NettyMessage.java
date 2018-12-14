@@ -1,5 +1,7 @@
 package com.cherry.netty.demo.protocolstack;
 
+import com.cherry.netty.utils.JsonUtil;
+
 public final class NettyMessage {
 	private Header header;
 	private Object body;
@@ -17,7 +19,7 @@ public final class NettyMessage {
 	}
 	@Override
 	public String toString() {
-		return "NettyMessage[header="+header+"]";
+		return "NettyMessage[header="+JsonUtil.toJson(header)+"]";
 	}
 	
 	

@@ -27,16 +27,20 @@ public class NettyServer {
 			@Override
 			protected void initChannel(SocketChannel ch) throws Exception {
 				ch.pipeline().addLast(new NettyMessageDecoder(1024*1024, 4, 4));
+				ch.pipeline().addLast(new NettyMessageEncoder());
 				ch.pipeline().addLast("readTimeoutHandler",new ReadTimeoutHandler(50));
 				ch.pipeline().addLast(new LoginAuthRespHandler());
 				ch.pipeline().addLast("HeartBeatHandler",new HeartBeatRespHandler());
 			}
 		});
 		
-		ChannelFuture future = b.bind(NettyConstant.REMOTEIP,NettyConstant.PORT).sync();
+//		 b.bind(NettyConstant.REMOTEIP,NettyConstant.PORT).sync();
+//		ChannelFuture future = b.bind(NettyConstant.LOCALIP,NettyConstant.LOCAL_PORT).sync();
+//		System.out.println("Netty server start ok : "+(NettyConstant.LOCALIP+":"+NettyConstant.LOCAL_PORT));
 		
-		System.out.println("netty server start ok : "+(NettyConstant.REMOTEIP+":"+NettyConstant.PORT));
-		
+		ChannelFuture future = b.bind(NettyConstant.REMOTEIP,NettyConstant.REMOTE_PORT).sync();
+		System.out.println("Netty server start ok : "+(NettyConstant.REMOTEIP+":"+NettyConstant.REMOTE_PORT));
+
 		future.channel().closeFuture().sync();
 	}
 	public static void main(String[] args) throws InterruptedException {

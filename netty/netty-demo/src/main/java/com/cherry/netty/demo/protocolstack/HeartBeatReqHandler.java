@@ -34,14 +34,14 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
 		
 		private final ChannelHandlerContext ctx;
 		
-		public HeartBeatTask(ChannelHandlerContext ctx) {
+		public HeartBeatTask(final ChannelHandlerContext ctx) {
 			this.ctx = ctx;
 		}
 
 		@Override
 		public void run() {
 			NettyMessage heatBeat = buildHeatBeat();
-			System.out.println("client seng heart beat message to server:---> "+heatBeat);
+			System.out.println("client send heart beat message to server:---> "+heatBeat);
 			ctx.writeAndFlush(heatBeat);
 		}
 
