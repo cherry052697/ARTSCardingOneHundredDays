@@ -1,13 +1,11 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.decode;
 
 import io.netty.buffer.ByteBuf;
 import org.jboss.marshalling.ByteInput;
 
 import java.io.IOException;
 
-/**
- * {@link ByteInput} implementation which reads its data from a {@link ByteBuf}
- */
+
 class ChannelBufferByteInput implements ByteInput {
 
     private final ByteBuf buffer;

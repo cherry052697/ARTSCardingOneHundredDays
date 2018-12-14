@@ -1,8 +1,11 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.decode;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.cherry.netty.demo.protocolstack.pojo.Header;
+import com.cherry.netty.demo.protocolstack.pojo.NettyMessage;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

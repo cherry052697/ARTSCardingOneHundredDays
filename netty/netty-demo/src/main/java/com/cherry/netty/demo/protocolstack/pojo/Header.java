@@ -1,4 +1,4 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.pojo;
 
 import java.util.HashMap;
 import java.util.Map;

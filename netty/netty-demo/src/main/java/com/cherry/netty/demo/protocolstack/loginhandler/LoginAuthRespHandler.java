@@ -1,10 +1,14 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.loginhandler;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
+
+import com.cherry.netty.demo.protocolstack.pojo.Header;
+import com.cherry.netty.demo.protocolstack.pojo.MessageType;
+import com.cherry.netty.demo.protocolstack.pojo.NettyMessage;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;

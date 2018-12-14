@@ -1,5 +1,11 @@
 package com.cherry.netty.demo.protocolstack;
 
+import com.cherry.netty.demo.protocolstack.decode.NettyMessageDecoder;
+import com.cherry.netty.demo.protocolstack.encode.NettyMessageEncoder;
+import com.cherry.netty.demo.protocolstack.hearthandler.HeartBeatRespHandler;
+import com.cherry.netty.demo.protocolstack.loginhandler.LoginAuthRespHandler;
+import com.cherry.netty.demo.protocolstack.pojo.NettyConstant;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -33,10 +39,6 @@ public class NettyServer {
 				ch.pipeline().addLast("HeartBeatHandler",new HeartBeatRespHandler());
 			}
 		});
-		
-//		 b.bind(NettyConstant.REMOTEIP,NettyConstant.PORT).sync();
-//		ChannelFuture future = b.bind(NettyConstant.LOCALIP,NettyConstant.LOCAL_PORT).sync();
-//		System.out.println("Netty server start ok : "+(NettyConstant.LOCALIP+":"+NettyConstant.LOCAL_PORT));
 		
 		ChannelFuture future = b.bind(NettyConstant.REMOTEIP,NettyConstant.REMOTE_PORT).sync();
 		System.out.println("Netty server start ok : "+(NettyConstant.REMOTEIP+":"+NettyConstant.REMOTE_PORT));

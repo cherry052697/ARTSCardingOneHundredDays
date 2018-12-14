@@ -1,4 +1,4 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.utils;
 
 import java.io.IOException;
 
@@ -9,13 +9,8 @@ import org.jboss.marshalling.MarshallingConfiguration;
 import org.jboss.marshalling.Unmarshaller;
 
 public final class MarshallingCodeCFactory {
-	/**
-	 * 创建Jboss Marshaller
-	 *
-	 * @return
-	 * @throws IOException
-	 */
-	protected static Marshaller buildMarshalling() throws IOException {
+	
+	public static Marshaller buildMarshalling() throws IOException {
 		final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
 		final MarshallingConfiguration configuration = new MarshallingConfiguration();
 		configuration.setVersion(5);
@@ -23,13 +18,8 @@ public final class MarshallingCodeCFactory {
 		return marshaller;
 	}
 
-	/**
-	 * 创建Jboss Unmarshaller
-	 *
-	 * @return
-	 * @throws IOException
-	 */
-	protected static Unmarshaller buildUnMarshalling() throws IOException {
+	
+	public static Unmarshaller buildUnMarshalling() throws IOException {
 		final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
 		final MarshallingConfiguration configuration = new MarshallingConfiguration();
 		configuration.setVersion(5);

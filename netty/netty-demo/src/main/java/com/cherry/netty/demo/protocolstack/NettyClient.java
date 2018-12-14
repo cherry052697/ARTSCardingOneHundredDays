@@ -5,6 +5,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.cherry.netty.demo.protocolstack.decode.NettyMessageDecoder;
+import com.cherry.netty.demo.protocolstack.encode.NettyMessageEncoder;
+import com.cherry.netty.demo.protocolstack.hearthandler.HeartBeatReqHandler;
+import com.cherry.netty.demo.protocolstack.loginhandler.LoginAuthReqHandler;
+import com.cherry.netty.demo.protocolstack.pojo.NettyConstant;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -31,10 +37,10 @@ public class NettyClient {
 				@Override
 				protected void initChannel(SocketChannel ch) throws Exception {
 					ch.pipeline().addLast(new NettyMessageDecoder(1024*1024, 4, 4));
-					ch.pipeline().addLast("MeaageEncoder",new NettyMessageEncoder());
-					ch.pipeline().addLast("ReadTimeoutHandler",new ReadTimeoutHandler(50));
-					ch.pipeline().addLast("LoginAuthHandler",new LoginAuthReqHandler());
-					ch.pipeline().addLast("HeartBeatHandler",new HeartBeatReqHandler());
+					ch.pipeline().addLast("meaageEncoder",new NettyMessageEncoder());
+					ch.pipeline().addLast("readTimeoutHandler",new ReadTimeoutHandler(50));
+					ch.pipeline().addLast("loginAuthHandler",new LoginAuthReqHandler());
+					ch.pipeline().addLast("heartBeatHandler",new HeartBeatReqHandler());
 					
 				}
 
@@ -44,11 +50,6 @@ public class NettyClient {
 					new InetSocketAddress(host, port), 
 					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();
 			System.out.println("Netty client start ok . remoteAddress( "+host+":"+port+"),localAddress("+NettyConstant.LOCALIP+":"+NettyConstant.LOCAL_PORT+")");
-			/*ChannelFuture future = b.connect(
-					new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)
-					,new InetSocketAddress(host, port)).sync();*/
-			// 对应的channel关闭的时候，就会返回对应的channel
-//			System.out.println("Netty client start ok . localAddress( "+host+":"+port+"),remoteAddress("+NettyConstant.LOCALIP+":"+NettyConstant.LOCAL_PORT+")");
 			
 			future.channel().closeFuture().sync();
 			

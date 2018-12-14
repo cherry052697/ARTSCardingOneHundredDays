@@ -1,4 +1,8 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.hearthandler;
+
+import com.cherry.netty.demo.protocolstack.pojo.Header;
+import com.cherry.netty.demo.protocolstack.pojo.MessageType;
+import com.cherry.netty.demo.protocolstack.pojo.NettyMessage;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;

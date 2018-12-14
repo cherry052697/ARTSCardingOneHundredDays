@@ -1,7 +1,9 @@
-package com.cherry.netty.demo.protocolstack;
+package com.cherry.netty.demo.protocolstack.encode;
 
 import java.io.IOException;
 import java.util.Map;
+
+import com.cherry.netty.demo.protocolstack.pojo.NettyMessage;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
