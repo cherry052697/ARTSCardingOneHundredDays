@@ -37,7 +37,6 @@ public final class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage
 	            sendBuf.writeInt(keyArray.length);
 	            sendBuf.writeBytes(keyArray);
 	            value = param.getValue();
-	            // marshallingEncoder.encode(value, sendBuf);
 	        }
 	        key = null;
 	        keyArray = null;
