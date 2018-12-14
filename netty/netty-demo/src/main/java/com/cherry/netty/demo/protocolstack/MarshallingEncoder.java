@@ -5,7 +5,6 @@ package com.cherry.netty.demo.protocolstack;
 
 import java.io.IOException;
 
-import org.jboss.marshalling.ByteOutput;
 import org.jboss.marshalling.Marshaller;
 
 import io.netty.buffer.ByteBuf;

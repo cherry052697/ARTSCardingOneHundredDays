@@ -14,7 +14,8 @@ public final class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage
 	        this.marshallingEncoder = new MarshallingEncoder();
 	    }
 
-	    @Override
+	    @SuppressWarnings("unused")
+		@Override
 	    protected void encode(ChannelHandlerContext ctx, NettyMessage msg, ByteBuf sendBuf) throws Exception {
 	        if (null == msg || null == msg.getHeader()) {
 	            throw new Exception("The encode message is null");
