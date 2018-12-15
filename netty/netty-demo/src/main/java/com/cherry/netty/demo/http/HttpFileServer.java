@@ -47,7 +47,6 @@ public class HttpFileServer {
 		if(args.length>0){
 			port = Integer.valueOf(args[0]);
 		}
-		
 		if(args.length>1)
 			url = args[1];
 		new HttpFileServer().run(port, url);
