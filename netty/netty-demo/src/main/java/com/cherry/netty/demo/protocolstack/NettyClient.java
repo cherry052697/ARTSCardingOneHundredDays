@@ -32,6 +32,7 @@ public class NettyClient {
 			Bootstrap b = new Bootstrap();
 			b.group(group).channel(NioSocketChannel.class)
 			.option(ChannelOption.TCP_NODELAY, true)
+			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
 			.handler(new ChannelInitializer<SocketChannel>() {
 
 				@Override
