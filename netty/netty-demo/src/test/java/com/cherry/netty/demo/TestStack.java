@@ -21,7 +21,7 @@ public class TestStack {
      * @param rp - reverse Polish expression
      * @return - result of the expression
      */
-    public static float calrp(String rp){
+    public static float calculatePostfix(String rp){
         Stack<Float> v = new Stack<>();
         char[] arr = rp.toCharArray();
         int len = arr.length;
@@ -44,8 +44,7 @@ public class TestStack {
      * @param s - String in the form of infix
      * @return String in the form of postfix
      */
-    public static String getrp(String s){
-        System.out.println("infix:	"+s);
+    public static String changeInfixToPostfix(String s){
          char[] arr = s.toCharArray();
          int len = arr.length;
          String out = "";
@@ -97,7 +96,6 @@ public class TestStack {
              }
          }
          while(!op.empty()) out += op.pop();
-         System.out.println("postfix:	"+out);
          return out;
     }
  
@@ -106,7 +104,10 @@ public class TestStack {
         // equal or greater than 0 
         // but equal or less than 9
         String exp = "5+2*(3*(2-1))";
-        System.out.println(calrp(getrp(exp)));
+        System.out.println("infix:"+exp);
+        String postfix = changeInfixToPostfix(exp);
+        System.out.println("postfix:"+postfix);
+        System.out.println(calculatePostfix(postfix));
     }
  
 }
