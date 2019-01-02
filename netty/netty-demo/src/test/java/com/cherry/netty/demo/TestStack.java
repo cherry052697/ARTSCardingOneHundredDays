@@ -104,6 +104,7 @@ public class TestStack {
         // equal or greater than 0 
         // but equal or less than 9
         String exp = "5+2*(3*(2-1))";
+        exp = "1+2*3+(4*5+6)*7";
         System.out.println("infix:"+exp);
         String postfix = changeInfixToPostfix(exp);
         System.out.println("postfix:"+postfix);
