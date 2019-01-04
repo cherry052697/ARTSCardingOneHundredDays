@@ -41,12 +41,43 @@ public class TestArray {
 	    	/*int num = 4554;
 	    	System.out.println(isPalindrome2(num));*/
 	    	
-	    	String [] sarr = {"MCMXCIV","III","IV","IX","LVIII"};
+	    	/*String [] sarr = {"MCMXCIV","III","IV","IX","LVIII"};
 	    	for (String string : sarr) {
 	    		System.out.println(string+"—— >"+romanToInt2(string));
-			}
+			}*/
+	    	int [] nums = {4,2,3};
+	    	System.out.println(checkPossibility(nums));
 	    	
 		}
+	    public static boolean checkPossibility(int[] nums) {
+	    	if (nums == null) return false;
+	        if (nums.length <= 2) return true;
+	        int len = nums.length, i = 0, modify = 1;
+	        while (i < len - 2) {
+	            if (Math.min(nums[i], nums[i + 1]) > nums[i + 2]) {
+	                if (nums[i] > nums[i + 1]) {
+	                    nums[i] = nums[i + 2];
+	                    nums[i + 1] = nums[i + 2];
+	                    modify -= 2;
+	                } else {
+	                    nums[i + 2] = nums[i + 1];
+	                    modify--;
+	                }
+	            } else {
+	                if (nums[i] > nums[i + 1]) {
+	                    nums[i] = nums[i + 1];
+	                    modify--;
+	                } else if (nums[i + 1] > nums[i + 2]) {
+	                    nums[i + 1] = nums[i];
+	                    modify--;
+	                }
+	            }
+	            if (modify < 0) return false;
+	            i++;
+	        }
+
+	        return modify >= 0;
+	    }
 	    public static int romanToInt2(String s) {
 	    	int result = 0;
 	    	Map<String, Integer> map = new HashMap<String, Integer>();
