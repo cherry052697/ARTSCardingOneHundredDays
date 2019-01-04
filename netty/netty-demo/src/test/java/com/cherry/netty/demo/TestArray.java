@@ -2,7 +2,9 @@ package com.cherry.netty.demo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.internal.bytebuddy.implementation.bytecode.Throw;
 
@@ -36,10 +38,139 @@ public class TestArray {
 					System.out.println();
 				}
 			}*/
-	    	int num = 4554;
-	    	System.out.println(isPalindrome2(num));
+	    	/*int num = 4554;
+	    	System.out.println(isPalindrome2(num));*/
+	    	
+	    	String [] sarr = {"MCMXCIV","III","IV","IX","LVIII"};
+	    	for (String string : sarr) {
+	    		System.out.println(string+"—— >"+romanToInt2(string));
+			}
 	    	
 		}
+	    public static int romanToInt2(String s) {
+	    	int result = 0;
+	    	Map<String, Integer> map = new HashMap<String, Integer>();
+	    	map.put("I", 1);
+	    	map.put("V", 5);
+	    	map.put("X", 10);
+	    	map.put("L", 50);
+	    	map.put("C", 100);
+	    	map.put("D", 500);
+	    	map.put("M", 1000);
+	    	map.put("IV", 4);
+	    	map.put("IX", 9);
+	    	map.put("XL", 40);
+	    	map.put("XC", 90);
+	    	map.put("CD", 400);
+	    	map.put("CM", 900);
+	    	for (int i = 0; i < s.length(); i++) {
+	    		String s1 = String.valueOf(s.charAt(i));
+	    		String s2 = "";
+	    		if(i+1 < s.length()){
+	    			s2 = String.valueOf(s.charAt(i+1));
+	    		}
+	    		String ss12 = s1+s2;
+	    			switch (ss12) {
+	    			case "IV":
+	    				result += map.get(ss12);
+		    			++i;
+	    				break;
+	    			case "IX":
+	    				result += map.get(ss12);
+		    			++i;
+		    			break;
+	    			case "XL":
+	    				result += map.get(ss12);
+		    			++i;
+		    			break;
+	    			case "XC":
+	    				result += map.get(ss12);
+		    			++i;
+		    			break;
+	    			case "CD":
+	    				result += map.get(ss12);
+		    			++i;
+		    			break;
+	    			case "CM":
+	    				result += map.get(ss12);
+		    			++i;
+		    			break;
+	    			case "I":
+	    				result += map.get(s1);
+	    				break;
+	    			case "V":
+	    				result += map.get(s1);
+	    				break;
+	    			case "X":
+	    				result += map.get(s1);
+	    				break;
+	    			case "C":
+	    				result += map.get(s1);
+	    				break;
+	    			case "L":
+	    				result += map.get(s1);
+	    				break;
+	    			case "D":
+	    				result += map.get(s1);
+	    				break;
+	    			case "M":
+	    				result += map.get(s1);
+	    				break;
+	    			}
+	    			
+			}
+	    	return result;
+	    }
+	    
+	    /*
+				I - 1
+				V - 5
+				X - 10
+				L - 50
+				C - 100
+				D - 500
+				M - 1000
+	    
+	     * If I comes before V or X, subtract 1 eg: IV = 4 and IX = 9
+	     * If X comes before L or C, subtract 10 eg: XL = 40 and XC = 90
+	     * If C comes before D or M, subtract 100 eg: CD = 400 and CM = 900
+	     */
+	    public static int romanToInt(String s) {
+	    	int result = 0;
+	    	Map<String, Integer> map = new HashMap<String, Integer>();
+	    	map.put("I", 1);
+	    	map.put("V", 5);
+	    	map.put("X", 10);
+	    	map.put("L", 50);
+	    	map.put("C", 100);
+	    	map.put("D", 500);
+	    	map.put("M", 1000);
+	    	map.put("IV", 4);
+	    	map.put("IX", 9);
+	    	map.put("XL", 40);
+	    	map.put("XC", 90);
+	    	map.put("CD", 400);
+	    	map.put("CM", 900);
+	    	for (int i = 0; i < s.length(); i++) {
+	    		String s1 = String.valueOf(s.charAt(i));
+	    		String s2 = null;
+	    		if(i+1==s.length()){
+	    			s2 = "";
+	    		}else{
+	    			s2 = String.valueOf(s.charAt(i+1));
+	    			
+	    		}
+	    		String ss12 = s1+s2;
+	    		if((s1.equals("I")||s1.equals("X")||s1.equals("C")) && map.containsKey(ss12)){
+	    			result += map.get(ss12);
+	    			++i;
+	    		}else if(map.containsKey(s1)){
+	    			result += map.get(s1);
+	    		}
+			}
+	    	return result;
+	    }
+	    
 	    public static boolean isPalindrome2(int x) {
 	    	boolean result = false;
 	    	int numInput = x;
