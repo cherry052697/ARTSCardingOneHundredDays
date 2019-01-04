@@ -45,7 +45,7 @@ public class TestArray {
 	    	for (String string : sarr) {
 	    		System.out.println(string+"—— >"+romanToInt2(string));
 			}*/
-	    	int [] nums = {4,2,3};
+	    	int [] nums = {3,4,2,3};
 	    	System.out.println(checkPossibility(nums));
 	    	
 		}
