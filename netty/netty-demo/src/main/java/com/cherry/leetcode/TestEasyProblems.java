@@ -45,20 +45,12 @@ public class TestEasyProblems {
 		The right subtree of a node contains only nodes with keys greater than the node's key.
 		Both the left and right subtrees must also be binary search trees.
 	 */
+	TreeNode pre = null;
 	public boolean isValidBST(TreeNode root) {
-		TreeNode pre = null;
-		 // Traverse the tree in inorder.
         if (root != null) {
-            // Inorder traversal: left first.
             if (!isValidBST(root.left)) return false;
-            
-            // Compare it with the previous value in inorder traversal.
             if (pre != null && root.val <= pre.val) return false;
-            
-            // Update the previous value.
             pre = root;
-            
-            // Inorder traversal: right last.
             return isValidBST(root.right);
         }
         return true;
