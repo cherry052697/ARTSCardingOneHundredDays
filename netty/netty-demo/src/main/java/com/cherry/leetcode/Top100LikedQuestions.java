@@ -98,7 +98,8 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 771. Jewels and Stones You're given strings J representing the types of
+	 * 771. Jewels and Stones 
+	 * You're given strings J representing the types of
 	 * stones that are jewels, and S representing the stones you have. Each
 	 * character in S is a type of stone you have. You want to know how many of
 	 * the stones you have are also jewels. The letters in J are guaranteed
@@ -121,7 +122,8 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 136. Single Number Given a non-empty array of integers, every element
+	 * 136. Single Number
+	 * Given a non-empty array of integers, every element
 	 * appears twice except for one. Find that single one.
 	 */
 	public int singleNumber2(int[] nums) {
@@ -130,5 +132,17 @@ public class Top100LikedQuestions {
 			a = a ^ nums[i];
 		}
 		return a;
+	}
+
+	/*
+	 * 79. Word Search
+	 *  The word can be constructed from letters of sequentially
+	 * adjacent cell, where "adjacent" cells are those horizontally or
+	 * vertically neighboring. The same letter cell may not be used more than
+	 * once.
+	 */
+	public boolean exist(char[][] board, String word) {
+		
+		return false;
 	}
 }
