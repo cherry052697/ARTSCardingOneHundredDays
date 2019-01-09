@@ -378,6 +378,7 @@ public class Top100LikedQuestions {
 	 * ⌋ times. You may assume that the array is non-empty and the majority
 	 * element always exist in the array.
 	 */
+	@SuppressWarnings("unused")
 	public int majorityElement(int[] nums) {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		int len = nums.length;

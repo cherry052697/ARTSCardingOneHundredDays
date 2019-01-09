@@ -166,6 +166,7 @@ public class TestTop100LikedQuestions {
 	List<String> showCombResult = new ArrayList<String>();
 	int listSize = 0;
 
+	@SuppressWarnings("rawtypes")
 	public List<Integer> findAnagrams(String s, String p) {
 		listSize = p.length();
 		Set<Integer> result = new TreeSet<Integer>();
