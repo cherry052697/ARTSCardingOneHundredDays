@@ -1,8 +1,18 @@
 package com.cherry.leetcode;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
 
 public class Top100LikedQuestions {
 	/*
@@ -98,8 +108,7 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 771. Jewels and Stones 
-	 * You're given strings J representing the types of
+	 * 771. Jewels and Stones You're given strings J representing the types of
 	 * stones that are jewels, and S representing the stones you have. Each
 	 * character in S is a type of stone you have. You want to know how many of
 	 * the stones you have are also jewels. The letters in J are guaranteed
@@ -122,8 +131,7 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 136. Single Number
-	 * Given a non-empty array of integers, every element
+	 * 136. Single Number Given a non-empty array of integers, every element
 	 * appears twice except for one. Find that single one.
 	 */
 	public int singleNumber2(int[] nums) {
@@ -135,14 +143,210 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 79. Word Search
-	 *  The word can be constructed from letters of sequentially
+	 * 79. Word Search The word can be constructed from letters of sequentially
 	 * adjacent cell, where "adjacent" cells are those horizontally or
 	 * vertically neighboring. The same letter cell may not be used more than
 	 * once.
 	 */
 	public boolean exist(char[][] board, String word) {
-		
+
 		return false;
 	}
+
+	/*
+	 * 461. Hamming Distance The Hamming distance between two integers is the
+	 * number of positions at which the corresponding bits are different. Given
+	 * two integers x and y, calculate the Hamming distance.
+	 */
+	public int hammingDistance(int x, int y) {
+		int result = x ^ y;
+		int count = 0;
+		for (int i = 0; i < 32; i++) {
+			if ((result & 1) != 0)
+				count++;
+			result >>= 1;
+		}
+		return count;
+	}
+
+	int hammingDistance2(int x, int y) {
+		int result = x ^ y;
+		int count = 0;
+		while (result != 0) {
+			++count;
+			result = (result - 1) & result;
+		}
+		return count;
+	}
+
+	/*
+	 * 283. Move Zeroes Given an array nums, write a function to move all 0's to
+	 * the end of it while maintaining the relative order of the non-zero
+	 * elements.
+	 */
+	public void moveZeroes(int[] nums) {
+		int[] nums2 = Arrays.copyOf(nums, nums.length);
+		int count1 = 0, count2 = 0;
+		for (int i = 0; i < nums2.length; i++) {
+			if (nums2[i] == 0) {
+				nums[nums2.length - 1 - count2] = 0;
+				count2++;
+			} else {
+				nums[count1] = nums2[i];
+				count1++;
+			}
+		}
+	}
+
+	/*
+	 * 3. Longest Substring Without Repeating Characters Given a string, find
+	 * the length of the longest substring without repeating characters.
+	 */
+	public int lengthOfLongestSubstring(String s) {
+		int n = s.length(), ans = 0;
+		Map<Character, Integer> map = new HashMap<>(); // current index of
+														// character
+		// try to extend the range [i, j]
+		for (int j = 0, i = 0; j < n; j++) {
+			if (map.containsKey(s.charAt(j))) {
+				i = Math.max(map.get(s.charAt(j)), i);
+			}
+			ans = Math.max(ans, j - i + 1);
+			map.put(s.charAt(j), j + 1);
+		}
+		return ans;
+	}
+
+	public int lengthOfLongestSubstring2(String s) {
+		int n = s.length();
+		Set<Character> set = new HashSet<>();
+		int ans = 0, i = 0, j = 0;
+		while (i < n && j < n) {
+			if (!set.contains(s.charAt(j))) {
+				set.add(s.charAt(j++));
+				ans = Math.max(ans, j - i);
+			} else {
+				set.remove(s.charAt(i++));
+			}
+		}
+		return ans;
+	}
+
+	/*
+	 * 647. Palindromic Substrings Given a string, your task is to count how
+	 * many palindromic substrings in this string. The substrings with different
+	 * start indexes or end indexes are counted as different substrings even
+	 * they consist of same characters.
+	 */
+	public int countSubstrings(String s) {
+		return 0;
+	}
+
+	/*
+	 * 617. Merge Two Binary Trees Given two binary trees and imagine that when
+	 * you put one of them to cover the other, some nodes of the two trees are
+	 * overlapped while the others are not. You need to merge them into a new
+	 * binary tree. The merge rule is that if two nodes overlap, then sum node
+	 * values up as the new value of the merged node. Otherwise, the NOT null
+	 * node will be used as the node of new tree.
+	 */
+	public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+
+		if (t1 != null && t2 != null) {
+			t1.val += t2.val;
+			t1.left = mergeTrees(t1.left, t2.left);
+			t1.right = mergeTrees(t1.right, t2.right);
+			return t1;
+		} else {
+			return (t1 != null && t2 == null) ? t1 : ((t1 == null && t2 != null) ? t2 : null);
+		}
+	}
+
+	/*
+	 * 160. Intersection of Two Linked Lists Write a program to find the node at
+	 * which the intersection of two singly linked lists begins.
+	 */
+	public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+		if (headA == null || headB == null)
+			return null;
+		ListNode a = headA, b = headB;
+		while (a != b) {
+			a = (a != null) ? a.next : headB;
+			b = (b != null) ? b.next : headA;
+		}
+		return a;
+	}
+
+	/*
+	 * 448. Find All Numbers Disappeared in an Array Given an array of integers
+	 * where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and
+	 * others appear once. Find all the elements of [1, n] inclusive that do not
+	 * appear in this array. Could you do it without extra space and in O(n)
+	 * runtime? You may assume the returned list does not count as extra space.
+	 * 
+	 */
+	public List<Integer> findDisappearedNumbers(int[] nums) {
+		List<Integer> res = new ArrayList<Integer>();
+		if (nums == null || nums.length == 0)
+			return res;
+		int n = nums.length;
+		int[] num = new int[n];
+		Arrays.fill(num, -1);
+		for (int i = 0; i < n; i++)
+			num[nums[i] - 1] = nums[i];
+		for (int i = 0; i < n; i++) {
+			if (num[i] == -1)
+				res.add(i + 1);
+		}
+		return res;
+	}
+
+	/*
+	 * 20. Valid Parentheses Given a string containing just the characters '(',
+	 * ')', '{', '}', '[' and ']', determine if the input string is valid.
+	 */
+
+	public boolean isValid(String s) {
+		HashMap<Character, Character> mappings = new HashMap<Character, Character>();
+		mappings.put(')', '(');
+		mappings.put('}', '{');
+		mappings.put(']', '[');
+		Stack<Character> stack = new Stack<Character>();
+
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (mappings.containsKey(c)) {
+				char topElement = stack.empty() ? '#' : stack.pop();
+				if (topElement != mappings.get(c)) {
+					return false;
+				}
+			} else {
+				stack.push(c);
+			}
+		}
+		return stack.isEmpty();
+	}
+	
+	/*
+	 * 226. Invert Binary Tree
+	 * Invert a binary tree.
+	 */
+	 public TreeNode invertTree(TreeNode root) {
+		 if (root == null) {
+			return null;
+		}else if(root.left != null && root.right == null){
+			root.right=invertTree(root.left);
+			root.left = null;
+		}else if(root.left == null && root.right != null){
+			root.left = invertTree(root.right);;
+			root.right= null;
+		}else if(root.left != null && root.right != null){
+			TreeNode treeNode = root.left;
+			root.left = invertTree(root.right);
+			root.right = invertTree(treeNode);
+		}
+		 return root;
+	 }
+	
+
 }

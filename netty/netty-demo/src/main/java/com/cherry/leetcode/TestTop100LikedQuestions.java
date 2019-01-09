@@ -10,19 +10,23 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.cherry.netty.utils.JsonUtil;
+
 
 public class TestTop100LikedQuestions {
 	public static void main(String[] args) {
 
-		TestTop100LikedQuestions test = new TestTop100LikedQuestions();
+		Top100LikedQuestions test = new Top100LikedQuestions();
 		
-		char[][] board = {
+		/*char[][] board = {
 				{'A','B','C','E'},
 				{'S','F','C','S'},
 				{'A','D','E','E'}};
 		String word = "ABCCED";
-		System.out.println(test.exist(board, word));
-		
+		System.out.println(test.exist(board, word));*/
+
+		String str = "abcabcbb";
+		System.out.println(test.lengthOfLongestSubstring(str));
 	}
 
 	 private class Pair{
