@@ -2,15 +2,12 @@ package com.cherry.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.cherry.netty.utils.JsonUtil;
 
 
 public class TestTop100LikedQuestions {
@@ -33,8 +30,8 @@ public class TestTop100LikedQuestions {
 		node.next.next.next.next.next = null;
 //		System.out.println(node);
 //		System.out.println(test.reverseList(node));
-		int[] nums = {3,3,2,2};
-		System.out.println(test.majorityElement(nums));
+		int[] nums = {7,6,4,3,1};
+		System.out.println(test.maxProfit(nums));
 	}
 
 	 private class Pair{

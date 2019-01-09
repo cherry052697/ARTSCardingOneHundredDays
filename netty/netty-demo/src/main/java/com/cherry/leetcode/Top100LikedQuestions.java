@@ -1,18 +1,13 @@
 package com.cherry.leetcode;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.TreeSet;
 
 public class Top100LikedQuestions {
 	/*
@@ -451,6 +446,43 @@ public class Top100LikedQuestions {
 	 */
 	public int pathSum(TreeNode root, int sum) {
 		return 0;
+	}
+
+	/*
+	 * 121. Best Time to Buy and Sell Stock
+	 * 
+	 * Say you have an array for which the ith element is the price of a given
+	 * stock on day i. If you were only permitted to complete at most one
+	 * transaction (i.e., buy one and sell one share of the stock), design an
+	 * algorithm to find the maximum profit. Note that you cannot sell a stock
+	 * before you buy one.
+	 */
+	public int maxProfit(int[] prices) {
+		int profit = 0;
+		for (int i = 0; i < prices.length; i++) {
+			for (int j = i+1; j < prices.length; j++) {
+				int buyPrice = prices[i];
+				int sellPrice = prices[j];
+				if (buyPrice>=sellPrice) {
+					continue;
+				}else{
+					profit = Math.max(profit, (sellPrice-buyPrice));
+				}
+			}
+		}
+		return profit;
+	}
+	
+	public int maxProfit2(int[] prices){
+		int minprice = Integer.MAX_VALUE;
+        int maxprofit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < minprice)
+                minprice = prices[i];
+            else if (prices[i] - minprice > maxprofit)
+                maxprofit = prices[i] - minprice;
+        }
+        return maxprofit;
 	}
 
 }
