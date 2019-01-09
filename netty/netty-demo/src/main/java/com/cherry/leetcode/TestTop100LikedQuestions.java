@@ -25,8 +25,16 @@ public class TestTop100LikedQuestions {
 		String word = "ABCCED";
 		System.out.println(test.exist(board, word));*/
 
-		String str = "abcabcbb";
-		System.out.println(test.lengthOfLongestSubstring(str));
+		ListNode node = new ListNode(1);
+		node.next=new ListNode(2);
+		node.next.next = new ListNode(3);
+		node.next.next.next = new ListNode(4);
+		node.next.next.next.next = new ListNode(5);
+		node.next.next.next.next.next = null;
+//		System.out.println(node);
+//		System.out.println(test.reverseList(node));
+		int[] nums = {3,3,2,2};
+		System.out.println(test.majorityElement(nums));
 	}
 
 	 private class Pair{

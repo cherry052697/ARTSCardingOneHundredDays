@@ -326,27 +326,118 @@ public class Top100LikedQuestions {
 		}
 		return stack.isEmpty();
 	}
-	
+
 	/*
-	 * 226. Invert Binary Tree
-	 * Invert a binary tree.
+	 * 226. Invert Binary Tree Invert a binary tree.
 	 */
-	 public TreeNode invertTree(TreeNode root) {
-		 if (root == null) {
+	public TreeNode invertTree(TreeNode root) {
+		if (root == null) {
 			return null;
-		}else if(root.left != null && root.right == null){
-			root.right=invertTree(root.left);
+		} else if (root.left != null && root.right == null) {
+			root.right = invertTree(root.left);
 			root.left = null;
-		}else if(root.left == null && root.right != null){
-			root.left = invertTree(root.right);;
-			root.right= null;
-		}else if(root.left != null && root.right != null){
+		} else if (root.left == null && root.right != null) {
+			root.left = invertTree(root.right);
+			;
+			root.right = null;
+		} else if (root.left != null && root.right != null) {
 			TreeNode treeNode = root.left;
 			root.left = invertTree(root.right);
 			root.right = invertTree(treeNode);
 		}
-		 return root;
-	 }
-	
+		return root;
+	}
+
+	/*
+	 * 104. Maximum Depth of Binary Tree Given a binary tree, find its maximum
+	 * depth. The maximum depth is the number of nodes along the longest path
+	 * from the root node down to the farthest leaf node. Note: A leaf is a node
+	 * with no children.
+	 */
+	public int maxDepth(TreeNode root) {
+		if (root == null) {
+			return 0;
+		} else {
+			return Math.max(1 + maxDepth(root.left), 1 + maxDepth(root.right));
+		}
+	}
+
+	/*
+	 * 206. Reverse Linked List Reverse a singly linked list.
+	 */
+	public ListNode reverseList(ListNode head) {
+		ListNode pre = null;
+		ListNode curr = head;
+		while (curr != null) {
+			ListNode temp = curr.next;
+			curr.next = pre;
+			pre = curr;
+			curr = temp;
+		}
+		return pre;
+	}
+
+	/*
+	 * 169. Majority Element Given an array of size n, find the majority
+	 * element. The majority element is the element that appears more than ⌊ n/2
+	 * ⌋ times. You may assume that the array is non-empty and the majority
+	 * element always exist in the array.
+	 */
+	public int majorityElement(int[] nums) {
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		int len = nums.length;
+		if (nums == null)
+			return 0;
+		for (int i = 0; i < len; i++) {
+			int key = nums[i];
+			if (map.containsKey(key)) {
+				map.put(key, map.get(key) + 1);
+			} else {
+				map.put(key, 1);
+			}
+		}
+		for (int key : map.keySet()) {
+			if (map.get(key) > len / 2) {
+				return key;
+			}
+		}
+		return 0;
+	}
+
+	public int majorityElement2(int[] nums) {
+		Arrays.sort(nums);
+		return nums[nums.length / 2];
+	}
+
+	/*
+	 * 538. Convert BST to Greater Tree Given a Binary Search Tree (BST),
+	 * convert it to a Greater Tree such that every key of the original BST is
+	 * changed to the original key plus sum of all keys greater than the
+	 * original key in BST.
+	 */
+	int sum = 0;
+
+	public TreeNode convertBST(TreeNode root) {
+		if (root != null) {
+			convertBST(root.right);
+			sum += root.val;
+			root.val = sum;
+			convertBST(root.left);
+		}
+		return root;
+	}
+	/*
+	 * 543. Diameter of Binary Tree
+	 * 
+	 * Given a binary tree, you need to compute the length of the diameter of
+	 * the tree. The diameter of a binary tree is the length of the longest path
+	 * between any two nodes in a tree. This path may or may not pass through
+	 * the root. Note: The length of path between two nodes is represented by
+	 * the number of edges between them.
+	 */
+
+	public int diameterOfBinaryTree(TreeNode root) {
+		return 0;
+	}
 
 }
