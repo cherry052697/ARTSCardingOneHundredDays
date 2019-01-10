@@ -43,8 +43,9 @@ public class TestTop100LikedQuestions {
 		ListNode head2 = new ListNode(1);
 		head.next = head2;
 //		System.out.println(head);
-		System.out.println(test.isPalindrome2(head));
-		
+//		System.out.println(test.isPalindrome2(head));
+		int [] nums2 = {1, 1, 1, 1, 1};
+		System.out.println(test.findTargetSumWays(nums2, 3));
 		
 //		System.out.println(new TestTop100LikedQuestions().reverseListNode(head));
 		

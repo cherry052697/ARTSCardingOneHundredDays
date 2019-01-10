@@ -666,6 +666,7 @@ public class Top100LikedQuestions {
 		public MinStack() {
 			stack = new Stack<>();
 		}
+
 		public void push(int x) {
 			if (stack.isEmpty()) {
 				stack.push(0L);
@@ -676,6 +677,7 @@ public class Top100LikedQuestions {
 					min = x;
 			}
 		}
+
 		public void pop() {
 			if (stack.isEmpty())
 				return;
@@ -686,6 +688,7 @@ public class Top100LikedQuestions {
 				min = min - pop;
 
 		}
+
 		public int top() {
 			long top = stack.peek();
 			if (top > 0) {
@@ -694,9 +697,39 @@ public class Top100LikedQuestions {
 				return (int) (min);
 			}
 		}
+
 		public int getMin() {
 			return (int) min;
 		}
+	}
+
+	/*
+	 * 141. Linked List Cycle
+	 * 
+	 * Given a linked list, determine if it has a cycle in it. To represent a
+	 * cycle in the given linked list, we use an integer pos which represents
+	 * the position (0-indexed) in the linked list where tail connects to. If
+	 * pos is -1, then there is no cycle in the linked list.
+	 * 
+	 */
+	public boolean hasCycle(ListNode head) {
+		return false;
+	}
+
+	/*
+	 * 494. Target Sum
+	 * 
+	 * You are given a list of non-negative integers, a1, a2, ..., an, and a
+	 * target, S. Now you have 2 symbols + and -. For each integer, you should
+	 * choose one from + and - as its new symbol.
+	 * 
+	 * The length of the given array is positive and will not exceed 20.
+	 * The sum of elements in the given array will not exceed 1000.
+	 * Your output answer is guaranteed to be fitted in a 32-bit integer.
+	 */
+	public int findTargetSumWays(int[] nums, int S) {
+		
+		return 0;
 	}
 
 }
