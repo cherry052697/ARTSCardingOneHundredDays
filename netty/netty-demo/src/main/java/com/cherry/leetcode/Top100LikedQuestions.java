@@ -333,7 +333,6 @@ public class Top100LikedQuestions {
 			root.left = null;
 		} else if (root.left == null && root.right != null) {
 			root.left = invertTree(root.right);
-			;
 			root.right = null;
 		} else if (root.left != null && root.right != null) {
 			TreeNode treeNode = root.left;
@@ -373,10 +372,12 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 169. Majority Element Given an array of size n, find the majority
-	 * element. The majority element is the element that appears more than ⌊ n/2
-	 * ⌋ times. You may assume that the array is non-empty and the majority
-	 * element always exist in the array.
+	 * 169. Majority Element
+	 * 
+	 * Given an array of size n, find the majority element. The majority element
+	 * is the element that appears more than ⌊ n/2 ⌋ times. You may assume that
+	 * the array is non-empty and the majority element always exist in the
+	 * array.
 	 */
 	@SuppressWarnings("unused")
 	public int majorityElement(int[] nums) {
@@ -406,10 +407,11 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 538. Convert BST to Greater Tree Given a Binary Search Tree (BST),
-	 * convert it to a Greater Tree such that every key of the original BST is
-	 * changed to the original key plus sum of all keys greater than the
-	 * original key in BST.
+	 * 538. Convert BST to Greater Tree
+	 * 
+	 * Given a Binary Search Tree (BST), convert it to a Greater Tree such that
+	 * every key of the original BST is changed to the original key plus sum of
+	 * all keys greater than the original key in BST.
 	 */
 	int sum = 0;
 
@@ -423,7 +425,7 @@ public class Top100LikedQuestions {
 		return root;
 	}
 	/*
-	 * 543. Diameter of Binary Tree
+	 * 543. Diameter of Binary Tree(important)
 	 * 
 	 * Given a binary tree, you need to compute the length of the diameter of
 	 * the tree. The diameter of a binary tree is the length of the longest path
@@ -432,8 +434,21 @@ public class Top100LikedQuestions {
 	 * the number of edges between them.
 	 */
 
+	int diameter;
+
 	public int diameterOfBinaryTree(TreeNode root) {
-		return 0;
+		diameter = 1;
+		depth(root);
+		return diameter - 1;
+	}
+
+	public int depth(TreeNode node) {
+		if (node == null)
+			return 0;
+		int L = depth(node.left);
+		int R = depth(node.right);
+		diameter = Math.max(diameter, L + R + 1);
+		return Math.max(L, R) + 1;
 	}
 
 	/*
@@ -461,29 +476,227 @@ public class Top100LikedQuestions {
 	public int maxProfit(int[] prices) {
 		int profit = 0;
 		for (int i = 0; i < prices.length; i++) {
-			for (int j = i+1; j < prices.length; j++) {
+			for (int j = i + 1; j < prices.length; j++) {
 				int buyPrice = prices[i];
 				int sellPrice = prices[j];
-				if (buyPrice>=sellPrice) {
+				if (buyPrice >= sellPrice) {
 					continue;
-				}else{
-					profit = Math.max(profit, (sellPrice-buyPrice));
+				} else {
+					profit = Math.max(profit, (sellPrice - buyPrice));
 				}
 			}
 		}
 		return profit;
 	}
-	
-	public int maxProfit2(int[] prices){
+
+	public int maxProfit2(int[] prices) {
 		int minprice = Integer.MAX_VALUE;
-        int maxprofit = 0;
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < minprice)
-                minprice = prices[i];
-            else if (prices[i] - minprice > maxprofit)
-                maxprofit = prices[i] - minprice;
-        }
-        return maxprofit;
+		int maxprofit = 0;
+		for (int i = 0; i < prices.length; i++) {
+			if (prices[i] < minprice)
+				minprice = prices[i];
+			else if (prices[i] - minprice > maxprofit)
+				maxprofit = prices[i] - minprice;
+		}
+		return maxprofit;
+	}
+
+	/*
+	 * 101. Symmetric Tree
+	 * 
+	 * Given a binary tree, check whether it is a mirror of itself (ie,
+	 * symmetric around its center).
+	 */
+	public boolean isSymmetric(TreeNode root) {
+		return false;
+	}
+
+	/*
+	 * 198. House Robber
+	 * 
+	 * You are a professional robber planning to rob houses along a street. Each
+	 * house has a certain amount of money stashed, the only constraint stopping
+	 * you from robbing each of them is that adjacent houses have security
+	 * system connected and it will automatically contact the police if two
+	 * adjacent houses were broken into on the same night. Given a list of
+	 * non-negative integers representing the amount of money of each house,
+	 * determine the maximum amount of money you can rob tonight without
+	 * alerting the police.
+	 * 
+	 */
+	public int rob(int[] nums) {
+		int len = nums.length;
+		if (len == 0)
+			return 0;
+		if (len == 1)
+			return nums[0];
+		int[] nums2 = new int[len + 1];
+		nums2[0] = 0;
+		nums2[1] = nums[0];
+		for (int i = 2; i <= len; i++) {
+			nums2[i] = Math.max(nums2[i - 1], (nums2[i - 2] + nums[i - 1]));
+		}
+		return nums2[nums.length];
+	}
+
+	/*
+	 * 338. Counting Bits
+	 * 
+	 * Given a non negative integer number num. For every numbers i in the range
+	 * 0 ≤ i ≤ num calculate the number of 1's in their binary representation
+	 * and return them as an array.
+	 * 
+	 */
+	public int[] countBits(int num) {
+		int[] array = new int[num + 1];
+		if (num >= 0) {
+			for (int i = 0; i < array.length; i++) {
+				// 求一个镇整数转换成二进制时，1的个数
+				int result = i;
+				int count = 0;
+				while (result != 0) {
+					++count;
+					result = (result - 1) & result;
+				}
+				array[i] = count;
+			}
+		}
+		return array;
+	}
+
+	/*
+	 * 234. Palindrome Linked List
+	 * 
+	 * Given a singly linked list, determine if it is a palindrome.
+	 */
+	public boolean isPalindrome(ListNode head) {
+		ListNode pre = null;
+		ListNode curr = head;
+		StringBuffer strHead = new StringBuffer();
+		StringBuffer strResverse = new StringBuffer();
+		while (curr != null) {
+			strHead.append(curr.val);
+			strResverse.insert(0, curr.val);
+			ListNode temp = curr.next;
+			curr.next = pre;
+			pre = curr;
+			curr = temp;
+		}
+		return strHead.toString().equals(strResverse.toString());
+	}
+
+	public boolean isPalindrome2(ListNode head) {
+		boolean result = false;
+		ListNode resNode = reverseList(head);
+		while (head != null && resNode != null) {
+			if (head.val == resNode.val) {
+				head = head.next;
+				resNode = resNode.next;
+				result = true;
+			} else {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public ListNode reverseListNode(ListNode head) {
+		ListNode pre = null;
+		ListNode curr = head;
+		while (curr != null) {
+			ListNode temp = curr.next;
+			curr.next = pre;
+			pre = curr;
+			curr = temp;
+		}
+		return pre;
+	}
+
+	// 链表原地转置实现o(1)空间复杂度
+	public static boolean isPalindrome3(ListNode head) {
+		ListNode slow = head;
+		ListNode fast = head;
+
+		if (fast == null || fast.next == null)// 0个节点或是1个节点
+			return true;
+
+		while (fast.next != null && fast.next.next != null) {
+			fast = fast.next.next;
+			slow = slow.next;
+		}
+		// 对链表后半段进行反转
+		ListNode midNode = slow;
+		ListNode firNode = slow.next;// 后半段链表的第一个节点
+		ListNode cur = firNode.next;// 插入节点从第一个节点后面一个开始
+		firNode.next = null;// 第一个节点最后会变最后一个节点
+		while (cur != null) {
+			ListNode nextNode = cur.next;// 保存下次遍历的节点
+			cur.next = midNode.next;
+			midNode.next = cur;
+			cur = nextNode;
+		}
+
+		// 反转之后对前后半段进行比较
+		slow = head;
+		fast = midNode.next;
+		while (fast != null) {
+			if (fast.val != slow.val)
+				return false;
+			slow = slow.next;
+			fast = fast.next;
+		}
+		return true;
+
+	}
+
+	/*
+	 * 155. Min Stack
+	 * 
+	 * Design a stack that supports push, pop, top, and retrieving the minimum
+	 * element in constant time. push(x) -- Push element x onto stack. pop() --
+	 * Removes the element on top of the stack. top() -- Get the top element.
+	 * getMin() -- Retrieve the minimum element in the stack.
+	 */
+	class MinStack {
+
+		long min;
+		Stack<Long> stack;
+
+		public MinStack() {
+			stack = new Stack<>();
+		}
+		public void push(int x) {
+			if (stack.isEmpty()) {
+				stack.push(0L);
+				min = x;
+			} else {
+				stack.push(x - min);
+				if (x < min)
+					min = x;
+			}
+		}
+		public void pop() {
+			if (stack.isEmpty())
+				return;
+
+			long pop = stack.pop();
+
+			if (pop < 0)
+				min = min - pop;
+
+		}
+		public int top() {
+			long top = stack.peek();
+			if (top > 0) {
+				return (int) (top + min);
+			} else {
+				return (int) (min);
+			}
+		}
+		public int getMin() {
+			return (int) min;
+		}
 	}
 
 }

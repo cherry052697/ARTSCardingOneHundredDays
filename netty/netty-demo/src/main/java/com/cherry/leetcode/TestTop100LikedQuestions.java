@@ -30,10 +30,27 @@ public class TestTop100LikedQuestions {
 		node.next.next.next.next.next = null;
 //		System.out.println(node);
 //		System.out.println(test.reverseList(node));
-		int[] nums = {7,6,4,3,1};
-		System.out.println(test.maxProfit(nums));
+		int[] nums = {1,2,3,1};
+//		System.out.println(test.maxProfit(nums));
+		TreeNode root = new TreeNode(1);
+		root.right = new TreeNode(3);
+		root.left = new TreeNode(2);
+		root.left.left = new TreeNode(4);
+		root.left.right = new TreeNode(5);
+//		System.out.println(test.diameterOfBinaryTree(root));
+//		System.out.println(test.rob(nums));
+		ListNode head = new ListNode(1);
+		ListNode head2 = new ListNode(1);
+		head.next = head2;
+//		System.out.println(head);
+		System.out.println(test.isPalindrome2(head));
+		
+		
+//		System.out.println(new TestTop100LikedQuestions().reverseListNode(head));
+		
 	}
-
+	
+	
 	 private class Pair{
 	        public int x;
 	        public int y;
