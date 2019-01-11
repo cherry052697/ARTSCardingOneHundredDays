@@ -723,39 +723,131 @@ public class Top100LikedQuestions {
 	 * target, S. Now you have 2 symbols + and -. For each integer, you should
 	 * choose one from + and - as its new symbol.
 	 * 
-	 * The length of the given array is positive and will not exceed 20.
-	 * The sum of elements in the given array will not exceed 1000.
-	 * Your output answer is guaranteed to be fitted in a 32-bit integer.
+	 * The length of the given array is positive and will not exceed 20. The sum
+	 * of elements in the given array will not exceed 1000. Your output answer
+	 * is guaranteed to be fitted in a 32-bit integer.
 	 */
 	int count = 0;
-    public int findTargetSumWays(int[] nums, int S) {
-        calculate(nums, 0, 0, S);
-        return count;
-    }
-    public void calculate(int[] nums, int i, int sum, int S) {
-        if (i == nums.length) {
-            if (sum == S)
-                count++;
-        } else {
-            calculate(nums, i + 1, sum + nums[i], S);
-            calculate(nums, i + 1, sum - nums[i], S);
+
+	public int findTargetSumWays(int[] nums, int S) {
+		calculate(nums, 0, 0, S);
+		return count;
+	}
+
+	public void calculate(int[] nums, int i, int sum, int S) {
+		if (i == nums.length) {
+			if (sum == S)
+				count++;
+		} else {
+			calculate(nums, i + 1, sum + nums[i], S);
+			calculate(nums, i + 1, sum - nums[i], S);
+		}
+	}
+
+	public int findTargetSumWays2(int[] nums, int s) {
+		int sum = 0;
+		for (int n : nums)
+			sum += n;
+		return sum < s || (s + sum) % 2 > 0 ? 0 : subsetSum(nums, (s + sum) >>> 1);
+	}
+
+	public int subsetSum(int[] nums, int s) {
+		int[] dp = new int[s + 1];
+		dp[0] = 1;
+		for (int n : nums)
+			for (int i = s; i >= n; i--)
+				dp[i] += dp[i - n];
+		return dp[s];
+	}
+
+	/*
+	 * 84. Largest Rectangle in Histogram
+	 * 
+	 * Given n non-negative integers representing the histogram's bar height
+	 * where the width of each bar is 1, find the area of largest rectangle in
+	 * the histogram.
+	 */
+	public int largestRectangleArea(int[] heights) {
+		int len = heights.length;
+		Stack<Integer> s = new Stack<Integer>();
+		int maxArea = 0;
+		for (int i = 0; i <= len; i++) {
+			int h = (i == len ? 0 : heights[i]);
+			if (s.isEmpty() || h >= heights[s.peek()]) {
+				s.push(i);
+			} else {
+				int top = s.pop();
+				maxArea = Math.max(maxArea, heights[top] * (s.isEmpty() ? i : i - 1 - s.peek()));
+				i--;
+			}
+		}
+		return maxArea;
+	}
+
+	public int largestRectangleArea2(int[] heights) {
+		int len = heights.length;
+		if (heights == null || len == 0) {
+			return 0;
+		}
+		int[] lessFromLeft = new int[len];
+		int[] lessFromRight = new int[len];
+		lessFromRight[len - 1] = len;
+		lessFromLeft[0] = -1;
+
+		for (int i = 1; i < len; i++) {
+			int p = i - 1;
+
+			while (p >= 0 && heights[p] >= heights[i]) {
+				p = lessFromLeft[p];
+			}
+			lessFromLeft[i] = p;
+		}
+
+		for (int i = len - 2; i >= 0; i--) {
+			int p = i + 1;
+
+			while (p < len && heights[p] >= heights[i]) {
+				p = lessFromRight[p];
+			}
+			lessFromRight[i] = p;
+		}
+
+		int maxArea = 0;
+		for (int i = 0; i < len; i++) {
+			maxArea = Math.max(maxArea, heights[i] * (lessFromRight[i] - lessFromLeft[i] - 1));
+		}
+
+		return maxArea;
+	}
+	public int largestRectangleArea3(int[] heights) {
+        if (heights == null || heights.length == 0) return 0;
+        int n = heights.length;
+        int[] lessLeft = new int[n];
+        int[] lessRight = new int[n];
+        lessLeft[0] = -1;
+        lessRight[n - 1] = n;
+        for (int i = 1; i < n; i++) {
+            if (heights[i] > heights[i - 1]) {
+                lessLeft[i] = i - 1;
+            } else {
+                int j = lessLeft[i - 1];
+                while (j >= 0 && heights[j] >= heights[i]) j--;
+                lessLeft[i] = j;
+            }
         }
+        for (int i = n - 2; i >= 0; i--) {
+            if (heights[i] > heights[i + 1]) {
+                lessRight[i] = i + 1;
+            } else {
+                int j = lessRight[i + 1];
+                while (j < n && heights[j] >= heights[i]) j++;
+                lessRight[i] = j;
+            }
+        }
+        int maxArea = 0;
+        for (int i = 0; i < n; i++) {
+            maxArea = Math.max(maxArea, heights[i] * (lessRight[i] - lessLeft[i] - 1));
+        }
+        return maxArea;
     }
-    
-    public int findTargetSumWays2(int[] nums, int s) {
-        int sum = 0;
-        for (int n : nums)
-            sum += n;
-        return sum < s || (s + sum) % 2 > 0 ? 0 : subsetSum(nums, (s + sum) >>> 1); 
-    }   
-
-    public int subsetSum(int[] nums, int s) {
-        int[] dp = new int[s + 1]; 
-        dp[0] = 1;
-        for (int n : nums)
-            for (int i = s; i >= n; i--)
-                dp[i] += dp[i - n]; 
-        return dp[s];
-    } 
-
 }
