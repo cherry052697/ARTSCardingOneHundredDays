@@ -45,7 +45,7 @@ public class TestTop100LikedQuestions {
 //		System.out.println(head);
 //		System.out.println(test.isPalindrome2(head));
 		int [] heights = {2,1,5,6,2,3};
-		System.out.println(test.largestRectangleArea3(heights));
+		System.out.println(test.largestRectangleArea2(heights));
 		
 //		System.out.println(new TestTop100LikedQuestions().reverseListNode(head));
 		
