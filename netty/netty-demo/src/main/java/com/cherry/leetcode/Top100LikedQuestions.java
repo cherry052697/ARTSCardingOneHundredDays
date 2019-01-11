@@ -2,6 +2,7 @@ package com.cherry.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -819,35 +820,75 @@ public class Top100LikedQuestions {
 
 		return maxArea;
 	}
+
 	public int largestRectangleArea3(int[] heights) {
-        if (heights == null || heights.length == 0) return 0;
-        int n = heights.length;
-        int[] lessLeft = new int[n];
-        int[] lessRight = new int[n];
-        lessLeft[0] = -1;
-        lessRight[n - 1] = n;
-        for (int i = 1; i < n; i++) {
-            if (heights[i] > heights[i - 1]) {
-                lessLeft[i] = i - 1;
-            } else {
-                int j = lessLeft[i - 1];
-                while (j >= 0 && heights[j] >= heights[i]) j--;
-                lessLeft[i] = j;
-            }
-        }
-        for (int i = n - 2; i >= 0; i--) {
-            if (heights[i] > heights[i + 1]) {
-                lessRight[i] = i + 1;
-            } else {
-                int j = lessRight[i + 1];
-                while (j < n && heights[j] >= heights[i]) j++;
-                lessRight[i] = j;
-            }
-        }
-        int maxArea = 0;
-        for (int i = 0; i < n; i++) {
-            maxArea = Math.max(maxArea, heights[i] * (lessRight[i] - lessLeft[i] - 1));
-        }
-        return maxArea;
-    }
+		if (heights == null || heights.length == 0)
+			return 0;
+		int n = heights.length;
+		int[] lessLeft = new int[n];
+		int[] lessRight = new int[n];
+		lessLeft[0] = -1;
+		lessRight[n - 1] = n;
+		for (int i = 1; i < n; i++) {
+			if (heights[i] > heights[i - 1]) {
+				lessLeft[i] = i - 1;
+			} else {
+				int j = lessLeft[i - 1];
+				while (j >= 0 && heights[j] >= heights[i])
+					j--;
+				lessLeft[i] = j;
+			}
+		}
+		for (int i = n - 2; i >= 0; i--) {
+			if (heights[i] > heights[i + 1]) {
+				lessRight[i] = i + 1;
+			} else {
+				int j = lessRight[i + 1];
+				while (j < n && heights[j] >= heights[i])
+					j++;
+				lessRight[i] = j;
+			}
+		}
+		int maxArea = 0;
+		for (int i = 0; i < n; i++) {
+			maxArea = Math.max(maxArea, heights[i] * (lessRight[i] - lessLeft[i] - 1));
+		}
+		return maxArea;
+	}
+
+	/*
+	 * 406. Queue Reconstruction by Height
+	 * 
+	 * Suppose you have a random list of people standing in a queue. Each person
+	 * is described by a pair of integers (h, k), where h is the height of the
+	 * person and k is the number of people in front of this person who have a
+	 * height greater than or equal to h. Write an algorithm to reconstruct the
+	 * queue.
+	 */
+	public int[][] reconstructQueue(int[][] people) {
+		 if (people == null || people.length == 0 || people[0].length == 0)
+	            return new int[0][0];
+	            
+	        Arrays.sort(people, new Comparator<int[]>() {
+	            public int compare(int[] a, int[] b) {
+	                if (b[0] == a[0]) return a[1] - b[1];
+	                return b[0] - a[0];
+	            }
+	        });
+	        
+	        int n = people.length;
+	        ArrayList<int[]> tmp = new ArrayList<>();
+	        for (int i = 0; i < n; i++)
+	            tmp.add(people[i][1], new int[]{people[i][0], people[i][1]});
+
+	        int[][] res = new int[people.length][2];
+	        int i = 0;
+	        for (int[] k : tmp) {
+	            res[i][0] = k[0];
+	            res[i++][1] = k[1];
+	        }
+	        
+	        return res;
+	}
+
 }
