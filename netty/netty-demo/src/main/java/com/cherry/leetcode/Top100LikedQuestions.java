@@ -1188,35 +1188,40 @@ public class Top100LikedQuestions {
 		}
 		return res;
 	}
-	
+
 	public String longestPalindrome5(String s) {
-	    char[] ca = s.toCharArray();
-	    int rs = 0, re = 0;
-	    int max = 0;
-	    for(int i = 0; i < ca.length; i++) {
-	        if(isPalindrome(ca, i - max - 1, i)) {
-	            rs = i - max - 1; re = i;
-	            max += 2;
-	        } else if(isPalindrome(ca, i - max, i)) {
-	            rs = i - max; re = i;
-	            max += 1;
-	        }
-	    }
-	    return s.substring(rs, re + 1);
+		char[] ca = s.toCharArray();
+		int rs = 0, re = 0;
+		int max = 0;
+		for (int i = 0; i < ca.length; i++) {
+			if (isPalindrome(ca, i - max - 1, i)) {
+				rs = i - max - 1;
+				re = i;
+				max += 2;
+			} else if (isPalindrome(ca, i - max, i)) {
+				rs = i - max;
+				re = i;
+				max += 1;
+			}
+		}
+		return s.substring(rs, re + 1);
 	}
 
 	private boolean isPalindrome(char[] ca, int s, int e) {
-	    if(s < 0) return false;
-	    
-	    while(s < e) {
-	        if(ca[s++] != ca[e--]) return false;
-	    }
-	    return true;
+		if (s < 0)
+			return false;
+
+		while (s < e) {
+			if (ca[s++] != ca[e--])
+				return false;
+		}
+		return true;
 	}
-	
+
 	public boolean isPalindrome(String s, int startIndex, int endIndex) {
-		for(int i = startIndex, j = endIndex; i <= j; i++, j--) 
-				if (s.charAt(i) != s.charAt(j)) return false;
+		for (int i = startIndex, j = endIndex; i <= j; i++, j--)
+			if (s.charAt(i) != s.charAt(j))
+				return false;
 		return true;
 	}
 
@@ -1224,19 +1229,118 @@ public class Top100LikedQuestions {
 		int n = s.length();
 		int longestLen = 0;
 		int longestIndex = 0;
-		if (n == 0) return "";
-		for(int currentIndex = 0; currentIndex < n; currentIndex++) {
-			if(isPalindrome(s,currentIndex - longestLen, currentIndex)){
+		if (n == 0)
+			return "";
+		for (int currentIndex = 0; currentIndex < n; currentIndex++) {
+			if (isPalindrome(s, currentIndex - longestLen, currentIndex)) {
 				longestLen += 1;
 				longestIndex = currentIndex;
-			} else if(currentIndex - longestLen - 1 >= 0 && 
-					  isPalindrome(s, currentIndex - longestLen - 1, currentIndex)) {
+			} else if (currentIndex - longestLen - 1 >= 0
+					&& isPalindrome(s, currentIndex - longestLen - 1, currentIndex)) {
 				longestLen += 2;
 				longestIndex = currentIndex;
-			}	
+			}
 		}
 		longestIndex++;
 		return s.substring(longestIndex - longestLen, longestIndex);
 	}
 
+	/*
+	 * 152. Maximum Product Subarray
+	 * 
+	 * Given an integer array nums, find the contiguous subarray within an array
+	 * (containing at least one number) which has the largest product.
+	 */
+	public int maxProduct(int[] nums) {
+		int result = nums[0];
+		for (int i = 1, imax = result, imin = result; i < nums.length; i++) {
+			if (nums[i] < 0) {
+				imax = imax + imin;
+				imin = imax - imin;
+				imax = imax - imin;
+			}
+			imax = Math.max(nums[i], imax * nums[i]);
+			imin = Math.min(nums[i], imin * nums[i]);
+			result = Math.max(result, imax);
+		}
+		return result;
+	}
+
+	/*
+	 * 2. Add Two Numbers
+	 * 
+	 * You are given two non-empty linked lists representing two non-negative
+	 * integers. The digits are stored in reverse order and each of their nodes
+	 * contain a single digit. Add the two numbers and return it as a linked
+	 * list. You may assume the two numbers do not contain any leading zero,
+	 * except the number 0 itself.
+	 */
+	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+		ListNode result = new ListNode(0);
+		Stack<ListNode> snode1 = new Stack<ListNode>();
+		Stack<ListNode> snode2 = new Stack<ListNode>();
+		snode1.push(l1);
+		snode2.push(l2);
+		int index = 0;
+		long sum = 0;
+		while (!snode1.isEmpty() || !snode2.isEmpty()) {
+			int valN1 = 0;
+			int valN2 = 0;
+			if (!snode1.isEmpty() && snode1.peek() != null) {
+				valN1 = snode1.peek().val;
+				l1 = snode1.pop().next;
+				if (l1 != null) {
+					snode1.push(l1);
+				}
+			}
+			if (!snode2.isEmpty() && snode2.peek() != null) {
+				valN2 = snode2.peek().val;
+				l2 = snode2.pop().next;
+				if (l2 != null) {
+					snode2.push(l2);
+				}
+			}
+			if (index == 0 && valN1 == 0 && valN2 == 0 && snode1.isEmpty() && snode2.isEmpty()) {
+				return result;
+			}
+			if (valN1 >= 0 && valN2 >= 0) {
+				sum += ((valN1 + valN2) * Math.pow(10, index));
+				index++;
+			}
+		}
+		snode1.clear();
+		while (sum >= 0) {
+			long mode = sum % 10;
+			long div = sum / 10;
+			sum /= 10;
+			if (mode != 0 || div != 0) {
+				result = new ListNode(0);
+				result.val = (int) mode;
+				snode1.push(result);
+			} else {
+				sum = -1;
+			}
+		}
+		for (int i = 0; i < snode1.size() - 1; i++) {
+			snode1.get(i).next = snode1.get(i + 1);
+		}
+		result = snode1.get(0);
+		return result;
+	}
+
+	public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+		ListNode ln1 = l1, ln2 = l2, head = null, node = null;
+		int carry = 0, remainder = 0, sum = 0;
+		head = node = new ListNode(0);
+
+		while (ln1 != null || ln2 != null || carry != 0) {
+			sum = (ln1 != null ? ln1.val : 0) + (ln2 != null ? ln2.val : 0) + carry;
+			carry = sum / 10;
+			remainder = sum % 10;
+			node = node.next = new ListNode(remainder);
+			ln1 = (ln1 != null ? ln1.next : null);
+			ln2 = (ln2 != null ? ln2.next : null);
+		}
+		return head.next;
+	}
 }
