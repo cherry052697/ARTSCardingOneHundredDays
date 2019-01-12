@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -453,7 +455,7 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 437. Path Sum III
+	 * 437. Path Sum III(important)
 	 * 
 	 * You are given a binary tree in which each node contains an integer value.
 	 * Find the number of paths that sum to a given value. The path does not
@@ -462,7 +464,21 @@ public class Top100LikedQuestions {
 	 * than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
 	 */
 	public int pathSum(TreeNode root, int sum) {
-		return 0;
+		HashMap<Integer, Integer> preSum = new HashMap<Integer, Integer>();
+		preSum.put(0, 1);
+		return helper(root, 0, sum, preSum);
+	}
+
+	public int helper(TreeNode root, int currSum, int target, HashMap<Integer, Integer> preSum) {
+		if (root == null) {
+			return 0;
+		}
+		currSum += root.val;
+		int res = preSum.getOrDefault(currSum - target, 0);
+		preSum.put(currSum, preSum.getOrDefault(currSum, 0) + 1);
+		res += helper(root.left, currSum, target, preSum) + helper(root.right, currSum, target, preSum);
+		preSum.put(currSum, preSum.get(currSum) - 1);
+		return res;
 	}
 
 	/*
@@ -508,8 +524,40 @@ public class Top100LikedQuestions {
 	 * Given a binary tree, check whether it is a mirror of itself (ie,
 	 * symmetric around its center).
 	 */
+	public boolean isSymmetric2(TreeNode root) {
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		if (root == null)
+			return true;
+		q.add(root.left);
+		q.add(root.right);
+		while (q.size() > 1) {
+			TreeNode left = q.poll();
+			TreeNode right = q.poll();
+			if (left == null && right == null)
+				continue;
+			if (left == null ^ right == null)
+				return false;
+			if (left.val != right.val)
+				return false;
+			q.add(left.left);
+			q.add(right.right);
+			q.add(left.right);
+			q.add(right.left);
+		}
+		return true;
+	}
+
 	public boolean isSymmetric(TreeNode root) {
-		return false;
+		return isMirror(root, root);
+	}
+
+	public boolean isMirror(TreeNode rightNode, TreeNode leftNode) {
+		if (rightNode == null && leftNode == null)
+			return true;
+		if (rightNode == null || leftNode == null)
+			return false;
+		return (rightNode.val == leftNode.val) && isMirror(rightNode.right, leftNode.left)
+				&& isMirror(rightNode.left, leftNode.right);
 	}
 
 	/*
@@ -714,6 +762,39 @@ public class Top100LikedQuestions {
 	 * 
 	 */
 	public boolean hasCycle(ListNode head) {
+		ListNode pre = null;
+		ListNode curr = head;
+		int count = 0, index = 0;
+		// reverseListNode
+		while (curr != null) {
+			ListNode temp = curr.next;
+			curr.next = pre;
+			pre = curr;
+			curr = temp;
+			count++;
+		}
+		while (index < count) {
+			if (pre.next != null) {
+				index++;
+				pre = pre.next;
+			} else {
+				break;
+			}
+		}
+		return index < count ? true : false;
+	}
+
+	public boolean hasCycle2(ListNode head) {
+		if (head == null)
+			return false;
+		ListNode walker = head;
+		ListNode runner = head;
+		while (runner.next != null && runner.next.next != null) {
+			walker = walker.next;
+			runner = runner.next.next;
+			if (walker == runner)
+				return true;
+		}
 		return false;
 	}
 
@@ -866,29 +947,296 @@ public class Top100LikedQuestions {
 	 * queue.
 	 */
 	public int[][] reconstructQueue(int[][] people) {
-		 if (people == null || people.length == 0 || people[0].length == 0)
-	            return new int[0][0];
-	            
-	        Arrays.sort(people, new Comparator<int[]>() {
-	            public int compare(int[] a, int[] b) {
-	                if (b[0] == a[0]) return a[1] - b[1];
-	                return b[0] - a[0];
-	            }
-	        });
-	        
-	        int n = people.length;
-	        ArrayList<int[]> tmp = new ArrayList<>();
-	        for (int i = 0; i < n; i++)
-	            tmp.add(people[i][1], new int[]{people[i][0], people[i][1]});
+		if (people == null || people.length == 0 || people[0].length == 0)
+			return new int[0][0];
 
-	        int[][] res = new int[people.length][2];
-	        int i = 0;
-	        for (int[] k : tmp) {
-	            res[i][0] = k[0];
-	            res[i++][1] = k[1];
+		Arrays.sort(people, new Comparator<int[]>() {
+			public int compare(int[] a, int[] b) {
+				if (b[0] == a[0])
+					return a[1] - b[1];
+				return b[0] - a[0];
+			}
+		});
+
+		int n = people.length;
+		ArrayList<int[]> tmp = new ArrayList<>();
+		for (int i = 0; i < n; i++)
+			tmp.add(people[i][1], new int[] { people[i][0], people[i][1] });
+
+		int[][] res = new int[people.length][2];
+		int i = 0;
+		for (int[] k : tmp) {
+			res[i][0] = k[0];
+			res[i++][1] = k[1];
+		}
+
+		return res;
+	}
+
+	/*
+	 * 572. Subtree of Another Tree
+	 * 
+	 * Given two non-empty binary trees s and t, check whether tree t has
+	 * exactly the same structure and node values with a subtree of s. A subtree
+	 * of s is a tree consists of a node in s and all of this node's
+	 * descendants. The tree s could also be considered as a subtree of itself.
+	 */
+	public boolean isSubtree(TreeNode s, TreeNode t) {
+		if (s == null)
+			return false;
+		if (isSame(s, t))
+			return true;
+		return isSubtree(s.left, t) || isSubtree(s.right, t);
+	}
+
+	private boolean isSame(TreeNode s, TreeNode t) {
+		if (s == null && t == null)
+			return true;
+		if (s == null || t == null)
+			return false;
+
+		if (s.val != t.val)
+			return false;
+
+		return isSame(s.left, t.left) && isSame(s.right, t.right);
+	}
+
+	public boolean isSubtree2(TreeNode s, TreeNode t) {
+		String spreorder = generatepreorderString(s);
+		String tpreorder = generatepreorderString(t);
+
+		return spreorder.contains(tpreorder);
+	}
+
+	public String generatepreorderString(TreeNode s) {
+		StringBuilder sb = new StringBuilder();
+		Stack<TreeNode> stacktree = new Stack<TreeNode>();
+		stacktree.push(s);
+		while (!stacktree.isEmpty()) {
+			TreeNode popelem = stacktree.pop();
+			if (popelem == null)
+				sb.append(",#"); // Appending # inorder to handle same values
+									// but not subtree cases
+			else
+				sb.append("," + popelem.val);
+			if (popelem != null) {
+				stacktree.push(popelem.right);
+				stacktree.push(popelem.left);
+			}
+		}
+		return sb.toString();
+	}
+
+	/*
+	 * 62. Unique Paths
+	 * 
+	 * A robot is located at the top-left corner of a m x n grid (marked 'Start'
+	 * in the diagram below).
+	 * 
+	 * The robot can only move either down or right at any point in time. The
+	 * robot is trying to reach the bottom-right corner of the grid (marked
+	 * 'Finish' in the diagram below).
+	 * 
+	 * This is a combinatorial problem and can be solved without DP. For mxn
+	 * grid, robot has to move exactly m-1 steps down and n-1 steps right and
+	 * these can be done in any order.
+	 * 
+	 * For the eg., given in question, 3x7 matrix, robot needs to take 2+6 = 8
+	 * steps with 2 down and 6 right in any order. That is nothing but a
+	 * permutation problem. Denote down as 'D' and right as 'R', following is
+	 * one of the path :-
+	 * 
+	 * D R R R D R R R
+	 * 
+	 * We have to tell the total number of permutations of the above given word.
+	 * So, decrease both m & n by 1 and apply following formula:-
+	 * 
+	 * Total permutations = (m+n)! / (m! * n!)
+	 * 
+	 */
+	public int uniquePaths(int m, int n) {
+		if (m == 1 || n == 1)
+			return 1;
+		m--;
+		n--;
+		// Swap, so that m is the bigger number
+		if (m < n) {
+			m = m + n;
+			n = m - n;
+			m = m - n;
+		}
+		long res = 1;
+		int j = 1;
+		// Instead of taking factorial, keep on multiply & divide
+		for (int i = m + 1; i <= m + n; i++, j++) {
+			res *= i;
+			res /= j;
+		}
+
+		return (int) res;
+	}
+
+	/*
+	 * If you mark the south move as '1' and the east move as '0'. This problem
+	 * shall be equal to : Given (m+n-2) bits. you can fill in '1' for (m-1)
+	 * times and '0' for (n-1) times, what is the number of different numbers?
+	 * the result is clear that the formula shall be C(m-1)(m+n-2), where m-1 is
+	 * the superscript behind C and m+n-2 is the subscript behind C.
+	 */
+	public int uniquePaths2(int m, int n) {
+		long result = 1;
+		for (int i = 0; i < Math.min(m - 1, n - 1); i++)
+			result = result * (m + n - 2 - i) / (i + 1);
+		return (int) result;
+	}
+
+	/*
+	 * 5. Longest Palindromic Substring
+	 * 
+	 * Given a string s, find the longest palindromic substring in s. You may
+	 * assume that the maximum length of s is 1000.
+	 */
+	public String longestPalindrome(String s) {
+		if (s.isEmpty())
+			return "";
+		if (s.length() == 1)
+			return s;
+		int min_start = 0, max_len = 1;
+		for (int i = 0; i < s.length();) {
+			if (s.length() - i <= max_len / 2)
+				break;
+			int j = i, k = i;
+			while (k < s.length() - 1 && s.charAt(k + 1) == s.charAt(k))
+				++k;
+			i = k + 1;
+			while (k < s.length() - 1 && j > 0 && s.charAt(k + 1) == s.charAt(j - 1)) {
+				++k;
+				--j;
+			}
+			int new_len = k - j + 1;
+			if (new_len > max_len) {
+				min_start = j;
+				max_len = new_len;
+			}
+		}
+		return s.substring(min_start, max_len);
+	}
+
+	private int lo, maxLen;
+
+	public String longestPalindrome2(String s) {
+		int len = s.length();
+		if (len < 2)
+			return s;
+
+		for (int i = 0; i < len - 1; i++) {
+			extendPalindrome(s, i, i);
+			extendPalindrome(s, i, i + 1);
+		}
+		return s.substring(lo, lo + maxLen);
+	}
+
+	private void extendPalindrome(String s, int j, int k) {
+		while (j >= 0 && k < s.length() && s.charAt(j) == s.charAt(k)) {
+			j--;
+			k++;
+		}
+		if (maxLen < k - j - 1) {
+			lo = j + 1;
+			maxLen = k - j - 1;
+		}
+	}
+
+	/*
+	 * dp(i, j) represents whether s(i ... j) can form a palindromic substring,
+	 * dp(i, j) is true when s(i) equals to s(j) and s(i+1 ... j-1) is a
+	 * palindromic substring. When we found a palindrome, check if it's the
+	 * longest one. Time complexity O(n^2)
+	 */
+	public String longestPalindrome3(String s) {
+		int len = s.length();
+		String res = null;
+		boolean[][] dp = new boolean[len][len];
+		for (int i = len - 1; i >= 0; i--) {
+			for (int j = i; j < len; j++) {
+				dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i < 3 || dp[i + 1][j - 1]);
+
+				if (dp[i][j] && (res == null || j - i + 1 >= res.length())) {
+					String temp = s.substring(i, j + 1);
+					res = temp;
+				}
+			}
+		}
+		return res;
+	}
+
+	public String longestPalindrome4(String s) {
+		if (s == null || s.length() == 0)
+			return s;
+		int n = s.length();
+		boolean[][] dp = new boolean[n][n];
+		String res = null;
+		for (int i = 0; i < n; i++) {
+			for (int j = i; j >= 0; j--) {
+				if (s.charAt(i) == s.charAt(j) && (i - j < 2 || dp[j + 1][i - 1])) {
+					dp[j][i] = true;
+					if (res == null || i - j + 1 > res.length()) {
+						res = s.substring(j, i + 1);
+					}
+				}
+			}
+		}
+		return res;
+	}
+	
+	public String longestPalindrome5(String s) {
+	    char[] ca = s.toCharArray();
+	    int rs = 0, re = 0;
+	    int max = 0;
+	    for(int i = 0; i < ca.length; i++) {
+	        if(isPalindrome(ca, i - max - 1, i)) {
+	            rs = i - max - 1; re = i;
+	            max += 2;
+	        } else if(isPalindrome(ca, i - max, i)) {
+	            rs = i - max; re = i;
+	            max += 1;
 	        }
-	        
-	        return res;
+	    }
+	    return s.substring(rs, re + 1);
+	}
+
+	private boolean isPalindrome(char[] ca, int s, int e) {
+	    if(s < 0) return false;
+	    
+	    while(s < e) {
+	        if(ca[s++] != ca[e--]) return false;
+	    }
+	    return true;
+	}
+	
+	public boolean isPalindrome(String s, int startIndex, int endIndex) {
+		for(int i = startIndex, j = endIndex; i <= j; i++, j--) 
+				if (s.charAt(i) != s.charAt(j)) return false;
+		return true;
+	}
+
+	public String longestPalindrome6(String s) {
+		int n = s.length();
+		int longestLen = 0;
+		int longestIndex = 0;
+		if (n == 0) return "";
+		for(int currentIndex = 0; currentIndex < n; currentIndex++) {
+			if(isPalindrome(s,currentIndex - longestLen, currentIndex)){
+				longestLen += 1;
+				longestIndex = currentIndex;
+			} else if(currentIndex - longestLen - 1 >= 0 && 
+					  isPalindrome(s, currentIndex - longestLen - 1, currentIndex)) {
+				longestLen += 2;
+				longestIndex = currentIndex;
+			}	
+		}
+		longestIndex++;
+		return s.substring(longestIndex - longestLen, longestIndex);
 	}
 
 }

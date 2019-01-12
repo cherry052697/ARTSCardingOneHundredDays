@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.cherry.netty.utils.JsonUtil;
+
 
 
 public class TestTop100LikedQuestions {
@@ -45,9 +47,36 @@ public class TestTop100LikedQuestions {
 //		System.out.println(head);
 //		System.out.println(test.isPalindrome2(head));
 		int [] heights = {2,1,5,6,2,3};
-		System.out.println(test.largestRectangleArea2(heights));
+//		System.out.println(test.largestRectangleArea2(heights));
 		
 //		System.out.println(new TestTop100LikedQuestions().reverseListNode(head));
+		
+		TreeNode rootSymmetric = new TreeNode(10);
+		rootSymmetric.right = new TreeNode(-3);
+		rootSymmetric.right.right = new TreeNode(11);
+		rootSymmetric.left = new TreeNode(5);
+		rootSymmetric.left.left = new TreeNode(3);
+		rootSymmetric.left.left.left = new TreeNode(3);
+		rootSymmetric.left.left.right = new TreeNode(-2);
+		rootSymmetric.left.right = new TreeNode(2);
+		rootSymmetric.left.right.right = new TreeNode(1);
+
+		TreeNode s = new TreeNode(3);
+		s.left = new TreeNode(4);
+		s.right = new TreeNode(5);
+		s.left.left = new TreeNode(1);
+		s.left.right = new TreeNode(2);
+		s.left.right.left = new TreeNode(0);
+		
+		TreeNode t = new TreeNode(4);
+		t.left = new TreeNode(1);
+		t.right = new TreeNode(2);
+		
+		String palindrome = "";
+//		System.out.println(test.longestPalindrome6(palindrome));
+		
+		int [][] people ={{7,0}, {4,4}, {7,1}, {5,0}, {6,1}, {5,2}};
+		System.out.println(JsonUtil.toJson(test.reconstructQueue(people)));
 		
 	}
 	
