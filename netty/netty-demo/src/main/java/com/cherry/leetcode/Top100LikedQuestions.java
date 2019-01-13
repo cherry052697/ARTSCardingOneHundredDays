@@ -1,5 +1,7 @@
 package com.cherry.leetcode;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1342,5 +1344,115 @@ public class Top100LikedQuestions {
 			ln2 = (ln2 != null ? ln2.next : null);
 		}
 		return head.next;
+	}
+
+	/*
+	 * 221. Maximal Square
+	 * 
+	 * Given a 2D binary matrix filled with 0's and 1's, find the largest square
+	 * containing only 1's and return its area.
+	 * 
+	 * dp[i][j]=min(dp[i-1][j],dp[i-1][j-1],dp[i][j-1])+1
+	 */
+	public int maximalSquare(char[][] matrix) {
+		int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
+		int[] dp = new int[cols + 1];
+		int maxsqlen = 0, prev = 0;
+		for (int i = 1; i <= rows; i++) {
+			for (int j = 1; j <= cols; j++) {
+				int temp = dp[j];
+				if (matrix[i - 1][j - 1] == '1') {
+					dp[j] = Math.min(Math.min(dp[j - 1], prev), dp[j]) + 1;
+					maxsqlen = Math.max(maxsqlen, dp[j]);
+				} else {
+					dp[j] = 0;
+				}
+				prev = temp;
+			}
+		}
+		return maxsqlen * maxsqlen;
+	}
+
+	public int maximalSquare2(char[][] matrix) {
+		int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
+		int maxsqlen = 0;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (matrix[i][j] == '1') {
+					int sqlen = 1;
+					boolean flag = true;
+					while (sqlen + i < rows && sqlen + j < cols && flag) {
+						for (int k = j; k <= sqlen + j; k++) {
+							if (matrix[i + sqlen][k] == '0') {
+								flag = false;
+								break;
+							}
+						}
+						for (int k = i; k <= sqlen + i; k++) {
+							if (matrix[k][j + sqlen] == '0') {
+								flag = false;
+								break;
+							}
+						}
+						if (flag)
+							sqlen++;
+					}
+					if (maxsqlen < sqlen) {
+						maxsqlen = sqlen;
+					}
+				}
+			}
+		}
+		return maxsqlen * maxsqlen;
+	}
+
+	int maximalSquare3(char[][] matrix) {
+		int height = matrix.length;
+		if (height == 0)
+			return 0;
+		int width = matrix[0].length;
+		int[][] temp = new int[2][width];
+		int result = 0;
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				temp[i % 2][j] = 0;
+				if (matrix[i][j] == '1') {
+					temp[i % 2][j] = 1;
+					if (i > 0 && j > 0)
+						temp[i % 2][j] += Math.min(Math.min(temp[(i - 1) % 2][j], temp[i % 2][j - 1]),
+								temp[(i - 1) % 2][j - 1]);
+				}
+				result = Math.max(result, temp[i % 2][j]);
+			}
+		}
+		return result * result;
+
+	}
+
+	/*
+	 * 240. Search a 2D Matrix II
+	 * 
+	 * Write an efficient algorithm that searches for a value in an m x n
+	 * matrix. This matrix has the following properties:
+	 * 
+	 * Integers in each row are sorted in ascending from left to right. Integers
+	 * in each column are sorted in ascending from top to bottom.
+	 */
+	public boolean searchMatrix(int[][] matrix, int target) {
+		 if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
+	            return false;
+	        }
+	        int col = matrix[0].length-1;
+	        int row = 0;
+	        while(col >= 0 && row <= matrix.length-1) {
+	            if(target == matrix[row][col]) {
+	                return true;
+	            } else if(target < matrix[row][col]) {
+	                col--;
+	            } else if(target > matrix[row][col]) {
+	                row++;
+	            }
+	        }
+	        return false;
 	}
 }

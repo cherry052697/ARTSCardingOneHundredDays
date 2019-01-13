@@ -87,14 +87,14 @@ public class TestTop100LikedQuestions {
 		ListNode n2 = new ListNode(5);
 		n2.next = new ListNode(6);
 		n2.next.next = new ListNode(4);
-		System.out.println(n1);
-		System.out.println(n2);
+//		System.out.println(n1);
+//		System.out.println(n2);
 //		System.out.println(test.addTwoNumbers(n1, n2));
 		ListNode n3 = new ListNode(9);
 		n3.next = new ListNode(8);
 		ListNode n4 = new ListNode(1);
-		System.out.println(n3);
-		System.out.println(n4);
+//		System.out.println(n3);
+//		System.out.println(n4);
 //		System.out.println(test.addTwoNumbers(n3, n4));
 		ListNode n5 = new ListNode(9);
 		ListNode n6 = new ListNode(1);
@@ -107,7 +107,21 @@ public class TestTop100LikedQuestions {
 		n6.next.next.next.next.next.next.next = new ListNode(9);
 		n6.next.next.next.next.next.next.next.next = new ListNode(9);
 		n6.next.next.next.next.next.next.next.next.next = new ListNode(9);
-		System.out.println(test.addTwoNumbers(n5, n6));
+//		System.out.println(test.addTwoNumbers(n5, n6));
+		
+		char[][] matrix = {{'1','0','1','0','0'},
+						   {'1','0','1','1','1'},
+						   {'1','1','1','1','1'},
+						   {'1','0','0','1','0'}};
+//		System.out.println(test.maximalSquare3(matrix));
+		int[][] matrixInt = {
+							{1, 4,  7, 11, 15},
+							{2, 5,  8, 12, 19},
+							{3, 6,  9, 16, 22},
+							{10,13, 14,17, 24},
+							{18,21, 23,26, 30}};
+		int[][] matrixInt2 = {{-5},{-2}};
+		System.out.println(test.searchMatrix(matrixInt2, -2));
 		
 		
 	}
