@@ -1,6 +1,5 @@
 package com.cherry.leetcode;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -232,15 +231,6 @@ public class Top100LikedQuestions {
 		return ans;
 	}
 
-	/*
-	 * 647. Palindromic Substrings Given a string, your task is to count how
-	 * many palindromic substrings in this string. The substrings with different
-	 * start indexes or end indexes are counted as different substrings even
-	 * they consist of same characters.
-	 */
-	public int countSubstrings(String s) {
-		return 0;
-	}
 
 	/*
 	 * 617. Merge Two Binary Trees Given two binary trees and imagine that when
@@ -1439,20 +1429,33 @@ public class Top100LikedQuestions {
 	 * in each column are sorted in ascending from top to bottom.
 	 */
 	public boolean searchMatrix(int[][] matrix, int target) {
-		 if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
-	            return false;
-	        }
-	        int col = matrix[0].length-1;
-	        int row = 0;
-	        while(col >= 0 && row <= matrix.length-1) {
-	            if(target == matrix[row][col]) {
-	                return true;
-	            } else if(target < matrix[row][col]) {
-	                col--;
-	            } else if(target > matrix[row][col]) {
-	                row++;
-	            }
-	        }
-	        return false;
+		if (matrix == null || matrix.length < 1 || matrix[0].length < 1) {
+			return false;
+		}
+		int col = matrix[0].length - 1;
+		int row = 0;
+		while (col >= 0 && row <= matrix.length - 1) {
+			if (target == matrix[row][col]) {
+				return true;
+			} else if (target < matrix[row][col]) {
+				col--;
+			} else if (target > matrix[row][col]) {
+				row++;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * 647. Palindromic Substrings
+	 *
+	 * Given a string, your task is to count how many palindromic substrings in
+	 * this string.
+	 * 
+	 * The substrings with different start indexes or end indexes are counted as
+	 * different substrings even they consist of same characters.
+	 */
+	public int countSubstrings(String s) {
+		return 1;
 	}
 }

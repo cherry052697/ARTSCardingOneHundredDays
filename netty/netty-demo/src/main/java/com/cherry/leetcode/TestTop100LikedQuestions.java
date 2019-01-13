@@ -123,6 +123,8 @@ public class TestTop100LikedQuestions {
 		int[][] matrixInt2 = {{-5},{-2}};
 		System.out.println(test.searchMatrix(matrixInt2, -2));
 		
+		String str = "abc";
+		System.out.println(test.countSubstrings(str));
 		
 	}
 	
