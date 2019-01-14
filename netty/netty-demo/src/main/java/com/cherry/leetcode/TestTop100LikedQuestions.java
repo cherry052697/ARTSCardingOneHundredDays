@@ -127,8 +127,17 @@ public class TestTop100LikedQuestions {
 //		System.out.println(test.countSubstrings3(str));
 		
 		int[] area = {1,8,6,2,5,4,8,3,7};
-		System.out.println(test.maxArea(area));
+//		System.out.println(test.maxArea(area));
 		
+		ListNode listnode = new ListNode(1);
+		listnode.next = new ListNode(2);
+		listnode.next.next = new ListNode(3);
+		listnode.next.next.next = new ListNode(4);
+		listnode.next.next.next.next = new ListNode(5);
+//		System.out.println(test.removeNthFromEnd3(listnode, 2));
+		
+		String phoneNumber = "201";
+		System.out.println(JsonUtil.toJson(test.letterCombinations(phoneNumber)));
 	}
 	
 	

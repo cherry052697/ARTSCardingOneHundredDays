@@ -1641,4 +1641,91 @@ public class Top100LikedQuestions {
 		}
 		return maxarea;
 	}
+
+	/*
+	 * 19. Remove Nth Node From End of List
+	 * 
+	 * Given a linked list, remove the n-th node from the end of list and return
+	 * its head.
+	 */
+	public ListNode removeNthFromEnd(ListNode head, int n) {
+		List<ListNode> list = new LinkedList<ListNode>();
+		int index = 0;
+		while (head != null) {
+			list.add(head);
+			if (index == n)
+				head = head.next == null ? null : head.next.next;
+			else
+				head = head.next == null ? null : head.next;
+			index++;
+		}
+		if (index - 1 >= n) {
+			for (int i = 0; i < list.size() - 1; i++) {
+				list.get(i).next = list.get(i + 1);
+			}
+		}
+		return list.size() > 0 ? list.get(0) : null;
+	}
+
+	public ListNode removeNthFromEnd2(ListNode head, int n) {
+		ListNode result = new ListNode(0);
+		result.next = head;
+		int length = 0;
+		ListNode first = head;
+		while (first != null) {
+			length++;
+			first = first.next;
+		}
+		length -= n;
+		first = result;
+		while (length > 0) {
+			length--;
+			first = first.next;
+		}
+		first.next = first.next.next;
+		return result.next;
+	}
+
+	/*
+	 * the most important
+	 */
+	public ListNode removeNthFromEnd3(ListNode head, int n) {
+		ListNode dummy = new ListNode(0);
+		dummy.next = head;
+		ListNode first = dummy;
+		ListNode second = dummy;
+		for (int i = 1; i <= n + 1; i++) {
+			first = first.next;
+		}
+		while (first != null) {
+			first = first.next;
+			second = second.next;
+		}
+		second.next = second.next.next;
+		return dummy.next;
+	}
+
+	/*
+	 * 17. Letter Combinations of a Phone Number
+	 * 
+	 * Given a string containing digits from 2-9 inclusive, return all possible
+	 * letter combinations that the number could represent.
+	 * 
+	 * A mapping of digit to letters (just like on the telephone buttons) is
+	 * given below. Note that 1 does not map to any letters.
+	 */
+	public List<String> letterCombinations(String digits) {
+		LinkedList<String> result = new LinkedList<String>();
+		if(digits.isEmpty()) return result;
+		String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+		result.add("");
+		while(result.peek().length()!=digits.length()){
+			String remove = result.remove();
+			String map = mapping[digits.charAt(remove.length())-'0'];
+			for(char c: map.toCharArray()){
+				result.addLast(remove+c);
+			}
+		}
+		return result;
+	}
 }
