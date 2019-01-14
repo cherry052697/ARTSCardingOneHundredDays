@@ -1454,7 +1454,78 @@ public class Top100LikedQuestions {
 	 * different substrings even they consist of same characters.
 	 */
 	public int countSubstrings(String s) {
-		return 1;
+		int n = s.length(), count = 0;
+		for (int center = 0; center <= 2 * n - 1; ++center) {
+			int left = center / 2;
+			int right = left + center % 2;
+			while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+				count++;
+				left--;
+				right++;
+			}
+		}
+		return count;
+	}
+
+	public int countSubstrings1(String s) {
+		if (s == null || s.length() == 0)
+			return 0;
+
+		for (int i = 0; i < s.length(); i++) {
+			extendPalindrome1(s, i, i);
+			extendPalindrome1(s, i, i + 1);
+		}
+
+		return count;
+	}
+
+	private void extendPalindrome1(String s, int left, int right) {
+		while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+			count++;
+			left--;
+			right++;
+		}
+	}
+
+	public int countSubstrings3(String s) {
+		int res = 0;
+		for (int i = 0; i < s.length(); i++) {
+			res++;
+			res += count(s, i);
+		}
+
+		return res;
+	}
+
+	private int count(String s, int i) {
+		int j = i;
+		int res = 0;
+		while ((j < s.length() - 1) && (s.charAt(j) == s.charAt(j + 1))) {
+			res++;
+			j++;
+		}
+
+		while (i > 0 && j < s.length() - 1 && s.charAt(i - 1) == s.charAt(j + 1)) {
+			res++;
+			i--;
+			j++;
+		}
+
+		return res;
+	}
+
+	public int countSubstrings4(String s) {
+		int n = s.length();
+		int result = 0;
+		boolean[][] dp = new boolean[n][n];
+		for (int i = n - 1; i >= 0; i--) {
+			for (int j = i; j < n; j++) {
+				dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i < 3 || dp[i + 1][j - 1]);
+				if (dp[i][j])
+					++result;
+			}
+		}
+		return result;
 	}
 
 	/*
@@ -1485,40 +1556,89 @@ public class Top100LikedQuestions {
 			return findKth(nums1, i, nums2, j + k / 2, k - k / 2);
 		}
 	}
-	
+
 	public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
-        int m = nums1.length, n = nums2.length, left = (m + n + 1) / 2, right = (m + n + 2) / 2;
-        return (findKth2(nums1, nums2, left) + findKth2(nums1, nums2, right)) / 2.0;
-    }
-    int findKth2(int[] nums1, int[] nums2, int k) {
-        int m = nums1.length, n = nums2.length;
-        if (m == 0) return nums2[k - 1];
-        if (n == 0) return nums1[k - 1];
-        if (k == 1) return Math.min(nums1[0], nums2[0]);
-        int i = Math.min(m, k / 2), j = Math.min(n, k / 2);
-        if (nums1[i - 1] > nums2[j - 1]) {
-            return findKth2(nums1, Arrays.copyOfRange(nums2, j, n), k - j);
-        } else {
-            return findKth2(Arrays.copyOfRange(nums1, i, m), nums2, k - i);
-        }
-    }
-    public double findMedianSortedArrays3(int[] nums1, int[] nums2) {
-        int m = nums1.length, n = nums2.length;
+		int m = nums1.length, n = nums2.length, left = (m + n + 1) / 2, right = (m + n + 2) / 2;
+		return (findKth2(nums1, nums2, left) + findKth2(nums1, nums2, right)) / 2.0;
+	}
+
+	int findKth2(int[] nums1, int[] nums2, int k) {
+		int m = nums1.length, n = nums2.length;
+		if (m == 0)
+			return nums2[k - 1];
+		if (n == 0)
+			return nums1[k - 1];
+		if (k == 1)
+			return Math.min(nums1[0], nums2[0]);
+		int i = Math.min(m, k / 2), j = Math.min(n, k / 2);
+		if (nums1[i - 1] > nums2[j - 1]) {
+			return findKth2(nums1, Arrays.copyOfRange(nums2, j, n), k - j);
+		} else {
+			return findKth2(Arrays.copyOfRange(nums1, i, m), nums2, k - i);
+		}
+	}
+
+	public double findMedianSortedArrays3(int[] nums1, int[] nums2) {
+		int m = nums1.length, n = nums2.length;
 		if (m < n)
 			return findMedianSortedArrays(nums2, nums1);
-        if (n == 0) return (nums1[(m - 1) / 2] + nums1[m / 2]) / 2.0;
-        int left = 0, right = 2 * n;
-        while (left <= right) {
-            int mid2 = (left + right) / 2;
-            int mid1 = m + n - mid2;
-            double L1 = mid1 == 0 ? Double.MIN_VALUE : nums1[(mid1 - 1) / 2];
-            double L2 = mid2 == 0 ? Double.MIN_VALUE : nums2[(mid2 - 1) / 2];
-            double R1 = mid1 == m * 2 ? Double.MAX_VALUE : nums1[mid1 / 2];
-            double R2 = mid2 == n * 2 ? Double.MAX_VALUE : nums2[mid2 / 2];
-            if (L1 > R2) left = mid2 + 1;
-            else if (L2 > R1) right = mid2 - 1;
-            else return (Math.max(L1, L2) + Math.min(R1, R2)) / 2;
-        }
-        return -1;
-    }
+		if (n == 0)
+			return (nums1[(m - 1) / 2] + nums1[m / 2]) / 2.0;
+		int left = 0, right = 2 * n;
+		while (left <= right) {
+			int mid2 = (left + right) / 2;
+			int mid1 = m + n - mid2;
+			double L1 = mid1 == 0 ? Double.MIN_VALUE : nums1[(mid1 - 1) / 2];
+			double L2 = mid2 == 0 ? Double.MIN_VALUE : nums2[(mid2 - 1) / 2];
+			double R1 = mid1 == m * 2 ? Double.MAX_VALUE : nums1[mid1 / 2];
+			double R2 = mid2 == n * 2 ? Double.MAX_VALUE : nums2[mid2 / 2];
+			if (L1 > R2)
+				left = mid2 + 1;
+			else if (L2 > R1)
+				right = mid2 - 1;
+			else
+				return (Math.max(L1, L2) + Math.min(R1, R2)) / 2;
+		}
+		return -1;
+	}
+
+	/*
+	 * 11. Container With Most Water
+	 * 
+	 * Given n non-negative integers a1, a2, ..., an , where each represents a
+	 * point at coordinate (i, ai). n vertical lines are drawn such that the two
+	 * endpoints of line i is at (i, ai) and (i, 0). Find two lines, which
+	 * together with x-axis forms a container, such that the container contains
+	 * the most water.
+	 * 
+	 * Note: You may not slant the container and n is at least 2.
+	 */
+
+	public int maxArea(int[] height) {
+		if (height.length == 0 || height.length == 1)
+			return 0;
+		if (height.length == 2)
+			return Math.min(height[0], height[1]);
+		int maxArea = height[0], len = height.length, maxLen = 1, minHeight = height[0];
+		for (int i = 0; i < len; i++) {
+			for (int j = len - 1; j >= i; j--) {
+				maxLen = j - i;
+				minHeight = Math.min(height[i], height[j]);
+				maxArea = Math.max(maxArea, minHeight * maxLen);
+			}
+		}
+		return maxArea;
+	}
+
+	public int maxArea2(int[] height) {
+		int maxarea = 0, left = 0, right = height.length - 1;
+		while (left < right) {
+			maxarea = Math.max(maxarea, Math.min(height[left], height[right]) * (right - left));
+			if (height[left] < height[right])
+				left++;
+			else
+				right--;
+		}
+		return maxarea;
+	}
 }

@@ -121,10 +121,13 @@ public class TestTop100LikedQuestions {
 							{10,13, 14,17, 24},
 							{18,21, 23,26, 30}};
 		int[][] matrixInt2 = {{-5},{-2}};
-		System.out.println(test.searchMatrix(matrixInt2, -2));
+//		System.out.println(test.searchMatrix(matrixInt2, -2));
 		
-		String str = "abc";
-		System.out.println(test.countSubstrings(str));
+		String str = "abac";
+//		System.out.println(test.countSubstrings3(str));
+		
+		int[] area = {1,8,6,2,5,4,8,3,7};
+		System.out.println(test.maxArea(area));
 		
 	}
 	
