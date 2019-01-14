@@ -1716,16 +1716,28 @@ public class Top100LikedQuestions {
 	 */
 	public List<String> letterCombinations(String digits) {
 		LinkedList<String> result = new LinkedList<String>();
-		if(digits.isEmpty()) return result;
-		String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+		if (digits.isEmpty())
+			return result;
+		String[] mapping = new String[] { "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 		result.add("");
-		while(result.peek().length()!=digits.length()){
+		while (result.peek().length() != digits.length()) {
 			String remove = result.remove();
-			String map = mapping[digits.charAt(remove.length())-'0'];
-			for(char c: map.toCharArray()){
-				result.addLast(remove+c);
+			String map = mapping[digits.charAt(remove.length()) - '0'];
+			for (char c : map.toCharArray()) {
+				result.addLast(remove + c);
 			}
 		}
 		return result;
 	}
+
+	/*
+	 * 22. Generate Parentheses
+	 * 
+	 * Given n pairs of parentheses, write a function to generate all
+	 * combinations of well-formed parentheses.
+	 */
+	public List<String> generateParenthesis(int n) {
+		return null;
+	}
+
 }
