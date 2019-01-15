@@ -136,10 +136,37 @@ public class TestTop100LikedQuestions {
 		listnode.next.next.next.next = new ListNode(5);
 //		System.out.println(test.removeNthFromEnd3(listnode, 2));
 		
-		String phoneNumber = "201";
-		System.out.println(JsonUtil.toJson(test.letterCombinations(phoneNumber)));
+		String phoneNumber = "21";
+//		System.out.println(JsonUtil.toJson(test.letterCombinations(phoneNumber)));
+		System.out.println(phoneNumber.hashCode());
+		char [] value = new char[phoneNumber.length()];
+		phoneNumber.getChars(0, phoneNumber.length(), value, 0);
+		System.out.println(JsonUtil.toJson(value));
+//		System.out.println(new TestTop100LikedQuestions().hashCode(value));
+
+		  ListNode list1 = new ListNode(1);
+		  list1.next = new ListNode(4);
+		  list1.next.next = new ListNode(5);
+		  ListNode list2 = new ListNode(1);
+		  list2.next = new ListNode(3);
+		  list2.next.next = new ListNode(4);
+		  ListNode list3 = new ListNode(2);
+		  list3.next = new ListNode(6);
+		ListNode [] lists = {list1,list2,list3};
+		System.out.println(test.mergeKLists(lists));
+		
 	}
-	
+	public  int hashCode(char [] value) {
+        int h = 0;
+        if (h == 0 && value.length > 0) {
+            char val[] = value;
+
+            for (int i = 0; i < value.length; i++) {
+                h = 31 * h + val[i];
+            }
+        }
+        return h;
+    }
 	
 	 private class Pair{
 	        public int x;
