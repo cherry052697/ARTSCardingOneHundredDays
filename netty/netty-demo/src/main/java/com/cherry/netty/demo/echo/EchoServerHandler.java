@@ -1,13 +1,12 @@
 package com.cherry.netty.demo.echo;
 
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
 public class EchoServerHandler extends ChannelHandlerAdapter {
 
+	@SuppressWarnings("unused")
 	private int counter = 0;
 
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
