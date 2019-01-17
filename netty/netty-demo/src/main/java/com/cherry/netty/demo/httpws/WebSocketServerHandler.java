@@ -13,8 +13,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpHeaderUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
@@ -31,16 +31,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 	
 	private WebSocketServerHandshaker handshaker; 
 	
-	@Override
-	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-		if (msg instanceof FullHttpRequest) {
-			// HTTP接入
-			handleHttpRequest(ctx,(FullHttpRequest)msg);
-		}else if(msg instanceof WebSocketFrame){
-			//websocket接入
-			handleWebSocketFrame(ctx,(WebSocketFrame)msg);
-		}
-	}
 	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
@@ -88,13 +78,26 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 		if(resp.status().code() != 200){
 			ByteBuf buf = Unpooled.copiedBuffer(resp.status().toString(), CharsetUtil.UTF_8);
 			resp.content().writeBytes(buf);
-			HttpHeaderUtil.setContentLength(resp, resp.content().readableBytes());
+			HttpUtil.setContentLength(resp, resp.content().readableBytes());
 		}
 		
 		ChannelFuture future = ctx.channel().writeAndFlush(resp);
-		if(!HttpHeaderUtil.isKeepAlive(req)||resp.status().code()!=200){
+		if(!HttpUtil.isKeepAlive(req)||resp.status().code()!=200){
 			future.addListener(ChannelFutureListener.CLOSE);
 		}
+	}
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+		// TODO Auto-generated method stub
+		if (msg instanceof FullHttpRequest) {
+			// HTTP接入
+			handleHttpRequest(ctx,(FullHttpRequest)msg);
+		}else if(msg instanceof WebSocketFrame){
+			//websocket接入
+			handleWebSocketFrame(ctx,(WebSocketFrame)msg);
+		}
+		
 	}
 
 	

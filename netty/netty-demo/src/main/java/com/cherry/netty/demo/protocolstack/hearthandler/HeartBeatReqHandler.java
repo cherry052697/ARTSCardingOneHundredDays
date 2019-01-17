@@ -15,13 +15,11 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
 	
 	private volatile ScheduledFuture<?> heartBeat;
 
-	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// TODO Auto-generated method stub
-		super.channelActive(ctx);
+//		super.channelActive(ctx);
 	}
 
-	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		// TODO Auto-generated method stub
 		NettyMessage message = (NettyMessage) msg;

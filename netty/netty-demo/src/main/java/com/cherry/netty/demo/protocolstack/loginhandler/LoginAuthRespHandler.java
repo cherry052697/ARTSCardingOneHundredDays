@@ -23,7 +23,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 	    private String[] whitekList = {"127.0.0.1", "192.168.11.246","192.168.31.242"};
 
 	    
-	    @Override
+//	    @Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg)
 	            throws Exception {
 	        NettyMessage message = (NettyMessage) msg;

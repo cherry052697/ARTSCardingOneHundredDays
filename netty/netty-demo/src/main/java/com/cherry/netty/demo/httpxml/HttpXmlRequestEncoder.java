@@ -9,10 +9,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
-import io.netty.handler.codec.http.HttpHeaderUtil;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.HttpVersion;
 
 public class HttpXmlRequestEncoder extends AbstractHttpXmlEncoder<HttpXmlRequest> {
@@ -32,7 +32,7 @@ public class HttpXmlRequestEncoder extends AbstractHttpXmlEncoder<HttpXmlRequest
 			headers.set(HttpHeaderNames.USER_AGENT,"netty xml Http Client side");
 			headers.set(HttpHeaderNames.ACCEPT,"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		}
-		HttpHeaderUtil.setContentLength(request, body.readableBytes());
+		HttpUtil.setContentLength(request, body.readableBytes());
 		out.add(request);
 	}
 

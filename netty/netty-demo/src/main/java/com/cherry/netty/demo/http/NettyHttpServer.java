@@ -56,7 +56,8 @@ public class NettyHttpServer {
 	private static class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
 		@Override
-		protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
+		protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
+
 			try {
 				ByteBuf content = msg.content();
 				byte[] bts = new byte[content.readableBytes()];
@@ -80,6 +81,7 @@ public class NettyHttpServer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		
 		}
 
 	}
