@@ -4,7 +4,13 @@ import com.cherry.netty.utils.JsonUtil;
 
 public class SortTest {
 	
-	 void quickSort(int arr[],int _left,int _right){
+	 /**
+	  * 快速排序
+	 * @param arr
+	 * @param _left
+	 * @param _right
+	 */
+	void quickSort(int arr[],int _left,int _right){
 	        int left = _left;
 	        int right = _right;
 	        int temp = 0;
@@ -71,6 +77,10 @@ public class SortTest {
 	}
 	
 
+	/**
+	 * 堆排序
+	 * @param a
+	 */
 	void heapSort(int[] a){
 		for (int i = a.length/2; i >= 0 ; i--) 
 			percDown(a,i,a.length);
@@ -107,6 +117,10 @@ public class SortTest {
 	}
 
 
+	/**
+	 * 希尔排序
+	 * @param a
+	 */
 	void shellSort(int[] a){
 		int j;
 		for (int gap = a.length/2; gap > 0; gap /= 2) 
@@ -119,6 +133,10 @@ public class SortTest {
 			}
 	}
 	
+	/**
+	 * 插入排序
+	 * @param a
+	 */
 	void insertSort(int[] a){
 		int j;
 		for (int i = 0; i < a.length; i++) {
