@@ -155,6 +155,9 @@ public class TestTop100LikedQuestions {
 		ListNode [] lists = {list1,list2,list3};
 		System.out.println(test.mergeKLists(lists));
 		
+		int[] arr = {2,3,1,1,4};
+		System.out.println(test.canJump(arr));
+		
 	}
 	public  int hashCode(char [] value) {
         int h = 0;

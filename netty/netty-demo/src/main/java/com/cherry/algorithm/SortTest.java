@@ -147,6 +147,7 @@ public class SortTest {
 			System.out.println(JsonUtil.toJson(a));
 		}
 	}
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		int [] array = {21,32,51,64,8,34};
 //		new SortTest().insertSort(array);
