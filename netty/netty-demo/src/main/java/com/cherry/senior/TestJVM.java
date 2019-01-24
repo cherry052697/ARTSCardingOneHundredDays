@@ -7,6 +7,7 @@ public class TestJVM {
 		testPretenureSizeThreshold();
 	}
 	
+	@SuppressWarnings("unused")
 	public static void testAllocation(){
 		byte[] allocation1,allocation2,allocation3,allocation4;
 		allocation1 = new byte[2 * _1MB];
@@ -15,6 +16,7 @@ public class TestJVM {
 		allocation4 = new byte[6 * _1MB];
 	}
 	
+	@SuppressWarnings("unused")
 	public static void testPretenureSizeThreshold(){
 		byte[] allocation1,allocation2,allocation3,allocation4;
 		allocation1 = new byte[10 * _1MB];

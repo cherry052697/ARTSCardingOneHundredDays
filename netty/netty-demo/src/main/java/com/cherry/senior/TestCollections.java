@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TestCollections {
+	@SuppressWarnings({ "rawtypes", "unused", "unchecked" })
 	public static void main(String[] args) {
 		System.out.println(Integer.MAX_VALUE-8);
 		List list = new ArrayList<>();

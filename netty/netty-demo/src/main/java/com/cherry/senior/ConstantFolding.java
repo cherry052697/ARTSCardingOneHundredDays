@@ -9,7 +9,8 @@ public class ConstantFolding {
 
 	    static int number4= 6;
 
-	    public static void main(String[ ] args) {
+	    @SuppressWarnings("unused")
+		public static void main(String[ ] args) {
 
 	          int product1 = number1 * number2;         //line A
 
