@@ -1976,7 +1976,6 @@ public class Top100LikedQuestions {
 			res[0] = res[0] && p.charAt(j) == '*';
 		}
 		return res[s.length()];
-
 	}
 
 }
