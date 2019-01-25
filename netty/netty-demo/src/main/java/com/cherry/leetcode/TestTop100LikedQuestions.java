@@ -138,10 +138,10 @@ public class TestTop100LikedQuestions {
 		
 		String phoneNumber = "21";
 //		System.out.println(JsonUtil.toJson(test.letterCombinations(phoneNumber)));
-		System.out.println(phoneNumber.hashCode());
+//		System.out.println(phoneNumber.hashCode());
 		char [] value = new char[phoneNumber.length()];
 		phoneNumber.getChars(0, phoneNumber.length(), value, 0);
-		System.out.println(JsonUtil.toJson(value));
+//		System.out.println(JsonUtil.toJson(value));
 //		System.out.println(new TestTop100LikedQuestions().hashCode(value));
 
 		  ListNode list1 = new ListNode(1);
@@ -153,10 +153,13 @@ public class TestTop100LikedQuestions {
 		  ListNode list3 = new ListNode(2);
 		  list3.next = new ListNode(6);
 		ListNode [] lists = {list1,list2,list3};
-		System.out.println(test.mergeKLists(lists));
+//		System.out.println(test.mergeKLists(lists));
 		
 		int[] arr = {2,3,1,1,4};
-		System.out.println(test.canJump(arr));
+//		System.out.println(test.canJump(arr));
+		String s1 = "aab",p1 = "c*a*b";
+		System.out.println(test.isMatch(s1, p1));
+		
 		
 	}
 	public  int hashCode(char [] value) {

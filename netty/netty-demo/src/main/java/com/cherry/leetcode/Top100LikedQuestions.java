@@ -1779,22 +1779,102 @@ public class Top100LikedQuestions {
 		}
 		return dummy.next;
 	}
-	
+
 	/*
 	 * 55. Jump Game
 	 * 
-	 * Given an array of non-negative integers, you are initially positioned at the first index of the array.
-	 * Each element in the array represents your maximum jump length at that position.
-	 * Determine if you are able to reach the last index.
+	 * Given an array of non-negative integers, you are initially positioned at
+	 * the first index of the array. Each element in the array represents your
+	 * maximum jump length at that position. Determine if you are able to reach
+	 * the last index.
 	 */
-    public boolean canJump(int[] nums){
-    	int lastPos = nums.length - 1;
-        for (int i = nums.length - 1; i >= 0; i--) {
-            if (i + nums[i] >= lastPos) {
-                lastPos = i;
-            }
-        }
-        return lastPos == 0;
-    }
-    
+	public boolean canJump(int[] nums) {
+		int lastPos = nums.length - 1;
+		for (int i = nums.length - 1; i >= 0; i--) {
+			if (i + nums[i] >= lastPos) {
+				lastPos = i;
+			}
+		}
+		return lastPos == 0;
+	}
+	/*
+	 * 10. Regular Expression Matching
+	 * 
+	 * Given an input string (s) and a pattern (p), implement regular expression
+	 * matching with support for '.' and '*'. '.' Matches any single character.
+	 * '*' Matches zero or more of the preceding element. The matching should
+	 * cover the entire input string (not partial).
+	 * 
+	 * Note: s could be empty and contains only lowercase letters a-z. p could
+	 * be empty and contains only lowercase letters a-z, and characters like .
+	 * or *.
+	 */
+
+	public boolean isMatch(String s, String p) {
+		if (p.isEmpty())
+			return s.isEmpty();
+		boolean first_match = (!s.isEmpty() && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.'));
+
+		if (p.length() >= 2 && p.charAt(1) == '*') {
+			return (isMatch(s, p.substring(2)) || (first_match && isMatch(s.substring(1), p)));
+		} else {
+			return first_match && isMatch(s.substring(1), p.substring(1));
+		}
+	}
+	
+	public boolean isMatch2(String s, String p) {
+
+	    if (s == null || p == null) {
+	        return false;
+	    }
+	    boolean[][] dp = new boolean[s.length()+1][p.length()+1];
+	    dp[0][0] = true;
+	    for (int i = 0; i < p.length(); i++) {
+	        if (p.charAt(i) == '*' && dp[0][i-1]) {
+	            dp[0][i+1] = true;
+	        }
+	    }
+	    for (int i = 0 ; i < s.length(); i++) {
+	        for (int j = 0; j < p.length(); j++) {
+	            if (p.charAt(j) == '.') {
+	                dp[i+1][j+1] = dp[i][j];
+	            }
+	            if (p.charAt(j) == s.charAt(i)) {
+	                dp[i+1][j+1] = dp[i][j];
+	            }
+	            if (p.charAt(j) == '*') {
+	                if (p.charAt(j-1) != s.charAt(i) && p.charAt(j-1) != '.') {
+	                    dp[i+1][j+1] = dp[i+1][j-1];
+	                } else {
+	                    dp[i+1][j+1] = (dp[i+1][j] || dp[i][j+1] || dp[i+1][j-1]);
+	                }
+	            }
+	        }
+	    }
+	    return dp[s.length()][p.length()];
+	}
+	
+	public boolean isMatch3(String s, String p) {
+	    return isMatchHelper(s,p,0,0);
+	}
+	private boolean isMatchHelper(String s, String p, int i, int j)
+	{
+	    if(j==p.length())
+	        return i==s.length();
+	    
+		if (j == p.length()-1 || p.charAt(j+1)!='*')
+	    {
+	        if(i==s.length()|| s.charAt(i)!=p.charAt(j) && p.charAt(j)!='.')
+	            return false;
+	        else
+	            return isMatchHelper(s,p,i+1,j+1);
+	    }
+	    while(i<s.length() && (p.charAt(j)=='.' || s.charAt(i)==p.charAt(j)))
+	    {
+	        if(isMatchHelper(s,p,i,j+2))
+	            return true;
+	        i++;
+	    }
+	    return isMatchHelper(s,p,i,j+2);
+	}
 }
