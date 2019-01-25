@@ -158,7 +158,7 @@ public class TestTop100LikedQuestions {
 		int[] arr = {2,3,1,1,4};
 //		System.out.println(test.canJump(arr));
 		String s1 = "aab",p1 = "c*a*b";
-		System.out.println(test.isMatch(s1, p1));
+		System.out.println(test.isMatch4(s1, p1));
 		
 		
 	}
