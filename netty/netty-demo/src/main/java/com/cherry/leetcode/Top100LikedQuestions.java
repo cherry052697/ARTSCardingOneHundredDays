@@ -1933,22 +1933,23 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 44. Wildcard Matching 
+	 * 44. Wildcard Matching
 	 * 
-	 * Given an input string (s) and a pattern (p),
-	 * implement wildcard pattern matching with support for '?' and '*'. '?'
-	 * Matches any single character. '*' Matches any sequence of characters
-	 * (including the empty sequence). The matching should cover the entire
-	 * input string (not partial).
+	 * Given an input string (s) and a pattern (p), implement wildcard pattern
+	 * matching with support for '?' and '*'. '?' Matches any single character.
+	 * '*' Matches any sequence of characters (including the empty sequence).
+	 * The matching should cover the entire input string (not partial).
 	 * 
 	 * Note: s could be empty and contains only lowercase letters a-z. p could
 	 * be empty and contains only lowercase letters a-z, and characters like ?
 	 * or *.
 	 * 
-	 * 解题说明：
-	 * 维护一个假设我们维护一个布尔数组res[i],代表s的前i个字符和p的前j个字符是否匹配(这里因为每次i的结果只依赖于j-1的结果，所以不需要二维数组，只需要一个一维数组来保存上一行结果即可），递推公式分两种情况：
-	 * (1)p[j]不是'*'。情况比较简单，只要判断如果当前s的i和p的j上的字符一样（如果有p在j上的字符是'?'，也是相同），并且res[i]==true，则更新res[i+1]为true，否则res[i+1]=false;  
-	 * (2)p[j]是'*'。因为'*'可以匹配任意字符串，所以在前面的res[i]只要有true，那么剩下的          res[i+1], res[i+2],...,res[s.length()]就都是true了
+	 * 解题说明： 维护一个假设我们维护一个布尔数组res[i],代表s的前i个字符和p的前j个字符是否匹配(这里因为每次i的结果只依赖于j-1的结果，
+	 * 所以不需要二维数组，只需要一个一维数组来保存上一行结果即可），递推公式分两种情况：
+	 * (1)p[j]不是'*'。情况比较简单，只要判断如果当前s的i和p的j上的字符一样（如果有p在j上的字符是'?'，也是相同），并且res[i]==
+	 * true，则更新res[i+1]为true，否则res[i+1]=false;  
+	 * (2)p[j]是'*'。因为'*'可以匹配任意字符串，所以在前面的res[i]只要有true，那么剩下的          res[i+1],
+	 * res[i+2],...,res[s.length()]就都是true了
 	 * 
 	 * 
 	 */
@@ -1956,7 +1957,7 @@ public class Top100LikedQuestions {
 	public boolean isMatch_One(String s, String p) {
 		if (p.length() == 0)
 			return s.length() == 0;
-		if(s.length()>300 && p.charAt(0)=='*' && p.charAt(p.length()-1)=='*')
+		if (s.length() > 300 && p.charAt(0) == '*' && p.charAt(p.length() - 1) == '*')
 			return false;
 		boolean[] res = new boolean[s.length() + 1];
 		res[0] = true;
@@ -1976,6 +1977,31 @@ public class Top100LikedQuestions {
 			res[0] = res[0] && p.charAt(j) == '*';
 		}
 		return res[s.length()];
+	}
+
+	/*
+	 * 621. Task Scheduler
+	 * 
+	 * Given a char array representing tasks CPU need to do. It contains capital
+	 * letters A to Z where different letters represent different tasks. Tasks
+	 * could be done without original order. Each task could be done in one
+	 * interval. For each interval, CPU could finish one task or just be idle.
+	 * However, there is a non-negative cooling interval n that means between
+	 * two same tasks, there must be at least n intervals that CPU are doing
+	 * different tasks or just be idle. You need to return the least number of
+	 * intervals the CPU will take to finish all the given tasks.
+	 */
+	public int leastInterval(char[] tasks, int n) {
+		int[] c = new int[26];
+		for (char t : tasks) {
+			c[t - 'A']++;
+		}
+		Arrays.sort(c);
+		int i = 25;
+		while (i >= 0 && c[i] == c[25])
+			i--;
+
+		return Math.max(tasks.length, (c[25] - 1) * (n + 1) + 25 - i);
 	}
 
 }
