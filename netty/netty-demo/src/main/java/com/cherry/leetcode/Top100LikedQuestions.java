@@ -1737,8 +1737,24 @@ public class Top100LikedQuestions {
 	 * Given n pairs of parentheses, write a function to generate all
 	 * combinations of well-formed parentheses.
 	 */
-	public List<String> generateParenthesis(int n) {
-		return null;
+
+	public static List<String> generateParenthesis2(int n) {
+		List<String> res = new ArrayList<>();
+		backtrack("", res, n, n);
+		return res;
+	}
+
+	public static void backtrack(String sublist, List<String> res, int left, int right) {
+		if (left == 0 && right == 0) {
+			res.add(sublist);
+			return;
+		}
+		if (left > right)
+			return;
+		if (left > 0)
+			backtrack(sublist + "(", res, left - 1, right);
+		if (right > 0)
+			backtrack(sublist + ")", res, left, right - 1);
 	}
 
 	/*
