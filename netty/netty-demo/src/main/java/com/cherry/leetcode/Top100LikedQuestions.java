@@ -13,6 +13,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import com.cherry.netty.utils.JsonUtil;
+
 public class Top100LikedQuestions {
 	/*
 	 * Given an array nums of n integers, are there elements a, b, c in nums
@@ -2032,77 +2034,152 @@ public class Top100LikedQuestions {
 	 * column.
 	 */
 	public void nextPermutation(int[] nums) {
-		 int index = nums.length - 1;
-	        while (index > 0 && nums[index] <= nums[index - 1]) {
-	            --index;
-	        }
-	        if (index == 0) {
-	            Arrays.sort(nums);
-	            return;
-	        }
-	        int second = Integer.MAX_VALUE, secondIndex = Integer.MAX_VALUE;
-	        for (int i = nums.length - 1; i >= index - 1; --i) {
-	            if (nums[i] > nums[index - 1] && nums[i] < second) {
-	                second = nums[i];
-	                secondIndex = i;
-	            }
-	        }
-	        int tmp = nums[index - 1];
-	        nums[index - 1] = nums[secondIndex];
-	        nums[secondIndex] = tmp;
-	        Arrays.sort(nums, index, nums.length);
+		int index = nums.length - 1;
+		while (index > 0 && nums[index] <= nums[index - 1]) {
+			--index;
+		}
+		if (index == 0) {
+			Arrays.sort(nums);
+			return;
+		}
+		int second = Integer.MAX_VALUE, secondIndex = Integer.MAX_VALUE;
+		for (int i = nums.length - 1; i >= index - 1; --i) {
+			if (nums[i] > nums[index - 1] && nums[i] < second) {
+				second = nums[i];
+				secondIndex = i;
+			}
+		}
+		int tmp = nums[index - 1];
+		nums[index - 1] = nums[secondIndex];
+		nums[secondIndex] = tmp;
+		Arrays.sort(nums, index, nums.length);
 	}
-	
+
 	public void nextPermutation2(int[] nums) {
-        int len = nums.length;
-        if (len<2)  return ;
+		int len = nums.length;
+		if (len < 2)
+			return;
 
-//        int[] res = new int [len];
+		// int[] res = new int [len];
 
-        /* 从倒数第二个元素开始，从后向前，找到第一个满足(后元素>前元素)的情况
-         * 此时，记录前元素下标k，则[k+1,n-1]为一个单调非增子序列
-         * 那么，这里只需要将一个比nums[k]大的最小数与nums[k]交换
-         */
-        int lastEle = nums[len-1];
-        int k = len-2;
-        for (; k>=0; k--){
-            if (lastEle > nums[k])  break;
-            else {
-                lastEle = nums[k];
-                continue;
-            }
-        }
+		/*
+		 * 从倒数第二个元素开始，从后向前，找到第一个满足(后元素>前元素)的情况 此时，记录前元素下标k，则[k+1,n-1]为一个单调非增子序列
+		 * 那么，这里只需要将一个比nums[k]大的最小数与nums[k]交换
+		 */
+		int lastEle = nums[len - 1];
+		int k = len - 2;
+		for (; k >= 0; k--) {
+			if (lastEle > nums[k])
+				break;
+			else {
+				lastEle = nums[k];
+				continue;
+			}
+		}
 
-        // 当前排列为最大排列，逆序之
-        if (k<0) {
-            for (int i=0; i<(len+1)/2; i++) {
-                swap(nums, i, len-1-i);
-            }
-        } else {
-            // 在nums[k+1,n-1]中寻找大于nums[k]的最小数
-            int index=0;
-            for (int i=len-1; i>k; i--) {
-                if (nums[i]>nums[k]) {
-                    swap(nums, i, k);
-                    index=i;
-                    break;
-                }
-            }
-            // index为0，表示当前nums[k]小于其后任意一个数，直接交换k与len-1
-            if (index==0){
-                swap(nums, k, len-1);
-            }
-            // 将nums[k+1,n-1]逆序
-            for (int i=k+1; i<(k+len+2)/2; i++) {
-                swap(nums, i, k+len-i);
-            }
-        }
-        return ;
-    }
-    // 交换元素
-    public void swap(int[] nums, int i, int j){
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-    }
+		// 当前排列为最大排列，逆序之
+		if (k < 0) {
+			for (int i = 0; i < (len + 1) / 2; i++) {
+				swap(nums, i, len - 1 - i);
+			}
+		} else {
+			// 在nums[k+1,n-1]中寻找大于nums[k]的最小数
+			int index = 0;
+			for (int i = len - 1; i > k; i--) {
+				if (nums[i] > nums[k]) {
+					swap(nums, i, k);
+					index = i;
+					break;
+				}
+			}
+			// index为0，表示当前nums[k]小于其后任意一个数，直接交换k与len-1
+			if (index == 0) {
+				swap(nums, k, len - 1);
+			}
+			// 将nums[k+1,n-1]逆序
+			for (int i = k + 1; i < (k + len + 2) / 2; i++) {
+				swap(nums, i, k + len - i);
+			}
+		}
+		return;
+	}
+
+	// 交换元素
+	public void swap(int[] nums, int i, int j) {
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+
+	/*
+	 * 39. Combination Sum
+	 * 
+	 * Given a set of candidate numbers (candidates) (without duplicates) and a
+	 * target number (target), find all unique combinations in candidates where
+	 * the candidate numbers sums to target. The same repeated number may be
+	 * chosen from candidates unlimited number of times.
+	 * 
+	 * Note: All numbers (including target) will be positive integers. The
+	 * solution set must not contain duplicate combinations.
+	 */
+
+	List<List<Integer>> result = new ArrayList<List<Integer>>();
+
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+		if (candidates == null || candidates.length < 1)
+			return result;
+		combinationSum(candidates, target, 0, new ArrayList<>());
+		return result;
+	}
+
+	private void combinationSum(int[] candidates, int target, int index, List<Integer> record) {
+
+		if (target < 0)
+			return;
+		if (target == 0) {
+			result.add(new ArrayList<>(record));
+			return;
+		}
+		for (int i = index; i < candidates.length; i++) {
+			target -= candidates[i];
+			record.add(candidates[i]);
+			combinationSum(candidates, target, i, record);
+			target += candidates[i];
+			record.remove(record.size() - 1);
+		}
+	}
+
+	public List<List<Integer>> combinationSum2(int[] nums, int target) {
+		List<List<Integer>> list = new ArrayList<>();
+		Arrays.sort(nums);
+		backtrack(list, new ArrayList<>(), nums, target, 0);
+		return list;
+	}
+
+	private void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int remain, int start) {
+		if (remain < 0)
+			return;
+		else if (remain == 0)
+			list.add(new ArrayList<>(tempList));
+		else {
+			for (int i = start; i < nums.length; i++) {
+				tempList.add(nums[i]);
+				// not i + 1 because we can reuse same elements
+				backtrack(list, tempList, nums, remain - nums[i], i);
+				tempList.remove(tempList.size() - 1);
+			}
+		}
+	}
+
+	/*
+	 * 560. Subarray Sum Equals K
+	 * 
+	 * Given an array of integers and an integer k, you need to find the total
+	 * number of continuous subarrays whose sum equals to k.
+	 */
+	public int subarraySum(int[] nums, int k) {
+
+		return 0;
+
+	}
 }
