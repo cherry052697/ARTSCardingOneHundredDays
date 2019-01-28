@@ -159,6 +159,9 @@ public class TestTop100LikedQuestions {
 //		System.out.println(test.canJump(arr));
 		String s1 = "aab",p1 = "c*a*b";
 		System.out.println(test.isMatch4(s1, p1));
+		int [] nums2 = {1,2,3};
+		test.nextPermutation(nums2);
+		
 		
 		
 	}
