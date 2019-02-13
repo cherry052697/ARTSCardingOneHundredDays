@@ -162,7 +162,9 @@ public class TestTop100LikedQuestions {
 		int [] nums2 = {1,2,3};
 //		test.nextPermutation(nums2);
 		int [] nums3 = {2,3,5};
-		System.out.println(JsonUtil.toJson(test.combinationSum(nums3, 8)));
+//		System.out.println(JsonUtil.toJson(test.combinationSum(nums3, 8)));
+		int [] nums4 = {3,4,7,2,-3,1,4,2};
+		System.out.println(test.subarraySum(nums4, 7));
 		
 		
 		
