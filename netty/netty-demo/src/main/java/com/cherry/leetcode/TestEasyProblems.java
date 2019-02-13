@@ -23,7 +23,10 @@ public class TestEasyProblems {
 		root.right = l1;
 		l1.left = lr;
 		l1.right = ll;
-		System.out.println(test.isValidBST(root));
+//		System.out.println(test.isValidBST(root));
+		
+		String s = "XXCL";
+		System.out.println(test.romanToInt(s));
 		
 		
 
@@ -419,7 +422,6 @@ public class TestEasyProblems {
 				s2 = "";
 			} else {
 				s2 = String.valueOf(s.charAt(i + 1));
-
 			}
 			String ss12 = s1 + s2;
 			if ((s1.equals("I") || s1.equals("X") || s1.equals("C")) && map.containsKey(ss12)) {
