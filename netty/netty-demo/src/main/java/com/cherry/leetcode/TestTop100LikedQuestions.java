@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.cherry.netty.utils.JsonUtil;
 
 
 
 public class TestTop100LikedQuestions {
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		Top100LikedQuestions test = new Top100LikedQuestions();
@@ -123,48 +123,50 @@ public class TestTop100LikedQuestions {
 		int[][] matrixInt2 = {{-5},{-2}};
 //		System.out.println(test.searchMatrix(matrixInt2, -2));
 		
-		String str = "abac";
+//		String str = "abac";
 //		System.out.println(test.countSubstrings3(str));
 		
-		int[] area = {1,8,6,2,5,4,8,3,7};
+//		int[] area = {1,8,6,2,5,4,8,3,7};
 //		System.out.println(test.maxArea(area));
 		
-		ListNode listnode = new ListNode(1);
+		/*ListNode listnode = new ListNode(1);
 		listnode.next = new ListNode(2);
 		listnode.next.next = new ListNode(3);
 		listnode.next.next.next = new ListNode(4);
-		listnode.next.next.next.next = new ListNode(5);
+		listnode.next.next.next.next = new ListNode(5);*/
 //		System.out.println(test.removeNthFromEnd3(listnode, 2));
 		
-		String phoneNumber = "21";
+//		String phoneNumber = "21";
 //		System.out.println(JsonUtil.toJson(test.letterCombinations(phoneNumber)));
 //		System.out.println(phoneNumber.hashCode());
-		char [] value = new char[phoneNumber.length()];
-		phoneNumber.getChars(0, phoneNumber.length(), value, 0);
+//		char [] value = new char[phoneNumber.length()];
+//		phoneNumber.getChars(0, phoneNumber.length(), value, 0);
 //		System.out.println(JsonUtil.toJson(value));
 //		System.out.println(new TestTop100LikedQuestions().hashCode(value));
 
-		  ListNode list1 = new ListNode(1);
+		/*  ListNode list1 = new ListNode(1);
 		  list1.next = new ListNode(4);
 		  list1.next.next = new ListNode(5);
 		  ListNode list2 = new ListNode(1);
 		  list2.next = new ListNode(3);
 		  list2.next.next = new ListNode(4);
 		  ListNode list3 = new ListNode(2);
-		  list3.next = new ListNode(6);
-		ListNode [] lists = {list1,list2,list3};
+		  list3.next = new ListNode(6);*/
+//		ListNode [] lists = {list1,list2,list3};
 //		System.out.println(test.mergeKLists(lists));
 		
-		int[] arr = {2,3,1,1,4};
+//		int[] arr = {2,3,1,1,4};
 //		System.out.println(test.canJump(arr));
-		String s1 = "aab",p1 = "c*a*b";
+//		String s1 = "aab",p1 = "c*a*b";
 //		System.out.println(test.isMatch4(s1, p1));
-		int [] nums2 = {1,2,3};
+//		int [] nums2 = {1,2,3};
 //		test.nextPermutation(nums2);
-		int [] nums3 = {2,3,5};
+//		int [] nums3 = {2,3,5};
 //		System.out.println(JsonUtil.toJson(test.combinationSum(nums3, 8)));
-		int [] nums4 = {3,4,7,2,-3,1,4,2};
-		System.out.println(test.subarraySum(nums4, 7));
+//		int [] nums4 = {3,4,7,2,-3,1,4,2};
+//		System.out.println(test.subarraySum(nums4, 7));
+		int [] nums5 = {1,2,4,5};
+		System.out.println(test.coinChange3(nums5, 11));
 		
 		
 		

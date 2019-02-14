@@ -13,6 +13,10 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.commons.lang.ArrayUtils;
+
+import com.cherry.netty.utils.JsonUtil;
+
 public class Top100LikedQuestions {
 	/*
 	 * Given an array nums of n integers, are there elements a, b, c in nums
@@ -2201,4 +2205,43 @@ public class Top100LikedQuestions {
 
 		return result;
 	}
+
+	/*
+	 * 322. Coin Change
+	 * 
+	 * You are given coins of different denominations and a total amount of
+	 * money amount. Write a function to compute the fewest number of coins that
+	 * you need to make up that amount. If that amount of money cannot be made
+	 * up by any combination of the coins, return -1.
+	 */
+	public int coinChange(int[] coins, int amount) {
+		if (amount < 1)
+			return 0;
+		int[] count = new int[amount + 1];
+		int sum = 0;
+
+		while (++sum <= amount) {
+			int min = -1;
+			for (int coin : coins) {
+				if (sum >= coin && count[sum - coin] != -1) {
+					int tmp = count[sum - coin] + 1;
+					min = min < 0 ? tmp : (tmp < min ? tmp : min);
+				}
+			}
+			count[sum] = min;
+		}
+		return count[amount];
+	}
+
+	public int coinChange3(int[] coins, int amount) {
+		int[] dp = new int[amount + 1];
+		for (int i = 1; i <= amount; i++)
+			dp[i] = 0x7fff_fffe;
+		for (int coin : coins)
+			for (int i = coin; i <= amount; i++)
+				dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+		System.out.println(JsonUtil.toJson(dp));
+		return dp[amount] == 0x7fff_fffe ? -1 : dp[amount];
+	}
+
 }
