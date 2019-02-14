@@ -2233,6 +2233,12 @@ public class Top100LikedQuestions {
 		return count[amount];
 	}
 
+	/**
+	 * 本题考查动态规划。也许一开始很容易想到用贪心算法，但是贪心算法在某些情况下是不成立的，比如coins = [1, 3, 5, 6]，要amount
+	 * = 11，用贪心法返回3，实际上最少的是2（3 + 5）。因而改用动态规划，用dp存储硬币数量，dp[i] 表示凑齐钱数 i
+	 * 需要的最少硬币数，那么凑齐钱数 amount 最少硬币数为：固定钱数为 coins[j] 一枚硬币，另外的钱数为 amount -
+	 * coins[j] 它的数量为dp[amount - coins[j]]，j 从0遍历到coins.length - 1
+	 */
 	public int coinChange3(int[] coins, int amount) {
 		int[] dp = new int[amount + 1];
 		for (int i = 1; i <= amount; i++)
