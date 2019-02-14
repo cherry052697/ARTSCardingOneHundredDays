@@ -165,8 +165,9 @@ public class TestTop100LikedQuestions {
 //		System.out.println(JsonUtil.toJson(test.combinationSum(nums3, 8)));
 //		int [] nums4 = {3,4,7,2,-3,1,4,2};
 //		System.out.println(test.subarraySum(nums4, 7));
-		int [] nums5 = {1,2,4,5};
-		System.out.println(test.coinChange3(nums5, 11));
+		int [] nums5 = {1,2,3,4};
+//		System.out.println(test.coinChange3(nums5, 11));
+		test.productExceptSelf2(nums5);
 		
 		
 		
