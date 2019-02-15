@@ -2261,9 +2261,9 @@ public class Top100LikedQuestions {
 		int[] result = new int[nums.length];
 		for (int i = 0; i < result.length; i++) {
 			for (int j = 0; j < nums.length; j++) {
-				if (i==j) {
+				if (i == j) {
 					continue;
-				}else{
+				} else {
 					sum *= nums[j];
 				}
 			}
@@ -2273,22 +2273,81 @@ public class Top100LikedQuestions {
 		System.out.println(JsonUtil.toJson(result));
 		return result;
 	}
+
+	public int[] productExceptSelf2(int[] nums) {
+		int[] result = new int[nums.length];
+		int right = 1, left = 1;
+		for (int i = 0; i < nums.length; i++) {
+			result[i] = 1;
+			result[i] *= left;
+			left *= nums[i];
+		}
+		// System.out.println(JsonUtil.toJson(result));
+		for (int i = nums.length - 1; i >= 0; i--) {
+			result[i] *= right;
+			right *= nums[i];
+		}
+		// System.out.println(JsonUtil.toJson(result));
+		return result;
+	}
+
+	/*
+	 * 416. Partition Equal Subset Sum
+	 * 
+	 * Given a non-empty array containing only positive integers, find if the
+	 * array can be partitioned into two subsets such that the sum of elements
+	 * in both subsets is equal.
+	 * 
+	 * Note: Each of the array element will not exceed 100. The array size will
+	 * not exceed 200.
+	 */
+	public boolean canPartition(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return true;
+        }
+        int sum = 0;
+        for (int num : nums) {
+        	sum += num;
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        sum /= 2;
+		boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
+        for (int i = 1; i <= nums.length; i++) {
+            for (int j = sum; j >= nums[i-1]; j--) {
+                dp[j] = dp[j] || dp[j - nums[i-1]];
+            }
+        }
+        return dp[sum];
+	}
 	
-	 public int[] productExceptSelf2(int[] nums) {
-	    	int[] result = new int[nums.length];
-	    	int right=1,left=1;
-	        for(int i=0;i<nums.length;i++){
-	        	result[i]=1;
-	        	result[i]*=left;
-	            left*=nums[i];
-	        }
-//	        System.out.println(JsonUtil.toJson(result));
-	    	for(int i=nums.length-1;i>=0;i--) {
-	    		result[i]*=right;
-	    		right*=nums[i];
-	    	}
-//	    	System.out.println(JsonUtil.toJson(result));
-	    	return result;
-	    }
+	public boolean canPartition2(int[] nums) {
+        int sum = 0;
+        for(int num: nums) sum += num;
+        if(sum % 2 == 1) return false;
+        
+        int target = sum / 2;
+        boolean[][] dp = new boolean[nums.length][target + 1];
+        // deal with the first row
+        if(nums[0] <= target) dp[0][nums[0]] = true;
+        
+        // deal with the first col
+        for(int i = 0; i < nums.length; i++) dp[i][0] = true;
+        
+        // deal with the rest
+        for(int i = 1; i < dp.length; i++) {
+            for(int j = 1; j < dp[0].length; j++) {
+                if(j < nums[i]) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
+                }
+            }
+        }
+        System.out.println(JsonUtil.toJson(dp));
+        return dp[dp.length - 1][dp[0].length - 1];
+    }
 
 }

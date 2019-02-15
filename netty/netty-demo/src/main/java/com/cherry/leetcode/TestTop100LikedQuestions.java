@@ -167,7 +167,9 @@ public class TestTop100LikedQuestions {
 //		System.out.println(test.subarraySum(nums4, 7));
 		int [] nums5 = {1,2,3,4};
 //		System.out.println(test.coinChange3(nums5, 11));
-		test.productExceptSelf2(nums5);
+//		test.productExceptSelf2(nums5);
+		int [] nums6 = {1, 5, 11, 5};
+		System.out.println(test.canPartition2(nums6));
 		
 		
 		
