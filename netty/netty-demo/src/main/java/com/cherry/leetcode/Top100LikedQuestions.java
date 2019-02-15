@@ -2390,4 +2390,50 @@ public class Top100LikedQuestions {
 		}
 	}
 
+	/**
+	 * 394. Decode String
+	 * 
+	 * Given an encoded string, return it's decoded string.
+	 * 
+	 * The encoding rule is: k[encoded_string], where the encoded_string inside
+	 * the square brackets is being repeated exactly k times. Note that k is
+	 * guaranteed to be a positive integer.
+	 * 
+	 * You may assume that the input string is always valid; No extra white
+	 * spaces, square brackets are well-formed, etc.
+	 * 
+	 * Furthermore, you may assume that the original data does not contain any
+	 * digits and that digits are only for those repeat numbers, k. For example,
+	 * there won't be input like 3a or 2[4].
+	 */
+	public String decodeString(String s) {
+		StringBuffer result = new StringBuffer();
+		int left = 0,right = 0,count = 1,intChar = 48;
+		for (int i = s.length()-1; i >= 0; i--) {
+			intChar = s.charAt(i);
+			if (intChar > 48 && 58 > intChar) {
+				continue;
+			}else{
+				if (s.charAt(i)==']') {
+					right = i;
+					continue;
+				}else if(s.charAt(i)=='[') {
+					left = i+1;
+					count = Integer.valueOf(s.charAt(i-1))-48;
+				}else{
+					result.insert(0, s.charAt(i));
+				}
+			}
+			if (right>0 && left>0) {
+				String sStr = s.substring(left, right);
+				for (int j = 0; j < count-1; j++) {
+					result.insert(0, sStr);
+				}
+				right = 0;
+				left = 0;
+			}
+		}
+		return result.toString();
+	}
+
 }
