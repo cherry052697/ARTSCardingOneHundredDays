@@ -169,7 +169,7 @@ public class TestTop100LikedQuestions {
 //		System.out.println(test.coinChange3(nums5, 11));
 //		test.productExceptSelf2(nums5);
 		int [] nums6 = {1, 5, 11, 5};
-		System.out.println(test.canPartition2(nums6));
+		System.out.println(test.canPartition3(nums6));
 		
 		
 		

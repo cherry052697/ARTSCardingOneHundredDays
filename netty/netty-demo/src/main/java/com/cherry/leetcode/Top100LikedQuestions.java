@@ -13,7 +13,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
-
 import com.cherry.netty.utils.JsonUtil;
 
 public class Top100LikedQuestions {
@@ -2302,52 +2301,93 @@ public class Top100LikedQuestions {
 	 * not exceed 200.
 	 */
 	public boolean canPartition(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return true;
-        }
-        int sum = 0;
-        for (int num : nums) {
-        	sum += num;
-        }
-        if (sum % 2 != 0) {
-            return false;
-        }
-        sum /= 2;
+		if (nums == null || nums.length == 0) {
+			return true;
+		}
+		int sum = 0;
+		for (int num : nums) {
+			sum += num;
+		}
+		if (sum % 2 != 0) {
+			return false;
+		}
+		sum /= 2;
 		boolean[] dp = new boolean[sum + 1];
-        dp[0] = true;
-        for (int i = 1; i <= nums.length; i++) {
-            for (int j = sum; j >= nums[i-1]; j--) {
-                dp[j] = dp[j] || dp[j - nums[i-1]];
-            }
-        }
-        return dp[sum];
+		dp[0] = true;
+		for (int i = 1; i <= nums.length; i++) {
+			for (int j = sum; j >= nums[i - 1]; j--) {
+				dp[j] = dp[j] || dp[j - nums[i - 1]];
+			}
+		}
+		return dp[sum];
 	}
-	
+
 	public boolean canPartition2(int[] nums) {
-        int sum = 0;
-        for(int num: nums) sum += num;
-        if(sum % 2 == 1) return false;
-        
-        int target = sum / 2;
-        boolean[][] dp = new boolean[nums.length][target + 1];
-        // deal with the first row
-        if(nums[0] <= target) dp[0][nums[0]] = true;
-        
-        // deal with the first col
-        for(int i = 0; i < nums.length; i++) dp[i][0] = true;
-        
-        // deal with the rest
-        for(int i = 1; i < dp.length; i++) {
-            for(int j = 1; j < dp[0].length; j++) {
-                if(j < nums[i]) {
-                    dp[i][j] = dp[i - 1][j];
-                } else {
-                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
-                }
-            }
-        }
-        System.out.println(JsonUtil.toJson(dp));
-        return dp[dp.length - 1][dp[0].length - 1];
-    }
+		int sum = 0;
+		for (int num : nums)
+			sum += num;
+		if (sum % 2 == 1)
+			return false;
+
+		int target = sum / 2;
+		boolean[][] dp = new boolean[nums.length][target + 1];
+		// deal with the first row
+		if (nums[0] <= target)
+			dp[0][nums[0]] = true;
+
+		// deal with the first col
+		for (int i = 0; i < nums.length; i++)
+			dp[i][0] = true;
+
+		// deal with the rest
+		for (int i = 1; i < dp.length; i++) {
+			for (int j = 1; j < dp[0].length; j++) {
+				if (j < nums[i]) {
+					dp[i][j] = dp[i - 1][j];
+				} else {
+					dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
+				}
+			}
+		}
+		System.out.println(JsonUtil.toJson(dp));
+		return dp[dp.length - 1][dp[0].length - 1];
+	}
+
+	public boolean canPartition3(int[] nums) {
+		int sum = 0;
+		for (int num : nums)
+			sum += num;
+		if (sum % 2 == 1)
+			return false;
+		else {
+			sum /= 2;
+			int n = nums.length;
+			// dp[i][j] 表示 如果我们取前i个数字，且背包容量为j的情况下，最多能放入多少东西
+			int dp[][] = new int[n][sum + 1];
+			// dp[0][0] 为初始状态，表示，没有任何没有东西没有体积，其余部分初始化
+			for (int i = nums[0]; i <= sum; i++) {
+				dp[0][i] = nums[0];
+			}
+			// 遍历n个数字，即视为n个产品
+			for (int i = 1; i < n; i++) {
+				// 加入了这种物品后更新状态
+				for (int j = nums[i]; j <= sum; j++) {
+					dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i]);
+				}
+			}
+			printArrays(dp, n);
+			// 放满了才能表示正好1/2
+			if (dp[n - 1][sum] == sum)
+				return true;
+			else
+				return false;
+		}
+	}
+
+	private void printArrays(int[][] arrays, int n) {
+		for (int i = 0; i < n; i++) {
+			System.out.println(JsonUtil.toJson(arrays[i]));
+		}
+	}
 
 }
