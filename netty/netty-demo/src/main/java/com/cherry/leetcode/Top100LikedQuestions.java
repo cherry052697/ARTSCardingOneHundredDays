@@ -2291,7 +2291,7 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 416. Partition Equal Subset Sum
+	 * 416. Partition Equal Subset Sum(理解力度不够，需要继续深究)
 	 * 
 	 * Given a non-empty array containing only positive integers, find if the
 	 * array can be partitioned into two subsets such that the sum of elements
