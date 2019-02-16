@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
-
+import java.util.TreeSet;
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -2503,57 +2504,126 @@ public class Top100LikedQuestions {
 		Collections.reverse(top_k);
 		return top_k;
 	}
-	
+
 	/*
-	 * 桶排序Bucket Sort， Time: O(n), Space: O(n)
-	 * 1. 遍历数组nums，利用Hash map统计每个数字出现的次数。
-	 * 2. 遍历map，初始化一个行数为len(nums) + 1的二维数组，将出现次数为i ( i∈[1, n] )的所有数字加到第i行。
-	 * 3. 逆序遍历二维数组(从频率高的开始)，将其中的前k行的元素输出。
+	 * 桶排序Bucket Sort， Time: O(n), Space: O(n) 1. 遍历数组nums，利用Hash
+	 * map统计每个数字出现的次数。 2. 遍历map，初始化一个行数为len(nums) + 1的二维数组，将出现次数为i ( i∈[1, n]
+	 * )的所有数字加到第i行。 3. 逆序遍历二维数组(从频率高的开始)，将其中的前k行的元素输出。
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Integer> topKFrequent2(int[] nums, int k) {
-	    List<Integer>[] bucket = new List[nums.length + 1];
-	    Map<Integer, Integer> frequencyMap = new HashMap<Integer, Integer>();
-	    for (int n : nums) {
-	        frequencyMap.put(n, frequencyMap.getOrDefault(n, 0) + 1);
-	    }
-	    for (int key : frequencyMap.keySet()) {
-	        int frequency = frequencyMap.get(key);
-	        if (bucket[frequency] == null) {
-	            bucket[frequency] = new ArrayList<>();
-	        }
-	        bucket[frequency].add(key);
-	    }
-	    List<Integer> res = new ArrayList<>();
-	    for (int pos = bucket.length - 1; pos >= 0 && res.size() < k; pos--) {
-	        if (bucket[pos] != null) {
-	            res.addAll(bucket[pos]);
-	        }
-	    }
-	    return res;
+		List<Integer>[] bucket = new List[nums.length + 1];
+		Map<Integer, Integer> frequencyMap = new HashMap<Integer, Integer>();
+		for (int n : nums) {
+			frequencyMap.put(n, frequencyMap.getOrDefault(n, 0) + 1);
+		}
+		for (int key : frequencyMap.keySet()) {
+			int frequency = frequencyMap.get(key);
+			if (bucket[frequency] == null) {
+				bucket[frequency] = new ArrayList<>();
+			}
+			bucket[frequency].add(key);
+		}
+		List<Integer> res = new ArrayList<>();
+		for (int pos = bucket.length - 1; pos >= 0 && res.size() < k; pos--) {
+			if (bucket[pos] != null) {
+				res.addAll(bucket[pos]);
+			}
+		}
+		return res;
 	}
+
 	/*
 	 * 利用Java中的TreeMap， Tree map是一个有序的key-value集合，它是通过红黑树实现的。利用map可统计，又是按key排序的
 	 */
 	public List<Integer> topKFrequent3(int[] nums, int k) {
 		Map<Integer, Integer> map = new HashMap<>();
-        for(int n: nums){
-            map.put(n, map.getOrDefault(n,0)+1);
-        }
-        TreeMap<Integer, List<Integer>> freqMap = new TreeMap<>();
-        for(int num : map.keySet()){
-           int freq = map.get(num);
-           if(!freqMap.containsKey(freq)){
-               freqMap.put(freq, new LinkedList<>());
-           }
-           freqMap.get(freq).add(num);
-        }
-        List<Integer> result = new ArrayList<>();
-        while(result.size()<k){
-            Map.Entry<Integer, List<Integer>> entry = freqMap.pollLastEntry();
-            result.addAll(entry.getValue());
-        }
-        return result;
+		for (int n : nums) {
+			map.put(n, map.getOrDefault(n, 0) + 1);
+		}
+		TreeMap<Integer, List<Integer>> freqMap = new TreeMap<>();
+		for (int num : map.keySet()) {
+			int freq = map.get(num);
+			if (!freqMap.containsKey(freq)) {
+				freqMap.put(freq, new LinkedList<>());
+			}
+			freqMap.get(freq).add(num);
+		}
+		List<Integer> result = new ArrayList<>();
+		while (result.size() < k) {
+			// Map.Entry<Integer, List<Integer>> entry =
+			// freqMap.pollLastEntry();
+			result.addAll(freqMap.pollLastEntry().getValue());
+		}
+		return result;
 	}
-	
+
+	/*
+	 * 148. Sort List
+	 * 
+	 * Sort a linked list in O(n log n) time using constant space complexity.
+	 * 
+	 * Input: 4->2->1->3 Output: 1->2->3->4
+	 * 
+	 * Input: -1->5->3->4->0 Output: -1->0->3->4->5
+	 * 
+	 */
+	public ListNode sortList(ListNode head) {
+		if (head == null || head.next == null)
+			return head;
+
+		ListNode prev = null, slow = head, fast = head;
+		while (fast != null && fast.next != null) {
+			prev = slow;
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		prev.next = null;
+		ListNode l1 = sortList(head);
+		ListNode l2 = sortList(slow);
+		return mergeTwoLists(l1, l2);
+	}
+
+	ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+		ListNode dummy = new ListNode(0);
+		for (ListNode p = dummy; l1 != null || l2 != null; p = p.next) {
+			int val1 = l1 == null ? Integer.MAX_VALUE : l1.val;
+			int val2 = l2 == null ? Integer.MAX_VALUE : l2.val;
+			if (val1 <= val2) {
+				p.next = l1;
+				l1 = l1.next;
+			} else {
+				p.next = l2;
+				l2 = l2.next;
+			}
+		}
+		return dummy.next;
+	}
+
+	/*
+	 * 94. Binary Tree Inorder Traversal
+	 * 
+	 * Given a binary tree, return the inorder traversal of its nodes' values.
+	 * Input: [1,null,2,3] Output: [1,3,2]
+	 */
+	List<Integer> inorderresult = new ArrayList<Integer>();
+
+	public List<Integer> inorderTraversal(TreeNode root) {
+		inOrderTreeNode(root);
+		return inorderresult;
+	}
+
+	public void inOrderTreeNode(TreeNode node) {
+		if (node == null) {
+			return;
+		}
+		if (node.left != null) {
+			inOrderTreeNode(node.left);
+		}
+		inorderresult.add(node.val);
+		if (node.right != null) {
+			inOrderTreeNode(node.right);
+		}
+	}
+
 }

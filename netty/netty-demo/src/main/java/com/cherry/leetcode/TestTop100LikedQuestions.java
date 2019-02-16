@@ -175,7 +175,19 @@ public class TestTop100LikedQuestions {
 		String deStr = "3[a]2[b4[F]c]";
 //		System.out.println(test.decodeString2(deStr));
 		int[] nums7 = {1,1,1,2,2,3};
-		System.out.println(JsonUtil.toJson(test.topKFrequent3(nums7, 2)));
+//		System.out.println(JsonUtil.toJson(test.topKFrequent3(nums7, 2)));
+//		4->2->1->3
+		ListNode headNode = new ListNode(4);
+		headNode.next = new ListNode(2);
+		headNode.next.next=new ListNode(1);
+		headNode.next.next.next = new ListNode(3);
+//		System.out.println(JsonUtil.toJson(test.sortList(headNode)));
+		TreeNode root1 = new TreeNode(1);
+		root1.left = null;
+		root1.right = new TreeNode(2);
+		root1.right.left = new TreeNode(3);
+		System.out.println(JsonUtil.toJson(test.inorderTraversal(root1)));
+		
 		
 		
 		
