@@ -35,7 +35,7 @@ public class SortTest {
 	    }
 	
 	/**
-	 * 递归排序
+	 * 归并排序
 	 * @param a
 	 * @param tempArray
 	 * @param left
@@ -45,7 +45,9 @@ public class SortTest {
 		int[] temp = new int[a.length];
 		mergeSort(a, temp, 0,a.length-1);
 	}
-
+	/*
+	 * internal method that makes recursive calls
+	 */
 	void mergeSort(int[] a,int[] tempArray,int left,int right){
 		if (left<right) {
 			int center = (left+right)/2;
@@ -152,7 +154,9 @@ public class SortTest {
 		int [] array = {21,32,51,64,8,34};
 //		new SortTest().insertSort(array);
 		int [] array2 = {81,94,11,96,12,35,17,95,28,58,41,75,15};
-		new SortTest().shellSort(array2);
+//		new SortTest().shellSort(array2);
+		int [] array3 = {10,13,20,15,25,30};
+		new SortTest().mergeSort(array3);
 	}
 
 }
