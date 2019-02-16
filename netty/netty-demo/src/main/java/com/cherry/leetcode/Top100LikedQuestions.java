@@ -2658,4 +2658,27 @@ public class Top100LikedQuestions {
 		nums[n] = temp;
 	}
 
+	public List<List<Integer>> permute2(int[] nums) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		if (nums.length == 0 || nums == null)
+			return res;
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(nums[0]); // Add the first element into the list;
+		res.add(list);
+		for (int i = 1; i < nums.length; i++) {
+			// Keep track of the size of current result;
+			int size = res.size();
+			for (int j = 0; j < size; j++) {
+				int size2 = res.get(0).size();
+				for (int k = 0; k <= size2; k++) {
+					List<Integer> temp = new ArrayList<>(res.get(0));
+					temp.add(k, nums[i]);
+					res.add(temp);
+				}
+				res.remove(0);
+			}
+		}
+		return res;
+	}
+
 }
