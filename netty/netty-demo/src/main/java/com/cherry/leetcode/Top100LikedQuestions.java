@@ -2,6 +2,7 @@ package com.cherry.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2408,25 +2409,25 @@ public class Top100LikedQuestions {
 	 */
 	public String decodeString(String s) {
 		StringBuffer result = new StringBuffer();
-		int left = 0,right = 0,count = 1,intChar = 48;
-		for (int i = s.length()-1; i >= 0; i--) {
+		int left = 0, right = 0, count = 1, intChar = 48;
+		for (int i = s.length() - 1; i >= 0; i--) {
 			intChar = s.charAt(i);
 			if (intChar > 48 && 58 > intChar) {
 				continue;
-			}else{
-				if (s.charAt(i)==']') {
+			} else {
+				if (s.charAt(i) == ']') {
 					right = i;
 					continue;
-				}else if(s.charAt(i)=='[') {
-					left = i+1;
-					count = Integer.valueOf(s.charAt(i-1))-48;
-				}else{
+				} else if (s.charAt(i) == '[') {
+					left = i + 1;
+					count = Integer.valueOf(s.charAt(i - 1)) - 48;
+				} else {
 					result.insert(0, s.charAt(i));
 				}
 			}
-			if (right>0 && left>0) {
+			if (right > 0 && left > 0) {
 				String sStr = s.substring(left, right);
-				for (int j = 0; j < count-1; j++) {
+				for (int j = 0; j < count - 1; j++) {
 					result.insert(0, sStr);
 				}
 				right = 0;
@@ -2437,12 +2438,11 @@ public class Top100LikedQuestions {
 	}
 
 	public String decodeString2(String s) {
-        String res = "";
-        Stack<Integer> countStack = new Stack<>();
-        Stack<String> resStack = new Stack<>();
-        int idx = 0;
-        while (idx < s.length()) {
-//        	System.out.println(idx+"——"+s.charAt(idx)+"——"+res+"\n———countStack—"+JsonUtil.toJson(countStack)+"———resStack—"+JsonUtil.toJson(resStack));
+		String res = "";
+		Stack<Integer> countStack = new Stack<>();
+		Stack<String> resStack = new Stack<>();
+		int idx = 0;
+		while (idx < s.length()) {
 			if (Character.isDigit(s.charAt(idx))) {
 				int count = 0;
 				while (Character.isDigit(s.charAt(idx))) {
@@ -2450,22 +2450,85 @@ public class Top100LikedQuestions {
 					idx++;
 				}
 				countStack.push(count);
-			}else if (s.charAt(idx) == '[') {
-                resStack.push(res);
-                res = "";
-                idx++;
-            }else if (s.charAt(idx) == ']') {
-                StringBuilder temp = new StringBuilder (resStack.pop());
-                int repeatTimes = countStack.pop();
-                for (int i = 0; i < repeatTimes; i++) {
-                    temp.append(res);
-                }
-                res = temp.toString();
-                idx++;
-            }else {
-                res += s.charAt(idx++);
-            }
-        }
-        return res;
-    }
+			} else if (s.charAt(idx) == '[') {
+				resStack.push(res);
+				res = "";
+				idx++;
+			} else if (s.charAt(idx) == ']') {
+				StringBuilder temp = new StringBuilder(resStack.pop());
+				int repeatTimes = countStack.pop();
+				for (int i = 0; i < repeatTimes; i++) {
+					temp.append(res);
+				}
+				res = temp.toString();
+				idx++;
+			} else {
+				res += s.charAt(idx++);
+			}
+		}
+		return res;
+	}
+
+	/*
+	 * 347. Top K Frequent Elements
+	 * 
+	 * Given a non-empty array of integers, return the k most frequent elements.
+	 * 
+	 * Example 1: Input: nums = [1,1,1,2,2,3], k = 2 Output: [1,2] Example 2:
+	 * Input: nums = [1], k = 1 Output: [1]
+	 */
+	public List<Integer> topKFrequent(int[] nums, int k) {
+		// build hash map : character and how often it appears
+		HashMap<Integer, Integer> count = new HashMap<Integer, Integer>();
+		for (int n : nums) {
+			count.put(n, count.getOrDefault(n, 0) + 1);
+		}
+
+		// init heap 'the less frequent element first'
+		PriorityQueue<Integer> heap = new PriorityQueue<Integer>((n1, n2) -> count.get(n1) - count.get(n2));
+
+		// keep k top frequent elements in the heap
+		for (int n : count.keySet()) {
+			heap.add(n);
+			if (heap.size() > k)
+				heap.poll();
+		}
+
+		// build output list
+		List<Integer> top_k = new LinkedList<Integer>();
+		while (!heap.isEmpty())
+			top_k.add(heap.poll());
+		Collections.reverse(top_k);
+		return top_k;
+	}
+	
+	/*
+	 * 桶排序Bucket Sort， Time: O(n), Space: O(n)
+	 * 1. 遍历数组nums，利用Hash map统计每个数字出现的次数。
+	 * 2. 遍历map，初始化一个行数为len(nums) + 1的二维数组，将出现次数为i ( i∈[1, n] )的所有数字加到第i行。
+	 * 3. 逆序遍历二维数组(从频率高的开始)，将其中的前k行的元素输出。
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Integer> topKFrequent2(int[] nums, int k) {
+	    List<Integer>[] bucket = new List[nums.length + 1];
+	    Map<Integer, Integer> frequencyMap = new HashMap<Integer, Integer>();
+	    for (int n : nums) {
+	        frequencyMap.put(n, frequencyMap.getOrDefault(n, 0) + 1);
+	    }
+	    for (int key : frequencyMap.keySet()) {
+	        int frequency = frequencyMap.get(key);
+	        if (bucket[frequency] == null) {
+	            bucket[frequency] = new ArrayList<>();
+	        }
+	        bucket[frequency].add(key);
+	    }
+	    List<Integer> res = new ArrayList<>();
+	    for (int pos = bucket.length - 1; pos >= 0 && res.size() < k; pos--) {
+	        if (bucket[pos] != null) {
+	            res.addAll(bucket[pos]);
+	        }
+	    }
+	    return res;
+	}
+	
 }
