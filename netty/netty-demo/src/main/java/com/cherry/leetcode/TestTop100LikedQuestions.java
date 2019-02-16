@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.cherry.netty.utils.JsonUtil;
+
 
 
 
@@ -173,7 +175,7 @@ public class TestTop100LikedQuestions {
 		String deStr = "3[a]2[b4[F]c]";
 //		System.out.println(test.decodeString2(deStr));
 		int[] nums7 = {1,1,1,2,2,3};
-		test.topKFrequent2(nums7, 2);
+		System.out.println(JsonUtil.toJson(test.topKFrequent3(nums7, 2)));
 		
 		
 		

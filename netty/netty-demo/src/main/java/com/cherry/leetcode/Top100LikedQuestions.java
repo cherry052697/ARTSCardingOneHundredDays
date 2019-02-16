@@ -13,6 +13,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
+
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -2529,6 +2531,29 @@ public class Top100LikedQuestions {
 	        }
 	    }
 	    return res;
+	}
+	/*
+	 * 利用Java中的TreeMap， Tree map是一个有序的key-value集合，它是通过红黑树实现的。利用map可统计，又是按key排序的
+	 */
+	public List<Integer> topKFrequent3(int[] nums, int k) {
+		Map<Integer, Integer> map = new HashMap<>();
+        for(int n: nums){
+            map.put(n, map.getOrDefault(n,0)+1);
+        }
+        TreeMap<Integer, List<Integer>> freqMap = new TreeMap<>();
+        for(int num : map.keySet()){
+           int freq = map.get(num);
+           if(!freqMap.containsKey(freq)){
+               freqMap.put(freq, new LinkedList<>());
+           }
+           freqMap.get(freq).add(num);
+        }
+        List<Integer> result = new ArrayList<>();
+        while(result.size()<k){
+            Map.Entry<Integer, List<Integer>> entry = freqMap.pollLastEntry();
+            result.addAll(entry.getValue());
+        }
+        return result;
 	}
 	
 }
