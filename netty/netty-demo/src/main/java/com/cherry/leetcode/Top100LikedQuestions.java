@@ -2824,7 +2824,7 @@ public class Top100LikedQuestions {
         return result;
     }
     
-    public void levelHelper( TreeNode root, int height, List<List<Integer>> res) {
+    void levelHelper( TreeNode root, int height, List<List<Integer>> res) {
         if (root == null) return;
         if (height >= res.size()) {
             res.add(new LinkedList<Integer>());
