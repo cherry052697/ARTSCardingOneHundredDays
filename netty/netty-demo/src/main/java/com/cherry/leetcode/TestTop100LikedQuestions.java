@@ -190,7 +190,9 @@ public class TestTop100LikedQuestions {
 		int[][] grid = {{1,3,1},
 		                 {1,5,1},
 		                 {4,2,1}};
-		System.out.println(test.minPathSum2(grid));
+//		System.out.println(test.minPathSum2(grid));
+		int[] nums8 = {1,2,3};
+		System.out.println(JsonUtil.toJson(test.subsets(nums8)));
 		
 		
 		
