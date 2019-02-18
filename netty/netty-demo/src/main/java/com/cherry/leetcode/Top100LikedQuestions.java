@@ -2735,4 +2735,103 @@ public class Top100LikedQuestions {
 
 		return dp[grid.length - 1];
 	}
+
+	/*
+	 * 287. Find the Duplicate Number
+	 * 
+	 * Given an array nums containing n + 1 integers where each integer is
+	 * between 1 and n (inclusive), prove that at least one duplicate number
+	 * must exist. Assume that there is only one duplicate number, find the
+	 * duplicate one. Note: You must not modify the array (assume the array is
+	 * read only). You must use only constant, O(1) extra space. Your runtime
+	 * complexity should be less than O(n2). There is only one duplicate number
+	 * in the array, but it could be repeated more than once.
+	 */
+	public int findDuplicate(int[] nums) {
+		Set<Integer> set = new HashSet<Integer>();
+		for (int num : nums) {
+			if (set.contains(num)) {
+				return num;
+			} else {
+				set.add(num);
+			}
+		}
+		return -1;
+	}
+
+	public int findDuplicate1(int[] nums) {
+		Arrays.sort(nums);
+		for (int i = 1; i < nums.length; i++) {
+			if (nums[i] == nums[i - 1]) {
+				return nums[i];
+			}
+		}
+		return -1;
+	}
+
+	public int findDuplicate3(int[] nums) {
+		int tortoise = nums[0];
+		int hare = nums[0];
+		do {
+			tortoise = nums[tortoise];
+			hare = nums[nums[hare]];
+		} while (tortoise != hare);
+
+		int ptr1 = nums[0];
+		int ptr2 = tortoise;
+		while (ptr1 != ptr2) {
+			ptr1 = nums[ptr1];
+			ptr2 = nums[ptr2];
+		}
+		return ptr1;
+	}
+
+	/*
+	 * 102. Binary Tree Level Order Traversal
+	 * 
+	 * Given a binary tree, return the level order traversal of its nodes'
+	 * values. (ie, from left to right, level by level).
+	 * 
+	 * 
+	 * 3 / \ 9 20 / \ 15 7
+	 * 
+	 * [[3],[9,20],[15,7]]
+	 */
+	public List<List<Integer>> levelOrder(TreeNode root) {
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		List<List<Integer>> levelResult = new LinkedList<List<Integer>>();
+		if (root == null)
+			return levelResult;
+		queue.offer(root);
+		while (!queue.isEmpty()) {
+			int levelNum = queue.size();
+			List<Integer> subList = new LinkedList<Integer>();
+			for (int i = 0; i < levelNum; i++) {
+				if (queue.peek().left != null)
+					queue.offer(queue.peek().left);
+				if (queue.peek().right != null)
+					queue.offer(queue.peek().right);
+				subList.add(queue.poll().val);
+			}
+			levelResult.add(subList);
+		}
+		return levelResult;
+	}
+	
+	public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        levelHelper(root, 0,result);
+        return result;
+    }
+    
+    public void levelHelper( TreeNode root, int height, List<List<Integer>> res) {
+        if (root == null) return;
+        if (height >= res.size()) {
+            res.add(new LinkedList<Integer>());
+        }
+        res.get(height).add(root.val);
+        levelHelper(root.left, height+1,res);
+        levelHelper(root.right, height+1,res);
+    }
+
 }

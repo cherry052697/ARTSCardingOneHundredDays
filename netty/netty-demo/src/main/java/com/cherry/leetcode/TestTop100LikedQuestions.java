@@ -192,7 +192,15 @@ public class TestTop100LikedQuestions {
 		                 {4,2,1}};
 //		System.out.println(test.minPathSum2(grid));
 		int[] nums8 = {1,2,3};
-		System.out.println(JsonUtil.toJson(test.subsets(nums8)));
+//		System.out.println(JsonUtil.toJson(test.subsets(nums8)));
+		int [] nums9 ={1,4,6,6,6,2,3};
+//		System.out.println(test.findDuplicate3(nums9));
+		TreeNode lroot = new TreeNode(3);
+		lroot.left = new TreeNode(9);
+		lroot.right = new TreeNode(20);
+		lroot.right.left = new TreeNode(15);
+		lroot.right.right = new TreeNode(7);
+		System.out.println(JsonUtil.toJson(test.levelOrder2(lroot)));
 		
 		
 		
