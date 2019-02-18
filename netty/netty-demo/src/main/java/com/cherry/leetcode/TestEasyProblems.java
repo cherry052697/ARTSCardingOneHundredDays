@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import com.cherry.netty.utils.JsonUtil;
 
 import java.util.List;
 
@@ -26,7 +27,9 @@ public class TestEasyProblems {
 //		System.out.println(test.isValidBST(root));
 		
 		String s = "XXCL";
-		System.out.println(test.romanToInt(s));
+//		System.out.println(test.romanToInt(s));
+		int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+		System.out.println(test.maxSubArray(nums));
 		
 		
 
@@ -232,6 +235,7 @@ public class TestEasyProblems {
 		for (int i = 1; i < nums.length; i++) {
 			orderNums[i] = Math.max(orderNums[i - 1] + nums[i], nums[i]);
 			max = Math.max(max, orderNums[i]);
+			System.out.println(JsonUtil.toJson(orderNums)+"——"+max);
 		}
 		return max;
 	}
