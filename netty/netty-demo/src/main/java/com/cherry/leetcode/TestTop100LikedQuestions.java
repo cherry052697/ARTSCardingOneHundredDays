@@ -186,7 +186,11 @@ public class TestTop100LikedQuestions {
 		root1.left = null;
 		root1.right = new TreeNode(2);
 		root1.right.left = new TreeNode(3);
-		System.out.println(JsonUtil.toJson(test.inorderTraversal(root1)));
+//		System.out.println(JsonUtil.toJson(test.inorderTraversal(root1)));
+		int[][] grid = {{1,3,1},
+		                 {1,5,1},
+		                 {4,2,1}};
+		System.out.println(test.minPathSum2(grid));
 		
 		
 		
