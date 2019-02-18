@@ -5,8 +5,8 @@ import com.cherry.netty.utils.JsonUtil;
 public class DynamicProgramming {
 	public static void main(String[] args) {
 		DynamicProgramming dp = new DynamicProgramming();
-		int[] nums = { 5, 3, 4, 5 };
-		dp.stoneGame(nums);
+		int[] days = {1,2,3,4,5,6,7,8,9,10,30,31}, costs = {2,7,15};
+		System.out.println(dp.mincostTickets(days, costs));
 	}
 
 	/*
@@ -53,15 +53,56 @@ public class DynamicProgramming {
 		printArray(dp);
 		return dp[0][n - 1] > 0;
 	}
-	
-	void printArray(int[][] dp){
+
+	void printArray(int[][] dp) {
 		for (int i = 0; i < dp.length; i++) {
-			for (int j = 0; j < dp[0].length; j++) 
-				System.out.print(dp[i][j]+" ");
+			for (int j = 0; j < dp[0].length; j++)
+				System.out.print(dp[i][j] + " ");
 			System.out.println();
-			
+
 		}
 	}
 
+	/*
+	 * 983. Minimum Cost For Tickets
+	 * 
+	 * In a country popular for train travel, you have planned some train
+	 * travelling one year in advance. The days of the year that you will travel
+	 * is given as an array days. Each day is an integer from 1 to 365.
+	 * 
+	 * Train tickets are sold in 3 different ways:
+	 * 
+	 * a 1-day pass is sold for costs[0] dollars; a 7-day pass is sold for
+	 * costs[1] dollars; a 30-day pass is sold for costs[2] dollars. The passes
+	 * allow that many days of consecutive travel. For example, if we get a
+	 * 7-day pass on day 2, then we can travel for 7 days: day 2, 3, 4, 5, 6, 7,
+	 * and 8.
+	 * 
+	 * Return the minimum number of dollars you need to travel every day in the
+	 * given list of days.
+	 * 
+	 */
 
+	public int mincostTickets(int[] days, int[] costs) {
+		int[] durations = {1, 7, 30};
+        Integer[] memo = new Integer[days.length];
+        return dp(days,costs,0,memo,durations);
+	}
+	public int dp(int[] days, int[] costs,int i,Integer[] memo,int[] durations) {
+        if (i >= days.length)
+            return 0;
+        if (memo[i] != null)
+            return memo[i];
+
+        int ans = Integer.MAX_VALUE;
+        int j = i;
+        for (int k = 0; k < 3; ++k) {
+            while (j < days.length && days[j] < days[i] + durations[k])
+                j++;
+            ans = Math.min(ans, dp(days,costs,j,memo,durations) + costs[k]);
+        }
+
+        memo[i] = ans;
+        return ans;
+    }
 }
