@@ -5,8 +5,8 @@ import com.cherry.netty.utils.JsonUtil;
 public class DynamicProgramming {
 	public static void main(String[] args) {
 		DynamicProgramming dp = new DynamicProgramming();
-		int[] days = {1,2,3,4,5,6,7,8,9,10,30,31}, costs = {2,7,15};
-		System.out.println(dp.mincostTickets(days, costs));
+		int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31 }, costs = { 2, 7, 15 };
+		System.out.println(dp.mincostTickets2(days, costs));
 	}
 
 	/*
@@ -84,25 +84,48 @@ public class DynamicProgramming {
 	 */
 
 	public int mincostTickets(int[] days, int[] costs) {
-		int[] durations = {1, 7, 30};
-        Integer[] memo = new Integer[days.length];
-        return dp(days,costs,0,memo,durations);
+		int[] durations = { 1, 7, 30 };
+		Integer[] memo = new Integer[days.length];
+		return dp(days, costs, 0, memo, durations);
 	}
-	public int dp(int[] days, int[] costs,int i,Integer[] memo,int[] durations) {
-        if (i >= days.length)
-            return 0;
-        if (memo[i] != null)
-            return memo[i];
 
-        int ans = Integer.MAX_VALUE;
-        int j = i;
-        for (int k = 0; k < 3; ++k) {
-            while (j < days.length && days[j] < days[i] + durations[k])
-                j++;
-            ans = Math.min(ans, dp(days,costs,j,memo,durations) + costs[k]);
-        }
+	public int dp(int[] days, int[] costs, int i, Integer[] memo, int[] durations) {
+		if (i >= days.length)
+			return 0;
+		if (memo[i] != null)
+			return memo[i];
 
-        memo[i] = ans;
-        return ans;
-    }
+		int ans = Integer.MAX_VALUE;
+		int j = i;
+		for (int k = 0; k < 3; ++k) {
+			while (j < days.length && days[j] < days[i] + durations[k])
+				j++;
+			ans = Math.min(ans, dp(days, costs, j, memo, durations) + costs[k]);
+		}
+
+		memo[i] = ans;
+		return ans;
+	}
+
+	public int mincostTickets2(int[] days, int[] costs) {
+
+		int[] dp = new int[days.length + 1];
+		int weekPointer = days.length - 1;
+		int monthPointer = days.length - 1;
+		dp[days.length] = 0;
+		for (int currDay = days.length - 1; currDay >= 0; currDay--) {
+			while (days[weekPointer] - days[currDay] >= 7)
+				weekPointer--;
+			while (days[monthPointer] - days[currDay] >= 30)
+				monthPointer--;
+			dp[currDay] = MinNum(costs[0] + dp[currDay + 1], costs[1] + dp[weekPointer + 1],
+					costs[2] + dp[monthPointer + 1]);
+		}
+
+		return dp[0];
+	}
+
+	public int MinNum(int i, int j, int k) {
+		return Math.min(i, Math.min(j, k));
+	}
 }
