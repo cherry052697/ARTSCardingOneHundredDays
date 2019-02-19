@@ -7,12 +7,14 @@ import com.cherry.netty.utils.JsonUtil;
 public class DynamicProgramming {
 	public static void main(String[] args) {
 		DynamicProgramming dp = new DynamicProgramming();
-		int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31 }, costs = { 2, 7, 15 };
+		// int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31 }, costs = { 2,
+		// 7, 15 };
 		// System.out.println(dp.mincostTickets2(days, costs));
 		// System.out.println(dp.eval(3));
-		int[][] grid = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-		int[] nums = { 1, 2, 3, 4 };
-		System.out.println(dp.numberOfArithmeticSlices(nums));
+		// int[][] grid = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+		// int[] nums = { 1, 2, 3, 4 };
+		// System.out.println(dp.numberOfArithmeticSlices(nums));
+		System.out.println(dp.minimumDeleteSum2("delete", "leet"));
 
 	}
 
@@ -277,5 +279,51 @@ public class DynamicProgramming {
 			}
 		}
 		return count;
+	}
+
+	/*
+	 * 712. Minimum ASCII Delete Sum for Two Strings
+	 * 
+	 * Given two strings s1, s2, find the lowest ASCII sum of deleted characters
+	 * to make two strings equal.
+	 */
+	public int minimumDeleteSum(String s1, String s2) {
+		int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+		int sum = 0;
+		for (int i = 0; i < s1.length(); i++) {
+			sum += (int) s1.charAt(i);
+			for (int j = 0; j < s2.length(); j++) {
+				if (s1.charAt(i) == s2.charAt(j)) {
+					dp[i + 1][j + 1] = dp[i][j] + (int) s1.charAt(i);
+				} else {
+					dp[i + 1][j + 1] = Math.max(dp[i][j + 1], dp[i + 1][j]);
+				}
+			}
+		}
+		// printArray(dp);
+		for (int j = 0; j < s2.length(); j++) {
+			sum += (int) s2.charAt(j);
+		}
+		return sum - 2 * dp[s1.length()][s2.length()];
+	}
+
+	public int minimumDeleteSum2(String s1, String s2) {
+		int s1Len = s1.length(), s2Len = s2.length(), MAX = Integer.MAX_VALUE;
+		char[] s1Array = s1.toCharArray(), s2Array = s2.toCharArray();
+		int[][] dp = new int[s1Len + 1][s2Len + 1];
+		for (int i = s1Len; i >= 0; i--) {
+			for (int j = s2Len; j >= 0; j--) {
+				if (i < s1Len || j < s2Len)
+					if (i < s1Len && j < s2Len && s1Array[i] == s2Array[j]) {
+						dp[i][j] = dp[i + 1][j + 1];
+					}else {
+						int s1max = (i < s1Len ? s1Array[i] + dp[i + 1][j] : MAX);
+						int s2max = (j < s2Len ? s2Array[j] + dp[i][j + 1] : MAX);
+						dp[i][j]=Math.min(s1max , s2max);
+					}
+			}
+		}
+		 printArray(dp);
+		return dp[0][0];
 	}
 }
