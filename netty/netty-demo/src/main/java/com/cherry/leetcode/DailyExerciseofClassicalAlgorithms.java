@@ -1,13 +1,36 @@
 package com.cherry.leetcode;
 
+import com.cherry.netty.utils.JsonUtil;
+
 public class DailyExerciseofClassicalAlgorithms {
+	public static void main(String[] args) {
+		DailyExerciseofClassicalAlgorithms deca = new DailyExerciseofClassicalAlgorithms();
+		System.out.println(JsonUtil.toJson(deca.hundredDollarsForHundredChickens()));
+	}
 	/*
 	 * 1、百钱买百鸡的问题算是一套非常经典的不定方程的问题，题目很简单：公鸡5文钱一只，母鸡3文钱一只，小鸡3只一文钱，
 		用100文钱买一百只鸡,其中公鸡，母鸡，小鸡都必须要有，问公鸡，母鸡，小鸡要买多少只刚好凑足100文钱
 	 */
+	public int[] hundredDollarsForHundredChickens(){
+		// re[0]-公鸡数；res[1]—母鸡；res[2]-小鸡
+		int[] res = {0,0,0};
+		for (int cock = 1; cock < 20; cock++) {//公鸡
+			for (int hen = 1; hen < 33; hen++) {//母鸡
+				for(int chicken = 3; chicken <= 96; chicken+=3){
+					if (5*cock+3*hen+chicken/3==100 && cock+hen+chicken==100) {
+						res[0] = cock;
+						res[1] = hen;
+						res[2] = chicken;
+					}
+				}
+			}
+		}
+		
+		return res;
+	}
 	
 	/*
-	 * 古代数学巨著《九章算数》中有这么一道题叫“五家共井，甲二绠（汲水用的井绳）不足，如（接上）乙一绠；乙三绠不足，如丙一绠；
+	 * 2、古代数学巨著《九章算数》中有这么一道题叫“五家共井，甲二绠（汲水用的井绳）不足，如（接上）乙一绠；乙三绠不足，如丙一绠；
 	 * 丙四绠不足，如丁一绠；丁五绠不足，如戊一绠；戊六绠不足，如甲一绠，皆及。
 	 * 意思就是说五家人共用一口井，甲家的绳子用两条不够，还要再用乙家的绳子一条才能打到井水；乙家的绳子用三条不够，还要再用丙家的绳子
 	 * 一条才能打到井水；丙家的绳子用四条不够，还要再用丁家的绳子一条才能打到井水；丁家的绳子用五条不够，还要再用戊家的绳子一条才能打
@@ -15,14 +38,14 @@ public class DailyExerciseofClassicalAlgorithms {
 	 * 最后问：井有多深？每家的绳子各有多长？
 	 */
 	/*
-	 * 猴子第一天摘下若干个桃子，当即吃了一半，还不过瘾就多吃了一个。第二天早上又将剩下的桃子吃了一半，还是不过瘾又多
+	 * 3、猴子第一天摘下若干个桃子，当即吃了一半，还不过瘾就多吃了一个。第二天早上又将剩下的桃子吃了一半，还是不过瘾又多
 	 * 吃了一个。以后每天都吃前一天剩下的一半再加一个。到第10天刚好剩一个。问猴子第一天摘了多少个桃子？
 	 */
 	/*
-	 * 最长公共子序列的问题常用于解决字符串的相似度，是一个非常实用的算法，作为码农，此算法是我们的必备基本功。
+	 * 4、最长公共子序列的问题常用于解决字符串的相似度，是一个非常实用的算法，作为码农，此算法是我们的必备基本功。
 	 */
 	/*
-	 *     这篇我们看看最长公共子序列的另一个版本，求字符串相似度(编辑距离)，我也说过了，这是一个非常实用的算法，在DNA对比，网
+	 * 5、这篇我们看看最长公共子序列的另一个版本，求字符串相似度(编辑距离)，我也说过了，这是一个非常实用的算法，在DNA对比，网
 
 页聚类等方面都有用武之地。
 一：概念
