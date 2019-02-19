@@ -6,7 +6,40 @@ public class DynamicProgramming {
 	public static void main(String[] args) {
 		DynamicProgramming dp = new DynamicProgramming();
 		int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31 }, costs = { 2, 7, 15 };
-		System.out.println(dp.mincostTickets2(days, costs));
+		// System.out.println(dp.mincostTickets2(days, costs));
+//		System.out.println(dp.eval(3));
+		int[][] grid = {
+				{1,0,0,0},
+				{0,0,0,0},
+				{0,0,0,2}};
+		System.out.println(dp.uniquePathsIII(grid));
+		
+	}
+
+	public int fibonacci(int n) {
+		if (n <= 1) {
+			return 1;
+		}
+		int last = 1, nextToLast = 1, answer = 1;
+		for (int i = 2; i <= n; i++) {
+			answer = last + nextToLast;
+			nextToLast = last;
+			last = answer;
+		}
+		return answer;
+	}
+
+	public double eval(int n) {
+		double[] c = new double[n + 1];
+		c[0] = 1.0;
+		for (int i = 1; i <= n; i++) {
+			double sum = 0.0;
+			for (int j = 0; j < i; j++)
+				sum += c[j];
+			c[i] = 2.0 * sum / i + i;
+			System.out.println(JsonUtil.toJson(c));
+		}
+		return c[n];
 	}
 
 	/*
@@ -127,5 +160,61 @@ public class DynamicProgramming {
 
 	public int MinNum(int i, int j, int k) {
 		return Math.min(i, Math.min(j, k));
+	}
+
+	/*
+	 * 980. Unique Paths III
+	 * 
+	 * On a 2-dimensional grid, there are 4 types of squares:
+	 * 
+	 * 1 represents the starting square. There is exactly one starting square. 2
+	 * represents the ending square. There is exactly one ending square. 0
+	 * represents empty squares we can walk over. -1 represents obstacles that
+	 * we cannot walk over. Return the number of 4-directional walks from the
+	 * starting square to the ending square, that walk over every non-obstacle
+	 * square exactly once.
+	 * 
+	 */
+	int res = 0, empty = 1, sx, sy, ex, ey;
+
+	public int uniquePathsIII(int[][] grid) {
+		int m = grid.length, n = grid[0].length;
+		for (int i = 0; i < m; ++i) {
+			for (int j = 0; j < n; ++j) {
+				if (grid[i][j] == 0)
+					empty++;
+				else if (grid[i][j] == 1) {
+					sx = i;
+					sy = j;
+				} else if (grid[i][j] == 2) {
+					ex = i;
+					ey = j;
+				}
+			}
+		}
+		dfs(grid, sx, sy);
+		return res;
+	}
+
+	public void dfs(int[][] grid, int x0, int y0) {
+		if (check(grid, x0, y0) == false)
+			return;
+		if (x0 == ex && y0 == ey && empty == 0) {
+			res++;
+			return;
+		}
+		grid[x0][y0] = -2;
+		empty--;
+		dfs(grid, x0 + 1, y0);
+		dfs(grid, x0 - 1, y0);
+		dfs(grid, x0, y0 + 1);
+		dfs(grid, x0, y0 - 1);
+		grid[x0][y0] = 0;
+		empty++;
+	}
+
+	public boolean check(int[][] grid, int i, int j) {
+		int m = grid.length, n = grid[0].length;
+		return 0 <= i && i < m && 0 <= j && j < n && grid[i][j] >= 0;
 	}
 }
