@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.cherry.netty.utils.JsonUtil;
 
-public class DailyExerciseofClassicalAlgorithms {
+public class DailyExerciseAlgorithms {
 	public static void main(String[] args) {
-		DailyExerciseofClassicalAlgorithms deca = new DailyExerciseofClassicalAlgorithms();
+		DailyExerciseAlgorithms deca = new DailyExerciseAlgorithms();
 		System.out.println(JsonUtil.toJson(deca.hundredDollarsForHundredChickens()));
 	}
 
