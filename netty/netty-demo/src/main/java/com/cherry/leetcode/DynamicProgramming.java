@@ -316,14 +316,52 @@ public class DynamicProgramming {
 				if (i < s1Len || j < s2Len)
 					if (i < s1Len && j < s2Len && s1Array[i] == s2Array[j]) {
 						dp[i][j] = dp[i + 1][j + 1];
-					}else {
+					} else {
 						int s1max = (i < s1Len ? s1Array[i] + dp[i + 1][j] : MAX);
 						int s2max = (j < s2Len ? s2Array[j] + dp[i][j + 1] : MAX);
-						dp[i][j]=Math.min(s1max , s2max);
+						dp[i][j] = Math.min(s1max, s2max);
 					}
 			}
 		}
-		 printArray(dp);
+		printArray(dp);
 		return dp[0][0];
 	}
+
+	/*
+	 * 714. Best Time to Buy and Sell Stock with Transaction Fee
+	 * 
+	 * Your are given an array of integers prices, for which the i-th element is
+	 * the price of a given stock on day i; and a non-negative integer fee
+	 * representing a transaction fee.
+	 * 
+	 * You may complete as many transactions as you like, but you need to pay
+	 * the transaction fee for each transaction. You may not buy more than 1
+	 * share of a stock at a time (ie. you must sell the stock share before you
+	 * buy again.)
+	 * 
+	 * Return the maximum profit you can make.
+	 */
+	public int maxProfit(int[] prices, int fee) {
+		int cash = 0, hold = -prices[0];
+		for (int i = 1; i < prices.length; i++) {
+			cash = Math.max(cash, hold + prices[i] - fee);
+			hold = Math.max(hold, cash - prices[i]);
+		}
+		return cash;
+	}
+
+	public int maxProfit2(int[] prices, int fee) {
+		if (prices == null || prices.length < 2)
+			return 0;
+		int[] dp = new int[prices.length];
+		int min = prices[0];
+		for (int i = 1; i < prices.length; i++) {
+			min = Math.min(min, prices[i] - dp[i - 1]);
+			dp[i] = Math.max(dp[i - 1], prices[i] - fee - min);
+		}
+
+		return dp[prices.length - 1];
+
+	}
+
 }
