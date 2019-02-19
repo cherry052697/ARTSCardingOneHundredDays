@@ -1,5 +1,7 @@
 package com.cherry.leetcode;
 
+import java.util.Arrays;
+
 import com.cherry.netty.utils.JsonUtil;
 
 public class DynamicProgramming {
@@ -7,13 +9,11 @@ public class DynamicProgramming {
 		DynamicProgramming dp = new DynamicProgramming();
 		int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31 }, costs = { 2, 7, 15 };
 		// System.out.println(dp.mincostTickets2(days, costs));
-//		System.out.println(dp.eval(3));
-		int[][] grid = {
-				{1,0,0,0},
-				{0,0,0,0},
-				{0,0,0,2}};
-		System.out.println(dp.uniquePathsIII(grid));
-		
+		// System.out.println(dp.eval(3));
+		int[][] grid = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+		int[] nums = { 1, 2, 3, 4 };
+		System.out.println(dp.numberOfArithmeticSlices(nums));
+
 	}
 
 	public int fibonacci(int n) {
@@ -216,5 +216,66 @@ public class DynamicProgramming {
 	public boolean check(int[][] grid, int i, int j) {
 		int m = grid.length, n = grid[0].length;
 		return 0 <= i && i < m && 0 <= j && j < n && grid[i][j] >= 0;
+	}
+
+	/*
+	 * 931. Minimum Falling Path Sum
+	 * 
+	 * Given a square array of integers A, we want the minimum sum of a falling
+	 * path through A.
+	 * 
+	 * A falling path starts at any element in the first row, and chooses one
+	 * element from each row. The next row's choice must be in a column that is
+	 * different from the previous row's column by at most one.
+	 */
+	public int minFallingPathSum(int[][] A) {
+		int N = A.length;
+		for (int r = N - 2; r >= 0; --r) {
+			for (int c = 0; c < N; ++c) {
+				int best = A[r + 1][c];
+				if (c > 0)
+					best = Math.min(best, A[r + 1][c - 1]);
+				if (c + 1 < N)
+					best = Math.min(best, A[r + 1][c + 1]);
+				A[r][c] += best;
+			}
+		}
+
+		int ans = Integer.MAX_VALUE;
+		printArray(A);
+		for (int x : A[0])
+			ans = Math.min(ans, x);
+		return ans;
+	}
+
+	public int minFallingPathSum2(int[][] A) {
+		for (int i = 1; i < A.length; ++i)
+			for (int j = 0; j < A.length; ++j)
+				A[i][j] += Math.min(A[i - 1][j],
+						Math.min(A[i - 1][Math.max(0, j - 1)], A[i - 1][Math.min(A.length - 1, j + 1)]));
+		// printArray(A);
+		return Arrays.stream(A[A.length - 1]).min().getAsInt();
+	}
+
+	/*
+	 * 413. Arithmetic Slices
+	 * 
+	 * A sequence of number is called arithmetic if it consists of at least
+	 * three elements and if the difference between any two consecutive elements
+	 * is the same.
+	 * 
+	 */
+	public int numberOfArithmeticSlices(int[] A) {
+		int count = 0;
+		for (int s = 0; s < A.length - 2; s++) {
+			int d = A[s + 1] - A[s];
+			for (int e = s + 2; e < A.length; e++) {
+				if (A[e] - A[e - 1] == d)
+					count++;
+				else
+					break;
+			}
+		}
+		return count;
 	}
 }
