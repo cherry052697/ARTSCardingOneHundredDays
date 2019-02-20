@@ -211,7 +211,7 @@ public class TestTop100LikedQuestions {
 		rootf.left.right = new TreeNode(4);
 		rootf.right = new TreeNode(5);
 		rootf.right.right= new TreeNode(6);
-		test.flatten(rootf);
+		test.flatten2(rootf);
 		
 		
 		

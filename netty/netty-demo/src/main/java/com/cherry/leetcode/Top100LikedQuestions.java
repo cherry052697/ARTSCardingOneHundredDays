@@ -2987,14 +2987,34 @@ public class Top100LikedQuestions {
 	 * Given a binary tree, flatten it to a linked list in-place.
 	 */
 	private TreeNode prev = null;
+
 	public void flatten(TreeNode root) {
-	    if (root == null)
-	        return;
-	    flatten(root.right);
-	    flatten(root.left);
-	    root.right = prev;
-	    root.left = null;
-	    prev = root;
-	    System.out.println(JsonUtil.toJson(root));
+		if (root == null)
+			return;
+		flatten(root.right);
+		flatten(root.left);
+		root.right = prev;
+		root.left = null;
+		prev = root;
+		System.out.println(JsonUtil.toJson(root));
+	}
+
+	void flatten2(TreeNode root) {
+		TreeNode now = root;
+		while (now != null) {
+			if (now.left != null) {
+				TreeNode pre = now.left;
+				while (pre.right != null) {
+					pre = pre.right;
+				}
+				// 将当前节点的右孩子连接到当前节点左孩子的的最右孩子
+				pre.right = now.right;
+
+				// 当前节点的左孩子变为右孩子，左孩子置为NULL
+				now.right = now.left;
+				now.left = null;
+			}
+			now = now.right;
+		}
 	}
 }
