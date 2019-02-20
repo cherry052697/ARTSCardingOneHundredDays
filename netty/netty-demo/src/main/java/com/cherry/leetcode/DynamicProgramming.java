@@ -393,11 +393,11 @@ public class DynamicProgramming {
 	 * increasing subsequence.
 	 */
 	public int lengthOfLIS(int[] nums) {
-		if (nums.length == 0) 
+		if (nums.length == 0)
 			return 0;
 		int[] dp = new int[nums.length];
 		dp[0] = 1;
-		int maxans = 1,maxval = 0;
+		int maxans = 1, maxval = 0;
 		for (int i = 1; i < dp.length; i++) {
 			for (int j = 0; j < i; j++) {
 				if (nums[i] > nums[j]) {
@@ -435,6 +435,47 @@ public class DynamicProgramming {
 	 */
 	public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
 		return 0;
+	}
+
+	/*
+	 * 646. Maximum Length of Pair Chain
+	 * 
+	 * You are given n pairs of numbers. In every pair, the first number is
+	 * always smaller than the second number. Now, we define a pair (c, d) can
+	 * follow another pair (a, b) if and only if b < c. Chain of pairs can be
+	 * formed in this fashion. Given a set of pairs, find the length longest
+	 * chain which can be formed. You needn't use up all the given pairs. You
+	 * can select pairs in any order.
+	 */
+	public int findLongestChain(int[][] pairs) {
+		Arrays.sort(pairs, (a, b) -> a[0] - b[0]);
+		int N = pairs.length;
+		int[] dp = new int[N];
+		Arrays.fill(dp, 1);
+
+		for (int j = 1; j < N; ++j) {
+			for (int i = 0; i < j; ++i) {
+				if (pairs[i][1] < pairs[j][0])
+					dp[j] = Math.max(dp[j], dp[i] + 1);
+			}
+		}
+
+		int ans = 0;
+		for (int x : dp)
+			if (x > ans)
+				ans = x;
+		return ans;
+	}
+
+	public int findLongestChain2(int[][] pairs) {
+		Arrays.sort(pairs, (a, b) -> a[1] - b[1]);
+		int cur = Integer.MIN_VALUE, ans = 0;
+		for (int[] pair : pairs)
+			if (cur < pair[0]) {
+				cur = pair[1];
+				ans++;
+			}
+		return ans;
 	}
 
 }
