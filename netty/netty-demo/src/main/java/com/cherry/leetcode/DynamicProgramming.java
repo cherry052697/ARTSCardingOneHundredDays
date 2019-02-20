@@ -512,4 +512,36 @@ public class DynamicProgramming {
 		return dp[n];
 	}
 
+	/*
+	 * 357. Count Numbers with Unique Digits
+	 * 
+	 * Given a non-negative integer n, count all numbers with unique digits, x,
+	 * where 0 ≤ x < 10n.
+	 * 
+	 */
+	public int countNumbersWithUniqueDigits(int n) {
+		if (n == 0)
+			return 1;
+		int res = 10;
+		int uniqueDigits = 9;
+		int availableNumber = 9;
+		while (n-- > 1 && availableNumber > 0) {
+			uniqueDigits = uniqueDigits * availableNumber;
+			res += uniqueDigits;
+			availableNumber--;
+		}
+		return res;
+	}
+	
+	public  int countNumbersWithUniqueDigits2(int n) {
+	    if (n == 0) {
+	        return 1;
+	    }
+	    int ans = 10, base = 9;
+	    for (int i = 2; i <= n && i <= 10; i++) {
+	        base = base * (9 - i + 2);
+	        ans += base;
+	    }
+	    return ans;
+	}
 }
