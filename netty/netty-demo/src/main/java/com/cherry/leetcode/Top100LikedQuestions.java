@@ -2986,7 +2986,15 @@ public class Top100LikedQuestions {
 	 * 
 	 * Given a binary tree, flatten it to a linked list in-place.
 	 */
+	private TreeNode prev = null;
 	public void flatten(TreeNode root) {
-
+	    if (root == null)
+	        return;
+	    flatten(root.right);
+	    flatten(root.left);
+	    root.right = prev;
+	    root.left = null;
+	    prev = root;
+	    System.out.println(JsonUtil.toJson(root));
 	}
 }

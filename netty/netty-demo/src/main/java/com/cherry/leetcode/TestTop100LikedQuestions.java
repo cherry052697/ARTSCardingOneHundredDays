@@ -204,7 +204,14 @@ public class TestTop100LikedQuestions {
 		int[] nums10 = {3,2,3,1,2,4,5,5,6};
 //		System.out.println(test.findKthLargest(nums10, 4));
 		String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
-		System.out.println(JsonUtil.toJson(test.groupAnagrams2(strs)));
+//		System.out.println(JsonUtil.toJson(test.groupAnagrams2(strs)));
+		TreeNode rootf = new TreeNode(1);
+		rootf.left = new TreeNode(2);
+		rootf.left.left = new TreeNode(3);
+		rootf.left.right = new TreeNode(4);
+		rootf.right = new TreeNode(5);
+		rootf.right.right= new TreeNode(6);
+		test.flatten(rootf);
 		
 		
 		
