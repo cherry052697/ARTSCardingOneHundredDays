@@ -1,6 +1,7 @@
 package com.cherry.leetcode;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -14,7 +15,10 @@ public class DynamicProgramming {
 		// int[][] grid = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 		// int[] nums = { 1, 2, 3, 4 };
 		// System.out.println(dp.numberOfArithmeticSlices(nums));
-		System.out.println(dp.minimumDeleteSum2("delete", "leet"));
+		// System.out.println(dp.minimumDeleteSum2("delete", "leet"));
+
+		int[] nums = { 10, 9, 2, 5, 3, 7, 101, 18 };
+		System.out.println(dp.lengthOfLIS(nums));
 
 	}
 
@@ -385,9 +389,51 @@ public class DynamicProgramming {
 	/*
 	 * 300. Longest Increasing Subsequence
 	 * 
-	 * Given an unsorted array of integers, find the length of longest increasing subsequence.
+	 * Given an unsorted array of integers, find the length of longest
+	 * increasing subsequence.
 	 */
 	public int lengthOfLIS(int[] nums) {
+		if (nums.length == 0) 
+			return 0;
+		int[] dp = new int[nums.length];
+		dp[0] = 1;
+		int maxans = 1,maxval = 0;
+		for (int i = 1; i < dp.length; i++) {
+			for (int j = 0; j < i; j++) {
+				if (nums[i] > nums[j]) {
+					maxval = Math.max(maxval, dp[j]);
+				}
+			}
+			dp[i] = maxval + 1;
+			maxans = Math.max(maxans, dp[i]);
+			maxval = 0;
+		}
+		return maxans;
+	}
+
+	/*
+	 * 638. Shopping Offers
+	 * 
+	 * In LeetCode Store, there are some kinds of items to sell. Each item has a
+	 * price.
+	 * 
+	 * However, there are some special offers, and a special offer consists of
+	 * one or more different kinds of items with a sale price.
+	 * 
+	 * You are given the each item's price, a set of special offers, and the
+	 * number we need to buy for each item. The job is to output the lowest
+	 * price you have to pay for exactly certain items as given, where you could
+	 * make optimal use of the special offers.
+	 * 
+	 * Each special offer is represented in the form of an array, the last
+	 * number represents the price you need to pay for this special offer, other
+	 * numbers represents how many specific items you could get if you buy this
+	 * offer.
+	 * 
+	 * You could use any of special offers as many times as you want.
+	 * 
+	 */
+	public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
 		return 0;
 	}
 
