@@ -3043,7 +3043,7 @@ public class Top100LikedQuestions {
 		int sqrt_n = (int) (Math.sqrt(n));
 		for (int i = 1; i <= sqrt_n; i++) {
 			n1 = (int) (Math.sqrt(n - i * i));
-			if (n1*n1 == (n - i * i)) {
+			if (n1 * n1 == (n - i * i)) {
 				return 2;
 			}
 		}
@@ -3051,8 +3051,14 @@ public class Top100LikedQuestions {
 		return 3;
 	}
 
-	boolean is_square(int n) {
-		int sqrt_n = (int) (Math.sqrt(n));
-		return (sqrt_n * sqrt_n == n);
+	public int numSquares2(int n) {
+		int[] record = new int[n + 1];
+		for (int i = 0; i <= n; i++) {
+			record[i] = i;
+			for (int j = 1; j * j <= i; j++) {
+				record[i] = Math.min(record[i - j * j] + 1, record[i]);
+			}
+		}
+		return record[n];
 	}
 }
