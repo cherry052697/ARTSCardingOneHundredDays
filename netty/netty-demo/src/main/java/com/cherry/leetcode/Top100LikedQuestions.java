@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -3016,5 +3017,42 @@ public class Top100LikedQuestions {
 			}
 			now = now.right;
 		}
+	}
+
+	/*
+	 * 279. Perfect Squares
+	 * 
+	 * Given a positive integer n, find the least number of perfect square
+	 * numbers (for example, 1, 4, 9, 16, ...) which sum to n.
+	 */
+	public int numSquares(int n) {
+		int n1 = (int) (Math.sqrt(n));
+		if (n1 * n1 == n) {
+			return 1;
+		}
+
+		while ((n & 3) == 0) // n%4 == 0
+		{
+			n >>= 2;
+		}
+		if ((n & 7) == 7) // n%8 == 7
+		{
+			return 4;
+		}
+
+		int sqrt_n = (int) (Math.sqrt(n));
+		for (int i = 1; i <= sqrt_n; i++) {
+			n1 = (int) (Math.sqrt(n - i * i));
+			if (n1*n1 == (n - i * i)) {
+				return 2;
+			}
+		}
+
+		return 3;
+	}
+
+	boolean is_square(int n) {
+		int sqrt_n = (int) (Math.sqrt(n));
+		return (sqrt_n * sqrt_n == n);
 	}
 }
