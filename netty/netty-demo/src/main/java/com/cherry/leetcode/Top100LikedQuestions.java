@@ -2945,4 +2945,48 @@ public class Top100LikedQuestions {
 		}
 		return res;
 	}
+
+	/*
+	 * 75. Sort Colors
+	 * 
+	 * Given an array with n objects colored red, white or blue, sort them
+	 * in-place so that objects of the same color are adjacent, with the colors
+	 * in the order red, white and blue. Here, we will use the integers 0, 1,
+	 * and 2 to represent the color red, white, and blue respectively. Note: You
+	 * are not suppose to use the library's sort function for this problem.
+	 */
+	public void sortColors(int[] nums) {
+		Arrays.sort(nums);
+	}
+
+	/*
+	 * 309. Best Time to Buy and Sell Stock with Cooldown
+	 * 
+	 * Say you have an array for which the ith element is the price of a given
+	 * stock on day i. Design an algorithm to find the maximum profit. You may
+	 * complete as many transactions as you like (ie, buy one and sell one share
+	 * of the stock multiple times) with the following restrictions: You may not
+	 * engage in multiple transactions at the same time (ie, you must sell the
+	 * stock before you buy again). After you sell your stock, you cannot buy
+	 * stock on next day. (ie, cooldown 1 day)
+	 */
+	public int maxProfit3(int[] prices) {
+		int sell = 0, prev_sell = 0, buy = Integer.MIN_VALUE, prev_buy;
+		for (int price : prices) {
+			prev_buy = buy;
+			buy = Math.max(prev_sell - price, prev_buy);
+			prev_sell = sell;
+			sell = Math.max(prev_buy + price, prev_sell);
+		}
+		return sell;
+	}
+
+	/*
+	 * 114. Flatten Binary Tree to Linked List
+	 * 
+	 * Given a binary tree, flatten it to a linked list in-place.
+	 */
+	public void flatten(TreeNode root) {
+
+	}
 }
