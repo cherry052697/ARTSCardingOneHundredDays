@@ -2817,40 +2817,71 @@ public class Top100LikedQuestions {
 		}
 		return levelResult;
 	}
-	
+
 	public List<List<Integer>> levelOrder2(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        levelHelper(root, 0,result);
-        return result;
-    }
-    
-    void levelHelper( TreeNode root, int height, List<List<Integer>> res) {
-        if (root == null) return;
-        if (height >= res.size()) {
-            res.add(new LinkedList<Integer>());
-        }
-        res.get(height).add(root.val);
-        levelHelper(root.left, height+1,res);
-        levelHelper(root.right, height+1,res);
-    }
-    /*
-     * 337. House Robber III
-     * 
-     * The thief has found himself a new place for his thievery again. There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that "all houses in this place forms a binary tree". It will automatically contact the police if two directly-linked houses were broken into on the same night.
-     * Determine the maximum amount of money the thief can rob tonight without alerting the police.
-     */
-    public int rob(TreeNode root) {
+		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		levelHelper(root, 0, result);
+		return result;
+	}
+
+	void levelHelper(TreeNode root, int height, List<List<Integer>> res) {
+		if (root == null)
+			return;
+		if (height >= res.size()) {
+			res.add(new LinkedList<Integer>());
+		}
+		res.get(height).add(root.val);
+		levelHelper(root.left, height + 1, res);
+		levelHelper(root.right, height + 1, res);
+	}
+
+	/*
+	 * 337. House Robber III
+	 * 
+	 * The thief has found himself a new place for his thievery again. There is
+	 * only one entrance to this area, called the "root." Besides the root, each
+	 * house has one and only one parent house. After a tour, the smart thief
+	 * realized that "all houses in this place forms a binary tree". It will
+	 * automatically contact the police if two directly-linked houses were
+	 * broken into on the same night. Determine the maximum amount of money the
+	 * thief can rob tonight without alerting the police.
+	 */
+	public int rob(TreeNode root) {
 		int[] num = dfs(root);
-        return Math.max(num[0], num[1]);
-    }
-    private int[] dfs(TreeNode x) {
-        if (x == null) return new int[2];
-        int[] left = dfs(x.left);
-        int[] right = dfs(x.right);
-        int[] res = new int[2];
-        res[0] = left[1] + right[1] + x.val;
-        res[1] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
-        return res;
-    }
-    
+		return Math.max(num[0], num[1]);
+	}
+
+	private int[] dfs(TreeNode x) {
+		if (x == null)
+			return new int[2];
+		int[] left = dfs(x.left);
+		int[] right = dfs(x.right);
+		int[] res = new int[2];
+		res[0] = left[1] + right[1] + x.val;
+		res[1] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+		return res;
+	}
+
+	/*
+	 * 48. Rotate Image
+	 * 
+	 * You are given an n x n 2D matrix representing an image. Rotate the image
+	 * by 90 degrees (clockwise).
+	 * 
+	 * Note:You have to rotate the image in-place, which means you have to
+	 * modify the input 2D matrix directly. DO NOT allocate another 2D matrix
+	 * and do the rotation.
+	 */
+	public void rotate(int[][] matrix) {
+		int n = matrix.length;
+		for (int i = 0; i < n / 2; i++)
+			for (int j = i; j < n - i - 1; j++) {
+				int tmp = matrix[i][j];
+				matrix[i][j] = matrix[n - j - 1][i];
+				matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+				matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+				matrix[j][n - i - 1] = tmp;
+			}
+	}
+
 }
