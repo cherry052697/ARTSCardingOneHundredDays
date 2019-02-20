@@ -200,7 +200,11 @@ public class TestTop100LikedQuestions {
 		lroot.right = new TreeNode(20);
 		lroot.right.left = new TreeNode(15);
 		lroot.right.right = new TreeNode(7);
-		System.out.println(JsonUtil.toJson(test.levelOrder2(lroot)));
+//		System.out.println(JsonUtil.toJson(test.levelOrder2(lroot)));
+		int[] nums10 = {3,2,3,1,2,4,5,5,6};
+//		System.out.println(test.findKthLargest(nums10, 4));
+		String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+		System.out.println(JsonUtil.toJson(test.groupAnagrams2(strs)));
 		
 		
 		

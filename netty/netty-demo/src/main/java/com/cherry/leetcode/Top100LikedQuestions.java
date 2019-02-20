@@ -2884,4 +2884,65 @@ public class Top100LikedQuestions {
 			}
 	}
 
+	/*
+	 * 215. Kth Largest Element in an Array
+	 * 
+	 * Find the kth largest element in an unsorted array. Note that it is the
+	 * kth largest element in the sorted order, not the kth distinct element.
+	 */
+	public int findKthLargest(int[] nums, int k) {
+		Arrays.sort(nums);
+		return nums[nums.length - k];
+	}
+
+	/*
+	 * 96. Unique Binary Search Trees
+	 */
+	public int numTrees(int n) {
+		return 0;
+	}
+
+	/*
+	 * 49. Group Anagrams
+	 * 
+	 * Given an array of strings, group anagrams together.
+	 */
+	public List<List<String>> groupAnagrams(String[] strs) {
+		if (strs.length == 0)
+			return new ArrayList<List<String>>();
+		Map<String, List<String>> ans = new HashMap<String, List<String>>();
+		for (String s : strs) {
+			char[] ca = s.toCharArray();
+			Arrays.sort(ca);
+			String key = String.valueOf(ca);
+			if (!ans.containsKey(key))
+				ans.put(key, new ArrayList<String>());
+			ans.get(key).add(s);
+		}
+		return new ArrayList<List<String>>(ans.values());
+	}
+
+	public List<List<String>> groupAnagrams2(String[] strs) {
+		int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
+				103 };
+
+		List<List<String>> res = new ArrayList<>();
+		HashMap<Integer, Integer> map = new HashMap<>();
+		for (String s : strs) {
+			int key = 1;
+			for (char c : s.toCharArray()) {
+				key *= prime[c - 'a'];
+			}
+			List<String> t;
+			if (map.containsKey(key)) {
+				t = res.get(map.get(key));
+			} else {
+				t = new ArrayList<>();
+				res.add(t);
+				map.put(key, res.size() - 1);
+			}
+			t.add(s);
+		}
+		return res;
+	}
 }
