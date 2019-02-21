@@ -105,15 +105,17 @@ public class StackApplication {
 				int newtop = top + stack.peek();
 				stack.push(top);
 				stack.push(newtop);
+				sum+=newtop;
 			} else if (op.equals("C")) {
-				stack.pop();
+				sum-=stack.pop();;
 			} else if (op.equals("D")) {
 				stack.push(2 * stack.peek());
+				sum+=stack.peek();
 			} else {
 				stack.push(Integer.valueOf(op));
+				sum+=stack.peek();
 			}
 		}
-		for(int score : stack) sum += score;
 		return sum;
 	}
 
