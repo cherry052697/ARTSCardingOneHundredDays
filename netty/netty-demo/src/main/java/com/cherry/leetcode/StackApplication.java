@@ -137,8 +137,28 @@ public class StackApplication {
 	 * temperature will be an integer in the range [30, 100].
 	 */
 	public int[] dailyTemperatures(int[] T) {
-		return null;
+		int[] result = new int[T.length];
+		for (int i = 0; i < T.length-1; i++) {
+			for (int j = i+1; j < result.length; j++) {
+				if (T[i] < T[j]) {
+					result[i] = j-i;
+					break;
+				}
+			}
+		}
+		return result;
 	}
+	
+	 public int[] dailyTemperatures2(int[] T) {
+	        int[] ans = new int[T.length];
+	        Stack<Integer> stack = new Stack<Integer>();
+	        for (int i = T.length - 1; i >= 0; --i) {
+	            while (!stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop();
+	            ans[i] = stack.isEmpty() ? 0 : stack.peek() - i;
+	            stack.push(i);
+	        }
+	        return ans;
+	    }
 
 	public static void main(String[] args) {
 		StackApplication sa = new StackApplication();
@@ -147,6 +167,11 @@ public class StackApplication {
 //		System.out.println(sa.calPoints(ops));
 		int[] nums = {73, 74, 75, 71, 69, 72, 76, 73};
 		System.out.println(JsonUtil.toJson(sa.dailyTemperatures(nums)));
+		/*byte x = 126;
+		byte y = (byte) (x+3);
+		System.out.println(y);
+		y = (byte) (y-2);
+		System.out.println(y);*/
 	}
 
 }
