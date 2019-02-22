@@ -3,6 +3,8 @@ package com.cherry.leetcode;
 import java.util.HashMap;
 import java.util.Stack;
 
+import com.cherry.netty.utils.JsonUtil;
+
 public class StackApplication {
 
 	String binaryConversion(int count, int n) {
@@ -105,25 +107,46 @@ public class StackApplication {
 				int newtop = top + stack.peek();
 				stack.push(top);
 				stack.push(newtop);
-				sum+=newtop;
+				sum += newtop;
 			} else if (op.equals("C")) {
-				sum-=stack.pop();;
+				sum -= stack.pop();
+				;
 			} else if (op.equals("D")) {
 				stack.push(2 * stack.peek());
-				sum+=stack.peek();
+				sum += stack.peek();
 			} else {
 				stack.push(Integer.valueOf(op));
-				sum+=stack.peek();
+				sum += stack.peek();
 			}
 		}
 		return sum;
+	}
+
+	/*
+	 * 739. Daily Temperatures 
+	 * 
+	 * Given a list of daily temperatures T, return a
+	 * list such that, for each day in the input, tells you how many days you
+	 * would have to wait until a warmer temperature. If there is no future day
+	 * for which this is possible, put 0 instead.
+	 * 
+	 * For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72,
+	 * 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
+	 * 
+	 * Note: The length of temperatures will be in the range [1, 30000]. Each
+	 * temperature will be an integer in the range [30, 100].
+	 */
+	public int[] dailyTemperatures(int[] T) {
+		return null;
 	}
 
 	public static void main(String[] args) {
 		StackApplication sa = new StackApplication();
 		// System.out.println(sa.binaryConversion(89, 8));
 		String[] ops = { "5", "2", "C", "D", "+" };
-		System.out.println(sa.calPoints(ops));
+//		System.out.println(sa.calPoints(ops));
+		int[] nums = {73, 74, 75, 71, 69, 72, 76, 73};
+		System.out.println(JsonUtil.toJson(sa.dailyTemperatures(nums)));
 	}
 
 }

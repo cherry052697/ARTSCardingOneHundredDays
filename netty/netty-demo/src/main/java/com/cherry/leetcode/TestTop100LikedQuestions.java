@@ -212,10 +212,36 @@ public class TestTop100LikedQuestions {
 		rootf.right = new TreeNode(5);
 		rootf.right.right= new TreeNode(6);
 //		test.flatten2(rootf);
-		System.out.println(test.numSquares(13));;
+//		System.out.println(test.numSquares(13));
 		
+		System.out.println(JsonUtil.toJson(new TestTop100LikedQuestions().primeNumbers(100)));
 		
-		
+	}
+	public List<Integer> primeNumbers(int n){
+		List<Integer> result = new ArrayList<Integer>();
+		if (n >= 7) {
+			result.add(2);
+			result.add(3);
+			result.add(5);
+			result.add(7);
+		}else if(n >= 5 && n<7){
+			result.add(2);
+			result.add(3);
+			result.add(5);
+		}else if(n >= 3 && n<5){
+			result.add(2);
+			result.add(3);
+		}else if(n >= 2 && n<3){
+			result.add(2);
+		}
+		for (int i = 2; i <= n; i++) {
+			if (i%2==0||i%3==0||i%5==0||i%7==0) {
+				continue;
+			}else{
+				result.add(i);
+			}
+		}
+		return result;
 		
 	}
 	public  int hashCode(char [] value) {
