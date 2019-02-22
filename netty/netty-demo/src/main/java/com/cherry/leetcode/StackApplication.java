@@ -1,9 +1,10 @@
 package com.cherry.leetcode;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
+import java.util.TreeMap;
 
-import com.cherry.netty.utils.JsonUtil;
 
 public class StackApplication {
 
@@ -123,12 +124,12 @@ public class StackApplication {
 	}
 
 	/*
-	 * 739. Daily Temperatures 
+	 * 739. Daily Temperatures
 	 * 
-	 * Given a list of daily temperatures T, return a
-	 * list such that, for each day in the input, tells you how many days you
-	 * would have to wait until a warmer temperature. If there is no future day
-	 * for which this is possible, put 0 instead.
+	 * Given a list of daily temperatures T, return a list such that, for each
+	 * day in the input, tells you how many days you would have to wait until a
+	 * warmer temperature. If there is no future day for which this is possible,
+	 * put 0 instead.
 	 * 
 	 * For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72,
 	 * 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
@@ -138,40 +139,122 @@ public class StackApplication {
 	 */
 	public int[] dailyTemperatures(int[] T) {
 		int[] result = new int[T.length];
-		for (int i = 0; i < T.length-1; i++) {
-			for (int j = i+1; j < result.length; j++) {
+		for (int i = 0; i < T.length - 1; i++) {
+			for (int j = i + 1; j < result.length; j++) {
 				if (T[i] < T[j]) {
-					result[i] = j-i;
+					result[i] = j - i;
 					break;
 				}
 			}
 		}
 		return result;
 	}
-	
-	 public int[] dailyTemperatures2(int[] T) {
-	        int[] ans = new int[T.length];
-	        Stack<Integer> stack = new Stack<Integer>();
-	        for (int i = T.length - 1; i >= 0; --i) {
-	            while (!stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop();
-	            ans[i] = stack.isEmpty() ? 0 : stack.peek() - i;
-	            stack.push(i);
-	        }
-	        return ans;
-	    }
 
+	public int[] dailyTemperatures2(int[] T) {
+		int[] result = new int[T.length];
+		Stack<Integer> stack = new Stack<Integer>();
+		for (int i = T.length - 1; i >= 0; --i) {
+			while (!stack.isEmpty() && T[i] >= T[stack.peek()])
+				stack.pop();
+			result[i] = stack.isEmpty() ? 0 : stack.peek() - i;
+			stack.push(i);
+		}
+		return result;
+	}
+
+	/*
+	 * 726. Number of Atoms
+	 * 
+	 * Given a chemical formula (given as a string), return the count of each
+	 * atom.
+	 * 
+	 * An atomic element always starts with an uppercase character, then zero or
+	 * more lowercase letters, representing the name.
+	 * 
+	 * 1 or more digits representing the count of that element may follow if the
+	 * count is greater than 1. If the count is 1, no digits will follow. For
+	 * example, H2O and H2O2 are possible, but H1O2 is impossible.
+	 * 
+	 * Two formulas concatenated together produce another formula. For example,
+	 * H2O2He3Mg4 is also a formula.
+	 * 
+	 * A formula placed in parentheses, and a count (optionally added) is also a
+	 * formula. For example, (H2O2) and (H2O2)3 are formulas.
+	 * 
+	 * Given a formula, output the count of all elements as a string in the
+	 * following form: the first name (in sorted order), followed by its count
+	 * (if that count is more than 1), followed by the second name (in sorted
+	 * order), followed by its count (if that count is more than 1), and so on.
+	 * 
+	 * Input:formula = "Mg(OH)2" Output: "H2MgO2" Explanation: The count of
+	 * elements are {'H': 2, 'Mg': 1, 'O': 2}
+	 * 
+	 * Input: formula = "K4(ON(SO3)2)2" Output: "K4N2O14S4" Explanation: The
+	 * count of elements are {'K': 4, 'N': 2, 'O': 14, 'S': 4}.
+	 */
+	int i;
+
+	public String countOfAtoms(String formula) {
+		StringBuilder ans = new StringBuilder();
+		i = 0;
+		Map<String, Integer> count = parse(formula);
+		for (String name : count.keySet()) {
+			ans.append(name);
+			int multiplicity = count.get(name);
+			if (multiplicity > 1)
+				ans.append("" + multiplicity);
+		}
+		return new String(ans);
+	}
+
+	public Map<String, Integer> parse(String formula) {
+		int N = formula.length();
+		Map<String, Integer> count = new TreeMap<String, Integer>();
+		while (i < N && formula.charAt(i) != ')') {
+			if (formula.charAt(i) == '(') {
+				i++;
+				for (Map.Entry<String, Integer> entry : parse(formula).entrySet()) {
+					count.put(entry.getKey(), count.getOrDefault(entry.getKey(), 0) + entry.getValue());
+				}
+			} else {
+				int iStart = i++;
+				while (i < N && Character.isLowerCase(formula.charAt(i)))
+					i++;
+				String name = formula.substring(iStart, i);
+				iStart = i;
+				while (i < N && Character.isDigit(formula.charAt(i)))
+					i++;
+				int multiplicity = iStart < i ? Integer.parseInt(formula.substring(iStart, i)) : 1;
+				count.put(name, count.getOrDefault(name, 0) + multiplicity);
+			}
+		}
+		int iStart = ++i;
+		while (i < N && Character.isDigit(formula.charAt(i)))
+			i++;
+		if (iStart < i) {
+			int multiplicity = Integer.parseInt(formula.substring(iStart, i));
+			for (String key : count.keySet()) {
+				count.put(key, count.get(key) * multiplicity);
+			}
+		}
+		return count;
+	}
+
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		/*
+		 * byte x = 126; byte y = (byte) (x+3); System.out.println(y); y =
+		 * (byte) (y-2); System.out.println(y);
+		 */
 		StackApplication sa = new StackApplication();
 		// System.out.println(sa.binaryConversion(89, 8));
 		String[] ops = { "5", "2", "C", "D", "+" };
-//		System.out.println(sa.calPoints(ops));
-		int[] nums = {73, 74, 75, 71, 69, 72, 76, 73};
-		System.out.println(JsonUtil.toJson(sa.dailyTemperatures(nums)));
-		/*byte x = 126;
-		byte y = (byte) (x+3);
-		System.out.println(y);
-		y = (byte) (y-2);
-		System.out.println(y);*/
+		// System.out.println(sa.calPoints(ops));
+		int[] nums = { 73, 74, 75, 71, 69, 72, 76, 73 };
+		// System.out.println(JsonUtil.toJson(sa.dailyTemperatures(nums)));
+		System.out.println(sa.countOfAtoms("K4(ON(SO3)2)2"));
+		System.out.println(sa.countOfAtoms("Mg(OH)2"));
+
 	}
 
 }
