@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
 
-
 public class StackApplication {
 
 	String binaryConversion(int count, int n) {
@@ -192,11 +191,11 @@ public class StackApplication {
 	 * Input: formula = "K4(ON(SO3)2)2" Output: "K4N2O14S4" Explanation: The
 	 * count of elements are {'K': 4, 'N': 2, 'O': 14, 'S': 4}.
 	 */
-	int i;
+	int index;
 
 	public String countOfAtoms(String formula) {
 		StringBuilder ans = new StringBuilder();
-		i = 0;
+		index = 0;
 		Map<String, Integer> count = parse(formula);
 		for (String name : count.keySet()) {
 			ans.append(name);
@@ -208,13 +207,57 @@ public class StackApplication {
 	}
 
 	public Map<String, Integer> parse(String formula) {
-		int N = formula.length();
+		int len = formula.length();
 		Map<String, Integer> count = new TreeMap<String, Integer>();
-		while (i < N && formula.charAt(i) != ')') {
-			if (formula.charAt(i) == '(') {
-				i++;
+		while (index < len && formula.charAt(index) != ')') {
+			if (formula.charAt(index) == '(') {
+				index++;
 				for (Map.Entry<String, Integer> entry : parse(formula).entrySet()) {
 					count.put(entry.getKey(), count.getOrDefault(entry.getKey(), 0) + entry.getValue());
+				}
+			} else {
+				int iStart = index++;
+				while (index < len && Character.isLowerCase(formula.charAt(index)))
+					index++;
+				String name = formula.substring(iStart, index);
+				iStart = index;
+				while (index < len && Character.isDigit(formula.charAt(index)))
+					index++;
+				int multiplicity = iStart < index ? Integer.parseInt(formula.substring(iStart, index)) : 1;
+				count.put(name, count.getOrDefault(name, 0) + multiplicity);
+			}
+		}
+		int iStart = ++index;
+		while (index < len && Character.isDigit(formula.charAt(index)))
+			index++;
+		if (iStart < index) {
+			int multiplicity = Integer.parseInt(formula.substring(iStart, index));
+			for (String key : count.keySet()) {
+				count.put(key, count.get(key) * multiplicity);
+			}
+		}
+		return count;
+	}
+
+	public String countOfAtoms2(String formula) {
+		int N = formula.length();
+		Stack<Map<String, Integer>> stack = new Stack<Map<String,Integer>>();
+		stack.push(new TreeMap<String, Integer>());
+
+		for (int i = 0; i < N;) {
+			if (formula.charAt(i) == '(') {
+				stack.push(new TreeMap<String, Integer>());
+				i++;
+			} else if (formula.charAt(i) == ')') {
+				Map<String, Integer> top = stack.pop();
+				int iStart = ++i, multiplicity = 1;
+				while (i < N && Character.isDigit(formula.charAt(i)))
+					i++;
+				if (i > iStart)
+					multiplicity = Integer.parseInt(formula.substring(iStart, i));
+				for (String c : top.keySet()) {
+					int v = top.get(c);
+					stack.peek().put(c, stack.peek().getOrDefault(c, 0) + v * multiplicity);
 				}
 			} else {
 				int iStart = i++;
@@ -224,20 +267,19 @@ public class StackApplication {
 				iStart = i;
 				while (i < N && Character.isDigit(formula.charAt(i)))
 					i++;
-				int multiplicity = iStart < i ? Integer.parseInt(formula.substring(iStart, i)) : 1;
-				count.put(name, count.getOrDefault(name, 0) + multiplicity);
+				int multiplicity = i > iStart ? Integer.parseInt(formula.substring(iStart, i)) : 1;
+				stack.peek().put(name, stack.peek().getOrDefault(name, 0) + multiplicity);
 			}
 		}
-		int iStart = ++i;
-		while (i < N && Character.isDigit(formula.charAt(i)))
-			i++;
-		if (iStart < i) {
-			int multiplicity = Integer.parseInt(formula.substring(iStart, i));
-			for (String key : count.keySet()) {
-				count.put(key, count.get(key) * multiplicity);
-			}
+
+		StringBuilder ans = new StringBuilder();
+		for (String name : stack.peek().keySet()) {
+			ans.append(name);
+			int multiplicity = stack.peek().get(name);
+			if (multiplicity > 1)
+				ans.append("" + multiplicity);
 		}
-		return count;
+		return new String(ans);
 	}
 
 	@SuppressWarnings("unused")
@@ -252,8 +294,8 @@ public class StackApplication {
 		// System.out.println(sa.calPoints(ops));
 		int[] nums = { 73, 74, 75, 71, 69, 72, 76, 73 };
 		// System.out.println(JsonUtil.toJson(sa.dailyTemperatures(nums)));
-		System.out.println(sa.countOfAtoms("K4(ON(SO3)2)2"));
-		System.out.println(sa.countOfAtoms("Mg(OH)2"));
+		System.out.println(sa.countOfAtoms2("K4(ON(SO3)2)2"));
+		System.out.println(sa.countOfAtoms2("Mg(OH)2"));
 
 	}
 
