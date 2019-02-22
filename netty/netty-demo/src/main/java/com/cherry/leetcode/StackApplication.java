@@ -241,7 +241,7 @@ public class StackApplication {
 
 	public String countOfAtoms2(String formula) {
 		int N = formula.length();
-		Stack<Map<String, Integer>> stack = new Stack<Map<String,Integer>>();
+		Stack<Map<String, Integer>> stack = new Stack<Map<String, Integer>>();
 		stack.push(new TreeMap<String, Integer>());
 
 		for (int i = 0; i < N;) {
@@ -282,6 +282,48 @@ public class StackApplication {
 		return new String(ans);
 	}
 
+	/*
+	 * 224. Basic Calculator
+	 * 
+	 * Implement a basic calculator to evaluate a simple expression string.
+	 * 
+	 * The expression string may contain open ( and closing parentheses ), the
+	 * plus + or minus sign -, non-negative integers and empty spaces .
+	 */
+	public int calculate(String s) {
+		Stack<Integer> stack = new Stack<Integer>();
+		int result = 0;
+		int number = 0;
+		int sign = 1;
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (Character.isDigit(c)) {
+				number = 10 * number + (int) (c - '0');
+			} else if (c == '+') {
+				result += sign * number;
+				number = 0;
+				sign = 1;
+			} else if (c == '-') {
+				result += sign * number;
+				number = 0;
+				sign = -1;
+			} else if (c == '(') {
+				stack.push(result);
+				stack.push(sign);
+				sign = 1;
+				result = 0;
+			} else if (c == ')') {
+				result += sign * number;
+				number = 0;
+				result *= stack.pop();
+				result += stack.pop();
+			}
+		}
+		if (number != 0)
+			result += sign * number;
+		return result;
+	}
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		/*
@@ -294,8 +336,9 @@ public class StackApplication {
 		// System.out.println(sa.calPoints(ops));
 		int[] nums = { 73, 74, 75, 71, 69, 72, 76, 73 };
 		// System.out.println(JsonUtil.toJson(sa.dailyTemperatures(nums)));
-		System.out.println(sa.countOfAtoms2("K4(ON(SO3)2)2"));
-		System.out.println(sa.countOfAtoms2("Mg(OH)2"));
+		// System.out.println(sa.countOfAtoms2("K4(ON(SO3)2)2"));
+		// System.out.println(sa.countOfAtoms2("Mg(OH)2"));
+		System.out.println(sa.calculate("2+3"));
 
 	}
 
