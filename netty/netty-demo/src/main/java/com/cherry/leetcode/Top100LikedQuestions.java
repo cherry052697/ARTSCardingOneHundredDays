@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -3142,5 +3144,29 @@ public class Top100LikedQuestions {
 				grid[i][j + 1] = '0';
 			}
 		}
+	}
+
+	/*
+	 * 33. Search in Rotated Sorted Array
+	 * 
+	 * Suppose an array sorted in ascending order is rotated at some pivot
+	 * unknown to you beforehand.
+	 * 
+	 * (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+	 * 
+	 * You are given a target value to search. If found in the array return its
+	 * index, otherwise return -1.
+	 * 
+	 * You may assume no duplicate exists in the array.
+	 * 
+	 * Your algorithm's runtime complexity must be in the order of O(log n).
+	 */
+	public int search(int[] nums, int target) {
+		for (int i = 0; i < nums.length; i++) {
+			if (target == nums[i]) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

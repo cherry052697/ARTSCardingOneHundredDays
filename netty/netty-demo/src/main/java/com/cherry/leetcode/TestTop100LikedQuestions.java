@@ -214,7 +214,9 @@ public class TestTop100LikedQuestions {
 //		test.flatten2(rootf);
 //		System.out.println(test.numSquares(13));
 		
-		System.out.println(JsonUtil.toJson(new TestTop100LikedQuestions().primeNumbers(100)));
+//		System.out.println(JsonUtil.toJson(new TestTop100LikedQuestions().primeNumbers(100)));
+		int[] nums11 = {4,5,6,7,0,1,2};
+		System.out.println(test.search(nums11, 0));
 		
 	}
 	public List<Integer> primeNumbers(int n){
