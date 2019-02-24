@@ -128,17 +128,39 @@ public class TreeApplication {
 		return root;
 	}
 
+	/*
+	 * 783. Minimum Distance Between BST Nodes
+	 * 
+	 * Given a Binary Search Tree (BST) with the root node root, return the
+	 * minimum difference between the values of any two different nodes in the
+	 * tree.
+	 */
+	Integer minDiff = Integer.MAX_VALUE, pre = null;
+
+	public int minDiffInBST(TreeNode root) {
+		if (root.left != null)
+			minDiffInBST(root.left);
+		if (pre != null)
+			minDiff = Math.min(minDiff, root.val - pre);
+		pre = root.val;
+		if (root.right != null)
+			minDiffInBST(root.right);
+		return minDiff;
+	}
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		TreeApplication ta = new TreeApplication();
 		int[] nums = { 3, 2, 1, 6, 0, 5 };
 		// System.out.println(ta.constructMaximumBinaryTree(nums));
 
-		TreeNode node = new TreeNode(1);
-		node.right = new TreeNode(0);
-		node.right.left = new TreeNode(0);
-		node.right.right = new TreeNode(1);
-		System.out.println(ta.pruneTree(node));
+		TreeNode node = new TreeNode(4);
+		node.left = new TreeNode(2);
+		node.right = new TreeNode(6);
+		node.left.left = new TreeNode(1);
+		node.left.right = new TreeNode(3);
+		System.out.println(ta.minDiffInBST(node));
+
 	}
 
 }
