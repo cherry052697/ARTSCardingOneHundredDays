@@ -2,7 +2,9 @@ package com.cherry.leetcode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -117,7 +119,6 @@ public class GraphApplication {
 	Set<Integer> seen = new HashSet<Integer>();
 	int MAX_EDGE_VAL = 1000;
 
-	@SuppressWarnings("unchecked")
 	public int[] findRedundantConnection(int[][] edges) {
 		ArrayList<Integer>[] graph = new ArrayList[MAX_EDGE_VAL + 1];
 		for (int i = 0; i <= MAX_EDGE_VAL; i++) {
@@ -146,6 +147,87 @@ public class GraphApplication {
 			}
 		}
 		return false;
+	}
+
+	/*
+	 * 207. Course Schedule
+	 * 
+	 * There are a total of n courses you have to take, labeled from 0 to n-1.
+	 * 
+	 * Some courses may have prerequisites, for example to take course 0 you
+	 * have to first take course 1, which is expressed as a pair: [0,1]
+	 * 
+	 * Given the total number of courses and a list of prerequisite pairs, is it
+	 * possible for you to finish all courses?
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public boolean canFinish(int numCourses, int[][] prerequisites) {
+		ArrayList[] graph = new ArrayList[numCourses];
+		for (int i = 0; i < numCourses; i++)
+			graph[i] = new ArrayList();
+
+		boolean[] visited = new boolean[numCourses];
+		for (int i = 0; i < prerequisites.length; i++) {
+			graph[prerequisites[i][1]].add(prerequisites[i][0]);
+		}
+
+		for (int i = 0; i < numCourses; i++) {
+			if (!dfs(graph, visited, i))
+				return false;
+		}
+		return true;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private boolean dfs(ArrayList[] graph, boolean[] visited, int course) {
+		if (visited[course])
+			return false;
+		else
+			visited[course] = true;
+
+		for (int i = 0; i < graph[course].size(); i++) {
+			if (!dfs(graph, visited, (int) graph[course].get(i)))
+				return false;
+		}
+		visited[course] = false;
+		return true;
+	}
+
+	public boolean canFinish2(int numCourses, int[][] prerequisites) {
+		ArrayList[] graph = new ArrayList[numCourses];
+		int[] degree = new int[numCourses];
+		Queue<Integer> queue = new LinkedList<Integer>();
+		int count = 0;
+
+		for (int i = 0; i < numCourses; i++)
+			graph[i] = new ArrayList();
+
+		for (int i = 0; i < prerequisites.length; i++) {
+			degree[prerequisites[i][1]]++;
+			graph[prerequisites[i][0]].add(prerequisites[i][1]);
+		}
+		for (int i = 0; i < degree.length; i++) {
+			if (degree[i] == 0) {
+				queue.add(i);
+				count++;
+			}
+		}
+
+		while (queue.size() != 0) {
+			int course = (int) queue.poll();
+			for (int i = 0; i < graph[course].size(); i++) {
+				int pointer = (int) graph[course].get(i);
+				degree[pointer]--;
+				if (degree[pointer] == 0) {
+					queue.add(pointer);
+					count++;
+				}
+			}
+		}
+		if (count == numCourses)
+			return true;
+		else
+			return false;
 	}
 
 	public static void main(String[] args) {
