@@ -230,6 +230,18 @@ public class GraphApplication {
 			return false;
 	}
 
+	/*
+	 * 399. Evaluate Division
+	 * 
+	 * Equations are given in the format A / B = k, where A and B are variables
+	 * represented as strings, and k is a real number (floating point number).
+	 * Given some queries, return the answers. If the answer does not exist,
+	 * return -1.0.
+	 */
+	public double[] calcEquation(String[][] equations, double[] values, String[][] queries) {
+		return null;
+	}
+
 	public static void main(String[] args) {
 		GraphApplication ga = new GraphApplication();
 		int[][] trust = { { 1, 3 }, { 1, 4 }, { 2, 3 }, { 2, 4 }, { 4, 3 } };
