@@ -3247,8 +3247,27 @@ public class Top100LikedQuestions {
 	     * 56. Merge Intervals
 	     * 
 	     * Given a collection of intervals, merge all overlapping intervals.
+	     * Input: [[1,3],[2,6],[8,10],[15,18]]
+	     * Output: [[1,6],[8,10],[15,18]]
 	     */
 	    public List<Interval> merge(List<Interval> intervals) {
-	        return null;
+	    	List<Interval> result = new ArrayList<Interval>();
+	    	if (intervals.size()==0) {
+				return result;
+	    	}
+	    	else if(intervals.size()==1){
+	    		result.add(intervals.get(0));
+	    		return result;
+	    	}
+	    	Interval temp = intervals.get(0);
+	    	for (int i=0;i<intervals.size();i++) {
+	    		if (temp.end >= intervals.get(i).start) {
+					result.add(new Interval(temp.start, intervals.get(i).end));
+					temp = intervals.get(i);
+				}else{
+					result.add(intervals.get(i-1));
+				}
+			}
+	        return result;
 	    }
 }
