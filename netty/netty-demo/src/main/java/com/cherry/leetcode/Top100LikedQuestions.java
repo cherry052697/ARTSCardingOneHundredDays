@@ -3243,4 +3243,12 @@ public class Top100LikedQuestions {
 
 	        return targetRange;
 	    }
+	    /*
+	     * 56. Merge Intervals
+	     * 
+	     * Given a collection of intervals, merge all overlapping intervals.
+	     */
+	    public List<Interval> merge(List<Interval> intervals) {
+	        return null;
+	    }
 }
