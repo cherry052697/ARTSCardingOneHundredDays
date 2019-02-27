@@ -3194,43 +3194,45 @@ public class Top100LikedQuestions {
 	public int maxCoins(int[] nums) {
 		int sum = 0;
 		List<Integer> list = new ArrayList<Integer>();
-		for(int num:nums)
+		for (int num : nums)
 			list.add(num);
-		
-		while(list.size() > 0){
+
+		while (list.size() > 0) {
 			if (list.size() == 0) {
 				return sum;
-			}else if(list.size() == 1){
-				sum += 1*list.get(0)*1;
+			} else if (list.size() == 1) {
+				sum += 1 * list.get(0) * 1;
 				list.remove(list.get(0));
-			}else if(list.size() == 2){
-				sum += 1*list.get(0)*list.get(1);
+			} else if (list.size() == 2) {
+				sum += 1 * list.get(0) * list.get(1);
 				list.remove(list.get(0));
-			}else{
-				sum += list.get(0)*list.get(1)*list.get(2);
+			} else {
+				sum += list.get(0) * list.get(1) * list.get(2);
 				list.remove(1);
 			}
-			
+
 		}
 		return sum;
 	}
+
 	public int maxCoins2(int[] nums) {
-	    int[] inums = new int[nums.length + 2];
-	    int n = 1;
-	    for (int x : nums) if (x > 0) inums[n++] = x;
-	    inums[0] = inums[n++] = 1;
+		int[] inums = new int[nums.length + 2];
+		int n = 1;
+		for (int x : nums)
+			if (x > 0)
+				inums[n++] = x;
+		inums[0] = inums[n++] = 1;
 
+		int[][] dp = new int[n][n];
+		for (int k = 2; k < n; ++k)
+			for (int left = 0; left < n - k; ++left) {
+				int right = left + k;
+				for (int i = left + 1; i < right; ++i)
+					dp[left][right] = Math.max(dp[left][right],
+							inums[left] * inums[i] * inums[right] + dp[left][i] + dp[i][right]);
+			}
 
-	    int[][] dp = new int[n][n];
-	    for (int k = 2; k < n; ++k)
-	        for (int left = 0; left < n - k; ++left) {
-	            int right = left + k;
-	            for (int i = left + 1; i < right; ++i)
-	                dp[left][right] = Math.max(dp[left][right], 
-	                inums[left] * inums[i] * inums[right] + dp[left][i] + dp[i][right]);
-	        }
-
-	    return dp[0][n - 1];
+		return dp[0][n - 1];
 	}
 
 	/*
@@ -3309,5 +3311,15 @@ public class Top100LikedQuestions {
 			}
 		}
 		return result;
+	}
+
+	/*
+	 * 105. Construct Binary Tree from Preorder and Inorder Traversal
+	 * 
+	 * Given preorder and inorder traversal of a tree, construct the binary
+	 * tree.
+	 */
+	public TreeNode buildTree(int[] preorder, int[] inorder) {
+		return null;
 	}
 }
