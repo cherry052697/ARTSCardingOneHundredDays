@@ -1,5 +1,7 @@
 package com.cherry.leetcode;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -2899,6 +2901,9 @@ public class Top100LikedQuestions {
 
 	/*
 	 * 96. Unique Binary Search Trees
+	 * 
+	 * Given n, how many structurally unique BST's (binary search trees) that
+	 * store values 1 ... n?
 	 */
 	public int numTrees(int n) {
 		return 0;
@@ -3187,7 +3192,45 @@ public class Top100LikedQuestions {
 	 * can not burst them. 0 ≤ n ≤ 500, 0 ≤ nums[i] ≤ 100
 	 */
 	public int maxCoins(int[] nums) {
-		return 0;
+		int sum = 0;
+		List<Integer> list = new ArrayList<Integer>();
+		for(int num:nums)
+			list.add(num);
+		
+		while(list.size() > 0){
+			if (list.size() == 0) {
+				return sum;
+			}else if(list.size() == 1){
+				sum += 1*list.get(0)*1;
+				list.remove(list.get(0));
+			}else if(list.size() == 2){
+				sum += 1*list.get(0)*list.get(1);
+				list.remove(list.get(0));
+			}else{
+				sum += list.get(0)*list.get(1)*list.get(2);
+				list.remove(1);
+			}
+			
+		}
+		return sum;
+	}
+	public int maxCoins2(int[] nums) {
+	    int[] inums = new int[nums.length + 2];
+	    int n = 1;
+	    for (int x : nums) if (x > 0) inums[n++] = x;
+	    inums[0] = inums[n++] = 1;
+
+
+	    int[][] dp = new int[n][n];
+	    for (int k = 2; k < n; ++k)
+	        for (int left = 0; left < n - k; ++left) {
+	            int right = left + k;
+	            for (int i = left + 1; i < right; ++i)
+	                dp[left][right] = Math.max(dp[left][right], 
+	                inums[left] * inums[i] * inums[right] + dp[left][i] + dp[i][right]);
+	        }
+
+	    return dp[0][n - 1];
 	}
 
 	/*
@@ -3201,73 +3244,70 @@ public class Top100LikedQuestions {
 	 * If the target is not found in the array, return [-1, -1].
 	 */
 	public int[] searchRange(int[] nums, int target) {
-		int[] result = {-1,-1};
+		int[] result = { -1, -1 };
 		for (int i = 0; i < nums.length; i++) {
-			if (nums[i] == target ) {
-				result[0]=result[0]==-1?i:result[0];
-				result[1]=result[1]==-1?i:(result[1]<i?i:result[1]);
+			if (nums[i] == target) {
+				result[0] = result[0] == -1 ? i : result[0];
+				result[1] = result[1] == -1 ? i : (result[1] < i ? i : result[1]);
 			}
 		}
 		return result;
 	}
-	
-	
-	   private int extremeInsertionIndex(int[] nums, int target, boolean left) {
-	        int lo = 0;
-	        int hi = nums.length;
 
-	        while (lo < hi) {
-	            int mid = (lo + hi) / 2;
-	            if (nums[mid] > target || (left && target == nums[mid])) {
-	                hi = mid;
-	            }
-	            else {
-	                lo = mid+1;
-	            }
-	        }
+	private int extremeInsertionIndex(int[] nums, int target, boolean left) {
+		int lo = 0;
+		int hi = nums.length;
 
-	        return lo;
-	    }
-
-	    public int[] searchRange2(int[] nums, int target) {
-	        int[] targetRange = {-1, -1};
-
-	        int leftIdx = extremeInsertionIndex(nums, target, true);
-
-	        if (leftIdx == nums.length || nums[leftIdx] != target) {
-	            return targetRange;
-	        }
-
-	        targetRange[0] = leftIdx;
-	        targetRange[1] = extremeInsertionIndex(nums, target, false)-1;
-
-	        return targetRange;
-	    }
-	    /*
-	     * 56. Merge Intervals
-	     * 
-	     * Given a collection of intervals, merge all overlapping intervals.
-	     * Input: [[1,3],[2,6],[8,10],[15,18]]
-	     * Output: [[1,6],[8,10],[15,18]]
-	     */
-	    public List<Interval> merge(List<Interval> intervals) {
-	    	List<Interval> result = new ArrayList<Interval>();
-	    	if (intervals.size()==0) {
-				return result;
-	    	}
-	    	else if(intervals.size()==1){
-	    		result.add(intervals.get(0));
-	    		return result;
-	    	}
-	    	Interval temp = intervals.get(0);
-	    	for (int i=0;i<intervals.size();i++) {
-	    		if (temp.end >= intervals.get(i).start) {
-					result.add(new Interval(temp.start, intervals.get(i).end));
-					temp = intervals.get(i);
-				}else{
-					result.add(intervals.get(i-1));
-				}
+		while (lo < hi) {
+			int mid = (lo + hi) / 2;
+			if (nums[mid] > target || (left && target == nums[mid])) {
+				hi = mid;
+			} else {
+				lo = mid + 1;
 			}
-	        return result;
-	    }
+		}
+
+		return lo;
+	}
+
+	public int[] searchRange2(int[] nums, int target) {
+		int[] targetRange = { -1, -1 };
+
+		int leftIdx = extremeInsertionIndex(nums, target, true);
+
+		if (leftIdx == nums.length || nums[leftIdx] != target) {
+			return targetRange;
+		}
+
+		targetRange[0] = leftIdx;
+		targetRange[1] = extremeInsertionIndex(nums, target, false) - 1;
+
+		return targetRange;
+	}
+
+	/*
+	 * 56. Merge Intervals
+	 * 
+	 * Given a collection of intervals, merge all overlapping intervals. Input:
+	 * [[1,3],[2,6],[8,10],[15,18]] Output: [[1,6],[8,10],[15,18]]
+	 */
+	public List<Interval> merge(List<Interval> intervals) {
+		List<Interval> result = new ArrayList<Interval>();
+		if (intervals.size() == 0) {
+			return result;
+		} else if (intervals.size() == 1) {
+			result.add(intervals.get(0));
+			return result;
+		}
+		Interval temp = intervals.get(0);
+		for (int i = 0; i < intervals.size(); i++) {
+			if (temp.end >= intervals.get(i).start) {
+				result.add(new Interval(temp.start, intervals.get(i).end));
+				temp = intervals.get(i);
+			} else {
+				result.add(intervals.get(i - 1));
+			}
+		}
+		return result;
+	}
 }
