@@ -250,13 +250,16 @@ public class TestEasyProblems {
 		if ("".equals(needle)&&"".equals(haystack)) {
 			return 0;
 		}
-		if (haystack.contains(needle)) {
+//		if (haystack.contains(needle)) {
 			for(int i = 0;i<haystack.length();i++){
+				if (i+needle.length() > haystack.length()) {
+					return -1;
+				}
 				if (haystack.substring(i, i+needle.length()).equals(needle)) {
 					return i;
 				}
 			}
-		}
+//		}
 		return -1;
 	}
 
