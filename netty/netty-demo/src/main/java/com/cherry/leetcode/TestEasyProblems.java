@@ -241,12 +241,21 @@ public class TestEasyProblems {
 	}
 
 	/*
+	 * 28. Implement strStr()
+	 * 
 	 * Return the index of the first occurrence of needle in haystack, or -1 if
 	 * needle is not part of haystack.
 	 */
 	public int strStr(String haystack, String needle) {
+		if ("".equals(needle)&&"".equals(haystack)) {
+			return 0;
+		}
 		if (haystack.contains(needle)) {
-			return haystack.indexOf(needle);
+			for(int i = 0;i<haystack.length();i++){
+				if (haystack.substring(i, i+needle.length()).equals(needle)) {
+					return i;
+				}
+			}
 		}
 		return -1;
 	}
@@ -534,5 +543,7 @@ public class TestEasyProblems {
 		}
 		return result;
 	}
+	
+	
 
 }
