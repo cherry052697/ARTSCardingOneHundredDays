@@ -24,14 +24,12 @@ public class TestEasyProblems {
 		root.right = l1;
 		l1.left = lr;
 		l1.right = ll;
-//		System.out.println(test.isValidBST(root));
-		
+		// System.out.println(test.isValidBST(root));
+
 		String s = "XXCL";
-//		System.out.println(test.romanToInt(s));
-		int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+		// System.out.println(test.romanToInt(s));
+		int[] nums = { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
 		System.out.println(test.maxSubArray(nums));
-		
-		
 
 	}
 
@@ -42,25 +40,27 @@ public class TestEasyProblems {
 	public String countAndSay(int n) {
 		return null;
 	}
-	
-	
+
 	/*
 	 * Given a binary tree, determine if it is a valid binary search tree (BST).
-		Assume a BST is defined as follows:
-		The left subtree of a node contains only nodes with keys less than the node's key.
-		The right subtree of a node contains only nodes with keys greater than the node's key.
-		Both the left and right subtrees must also be binary search trees.
+	 * Assume a BST is defined as follows: The left subtree of a node contains
+	 * only nodes with keys less than the node's key. The right subtree of a
+	 * node contains only nodes with keys greater than the node's key. Both the
+	 * left and right subtrees must also be binary search trees.
 	 */
 	TreeNode pre = null;
+
 	public boolean isValidBST(TreeNode root) {
-        if (root != null) {
-            if (!isValidBST(root.left)) return false;
-            if (pre != null && root.val <= pre.val) return false;
-            pre = root;
-            return isValidBST(root.right);
-        }
-        return true;
-    }
+		if (root != null) {
+			if (!isValidBST(root.left))
+				return false;
+			if (pre != null && root.val <= pre.val)
+				return false;
+			pre = root;
+			return isValidBST(root.right);
+		}
+		return true;
+	}
 
 	/*
 	 * Given an array nums of n integers, are there elements a, b, c in nums
@@ -89,7 +89,7 @@ public class TestEasyProblems {
 							j++;
 						while (j < k && nums[k] == nums[k + 1])
 							k--;
-					}else {
+					} else {
 						boolean flag = true;
 						while (flag) {
 							while (j < k && nums[j] + nums[k] > (-1) * nums[i])
@@ -100,7 +100,7 @@ public class TestEasyProblems {
 								flag = false;
 						}
 					}
-				} 
+				}
 			}
 		return result;
 	}
@@ -235,7 +235,7 @@ public class TestEasyProblems {
 		for (int i = 1; i < nums.length; i++) {
 			orderNums[i] = Math.max(orderNums[i - 1] + nums[i], nums[i]);
 			max = Math.max(max, orderNums[i]);
-			System.out.println(JsonUtil.toJson(orderNums)+"——"+max);
+			System.out.println(JsonUtil.toJson(orderNums) + "——" + max);
 		}
 		return max;
 	}
@@ -247,19 +247,17 @@ public class TestEasyProblems {
 	 * needle is not part of haystack.
 	 */
 	public int strStr(String haystack, String needle) {
-		if ("".equals(needle)&&"".equals(haystack)) {
+		if ("".equals(needle) && "".equals(haystack)) {
 			return 0;
 		}
-//		if (haystack.contains(needle)) {
-			for(int i = 0;i<haystack.length();i++){
-				if (i+needle.length() > haystack.length()) {
-					return -1;
-				}
-				if (haystack.substring(i, i+needle.length()).equals(needle)) {
-					return i;
-				}
+		for (int i = 0; i < haystack.length(); i++) {
+			if (i + needle.length() > haystack.length()) {
+				return -1;
 			}
-//		}
+			if (haystack.substring(i, i + needle.length()).equals(needle)) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -546,7 +544,5 @@ public class TestEasyProblems {
 		}
 		return result;
 	}
-	
-	
 
 }
