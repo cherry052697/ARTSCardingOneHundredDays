@@ -22,8 +22,29 @@ public class BinarySearchTreeApplication {
 		return minDiff;
 	}
 
-	public static void main(String[] args) {
+	/*
+	 * 530. Minimum Absolute Difference in BST
+	 * 
+	 * Given a binary search tree with non-negative values, find the minimum
+	 * absolute difference between values of any two nodes.
+	 */
+	public int getMinimumDifference(TreeNode root) {
+		if (root.left != null)
+			getMinimumDifference(root.left);
+		if (pre != null)
+			minDiff = Math.min(minDiff, root.val - pre);
+		pre = root.val;
+		if (root.right != null)
+			getMinimumDifference(root.right);
+		return minDiff;
+	}
 
+	public static void main(String[] args) {
+		BinarySearchTreeApplication asta = new BinarySearchTreeApplication();
+		TreeNode root = new TreeNode(1);
+		root.right = new TreeNode(3);
+		root.right.left = new TreeNode(2);
+		System.out.println(asta.getMinimumDifference(root));
 	}
 
 }
