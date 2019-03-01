@@ -1,5 +1,7 @@
 package com.cherry.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class BinarySearchTreeApplication {
@@ -89,12 +91,15 @@ public class BinarySearchTreeApplication {
 	}
 
 	public int rangeSumBST1(TreeNode root, int L, int R) {
-        if(root == null) return 0;
-        if(root.val > R) return rangeSumBST(root.left, L, R);
-        if(root.val < L) return rangeSumBST(root.right, L, R);
-        return root.val + rangeSumBST(root.left, L, R) + rangeSumBST(root.right, L, R);      
-    }
-	
+		if (root == null)
+			return 0;
+		if (root.val > R)
+			return rangeSumBST(root.left, L, R);
+		if (root.val < L)
+			return rangeSumBST(root.right, L, R);
+		return root.val + rangeSumBST(root.left, L, R) + rangeSumBST(root.right, L, R);
+	}
+
 	/*
 	 * 732. My Calendar III
 	 * 
@@ -117,76 +122,116 @@ public class BinarySearchTreeApplication {
 	 */
 	class MyCalendarThree {
 
-	    public MyCalendarThree() {
-	        
-	    }
-	    
-	    private TreeMap<Integer, Integer> timeline = new TreeMap<>();
-	    public int book(int s, int e) {
-	        timeline.put(s, timeline.getOrDefault(s, 0) + 1); 
-	        timeline.put(e, timeline.getOrDefault(e, 0) - 1); 
-	        int ongoing = 0, k = 0;
-	        for (int v : timeline.values())
-	            k = Math.max(k, ongoing += v);
-	        return k;
-	    }
-	    
-	    class Node{
-	        private int k, v;
-	        private Node left, right;
-	        
-	        public Node(int k, int v) {
-	            this.k = k;
-	            this.v = v;
-	        }
-	    }
-	    
-	    private Node root;
-	    private int curt, count;
-	    
-	    
-	    private Node insert(Node node, int k, int v) {
-	        if (node == null) {
-	            node = new Node(k, v);
-	            return node;
-	        } else if (node.k == k) {
-	            node.v += v;
-	        } else if (node.k < k) {
-	            node.right = insert(node.right, k, v);
-	        } else {
-	            node.left = insert(node.left, k, v);
-	        }
-	        return node;
-	    }
-	    
-	    private void count(Node node) {
-	        if (node == null) {
-	            return;
-	        }
-	        count(node.left);
-	        curt += node.v;
-	        count = Math.max(count, curt);
-	        count(node.right);
-	    }
-	    
-	    public int book2(int start, int end) {
-	        root = insert(root, start, 1);
-	        root = insert(root, end, -1);
-	        curt = count = 0;
-	        count(root);
-	        return count;
-	    }
+		public MyCalendarThree() {
+
+		}
+
+		private TreeMap<Integer, Integer> timeline = new TreeMap<>();
+
+		public int book(int s, int e) {
+			timeline.put(s, timeline.getOrDefault(s, 0) + 1);
+			timeline.put(e, timeline.getOrDefault(e, 0) - 1);
+			int ongoing = 0, k = 0;
+			for (int v : timeline.values())
+				k = Math.max(k, ongoing += v);
+			return k;
+		}
+
+		class Node {
+			private int k, v;
+			private Node left, right;
+
+			public Node(int k, int v) {
+				this.k = k;
+				this.v = v;
+			}
+		}
+
+		private Node root;
+		private int curt, count;
+
+		private Node insert(Node node, int k, int v) {
+			if (node == null) {
+				node = new Node(k, v);
+				return node;
+			} else if (node.k == k) {
+				node.v += v;
+			} else if (node.k < k) {
+				node.right = insert(node.right, k, v);
+			} else {
+				node.left = insert(node.left, k, v);
+			}
+			return node;
+		}
+
+		private void count(Node node) {
+			if (node == null) {
+				return;
+			}
+			count(node.left);
+			curt += node.v;
+			count = Math.max(count, curt);
+			count(node.right);
+		}
+
+		public int book2(int start, int end) {
+			root = insert(root, start, 1);
+			root = insert(root, end, -1);
+			curt = count = 0;
+			count(root);
+			return count;
+		}
 	}
+
+	/*
+	 * 220. Contains Duplicate III
+	 * 
+	 * Given an array of integers, find out whether there are two distinct
+	 * indices i and j in the array such that the absolute difference between
+	 * nums[i] and nums[j] is at most t and the absolute difference between i
+	 * and j is at most k.
+	 */
+	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+		for (int i = 0; i < nums.length; i++) {
+			for(int j = i;j <= k;j++){
+				if (Math.abs(nums[i] - nums[j])<= t) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	  public boolean containsNearbyAlmostDuplicate2(int[] nums, int k, int t) {
+	        if (k < 1 || t < 0) return false;
+	        Map<Long, Long> map = new HashMap<>();
+	        for (int i = 0; i < nums.length; i++) {
+	            long remappedNum = (long) nums[i] - Integer.MIN_VALUE;
+	            long bucket = remappedNum / ((long) t + 1);
+	            if (map.containsKey(bucket)
+	                    || (map.containsKey(bucket - 1) && remappedNum - map.get(bucket - 1) <= t)
+	                        || (map.containsKey(bucket + 1) && map.get(bucket + 1) - remappedNum <= t))
+	                            return true;
+	            if (map.entrySet().size() >= k) {
+	                long lastBucket = ((long) nums[i - k] - Integer.MIN_VALUE) / ((long) t + 1);
+	                map.remove(lastBucket);
+	            }
+	            map.put(bucket, remappedNum);
+	        }
+	        return false;
+	    }
 
 	public static void main(String[] args) {
 		BinarySearchTreeApplication asta = new BinarySearchTreeApplication();
-		TreeNode root = new TreeNode(10);
+	/*	TreeNode root = new TreeNode(10);
 		root.right = new TreeNode(15);
 		root.right.right = new TreeNode(18);
 		root.left = new TreeNode(5);
 		root.left.left = new TreeNode(3);
-		root.left.right = new TreeNode(7);
-		System.out.println(asta.rangeSumBST(root, 7, 15));
+		root.left.right = new TreeNode(7);*/
+//		System.out.println(asta.rangeSumBST(root, 7, 15));
+		int[] nums ={1,5,9,1,5,9};
+		System.out.println(asta.containsNearbyAlmostDuplicate2(nums, 2, 3));
 	}
 
 }
