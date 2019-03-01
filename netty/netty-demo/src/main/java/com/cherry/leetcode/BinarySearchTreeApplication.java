@@ -1,5 +1,7 @@
 package com.cherry.leetcode;
 
+import java.util.TreeMap;
+
 public class BinarySearchTreeApplication {
 
 	/*
@@ -119,8 +121,60 @@ public class BinarySearchTreeApplication {
 	        
 	    }
 	    
-	    public int book(int start, int end) {
-	        return 0;
+	    private TreeMap<Integer, Integer> timeline = new TreeMap<>();
+	    public int book(int s, int e) {
+	        timeline.put(s, timeline.getOrDefault(s, 0) + 1); 
+	        timeline.put(e, timeline.getOrDefault(e, 0) - 1); 
+	        int ongoing = 0, k = 0;
+	        for (int v : timeline.values())
+	            k = Math.max(k, ongoing += v);
+	        return k;
+	    }
+	    
+	    class Node{
+	        private int k, v;
+	        private Node left, right;
+	        
+	        public Node(int k, int v) {
+	            this.k = k;
+	            this.v = v;
+	        }
+	    }
+	    
+	    private Node root;
+	    private int curt, count;
+	    
+	    
+	    private Node insert(Node node, int k, int v) {
+	        if (node == null) {
+	            node = new Node(k, v);
+	            return node;
+	        } else if (node.k == k) {
+	            node.v += v;
+	        } else if (node.k < k) {
+	            node.right = insert(node.right, k, v);
+	        } else {
+	            node.left = insert(node.left, k, v);
+	        }
+	        return node;
+	    }
+	    
+	    private void count(Node node) {
+	        if (node == null) {
+	            return;
+	        }
+	        count(node.left);
+	        curt += node.v;
+	        count = Math.max(count, curt);
+	        count(node.right);
+	    }
+	    
+	    public int book2(int start, int end) {
+	        root = insert(root, start, 1);
+	        root = insert(root, end, -1);
+	        curt = count = 0;
+	        count(root);
+	        return count;
 	    }
 	}
 
