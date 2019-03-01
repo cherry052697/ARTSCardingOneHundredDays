@@ -68,16 +68,34 @@ public class BinarySearchTreeApplication {
 	 * 
 	 */
 
+	int sum = 0;
+
 	public int rangeSumBST(TreeNode root, int L, int R) {
-		return 0;
+		if (root == null) {
+			return sum;
+		}
+		if (root.val <= R && root.val >= L) {
+			sum += root.val;
+			rangeSumBST(root.left, L, R);
+			rangeSumBST(root.right, L, R);
+		} else if (root.val < L) {
+			rangeSumBST(root.right, L, R);
+		} else {
+			rangeSumBST(root.left, L, R);
+		}
+		return sum;
 	}
+
 
 	public static void main(String[] args) {
 		BinarySearchTreeApplication asta = new BinarySearchTreeApplication();
-		TreeNode root = new TreeNode(1);
-		root.right = new TreeNode(3);
-		root.right.left = new TreeNode(2);
-		System.out.println(asta.getMinimumDifference(root));
+		TreeNode root = new TreeNode(10);
+		root.right = new TreeNode(15);
+		root.right.right = new TreeNode(18);
+		root.left = new TreeNode(5);
+		root.left.left = new TreeNode(3);
+		root.left.right = new TreeNode(7);
+		System.out.println(asta.rangeSumBST(root, 7, 15));
 	}
 
 }
