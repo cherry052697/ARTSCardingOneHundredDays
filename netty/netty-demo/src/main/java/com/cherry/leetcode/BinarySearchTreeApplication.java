@@ -39,6 +39,39 @@ public class BinarySearchTreeApplication {
 		return minDiff;
 	}
 
+	public int getMinimumDifference1(TreeNode root) {
+		int[] a = new int[] { -1, Integer.MAX_VALUE };
+		int[] res = inorder(root, a);
+		return res[1];
+	}
+
+	public int[] inorder(TreeNode root, int[] a) {
+		int pre = a[0], res = a[1];
+		if (root == null)
+			return a;
+		int[] left = inorder(root.left, a);
+		if (left[0] != -1) {
+			res = Math.min(left[1], root.val - left[0]);
+		}
+		a[0] = root.val;
+		a[1] = res;
+		return inorder(root.right, a);
+	}
+
+	/*
+	 * 938. Range Sum of BST
+	 * 
+	 * Given the root node of a binary search tree, return the sum of values of
+	 * all nodes with value between L and R (inclusive).
+	 * 
+	 * The binary search tree is guaranteed to have unique values.
+	 * 
+	 */
+
+	public int rangeSumBST(TreeNode root, int L, int R) {
+		return 0;
+	}
+
 	public static void main(String[] args) {
 		BinarySearchTreeApplication asta = new BinarySearchTreeApplication();
 		TreeNode root = new TreeNode(1);
