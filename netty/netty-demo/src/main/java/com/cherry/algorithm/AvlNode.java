@@ -18,6 +18,7 @@ public class AvlNode<T> {
 		return t==null?-1:t.height;
 	}
 	
+	@SuppressWarnings("unused")
 	private  AvlNode<T> insert(T x, AvlNode<T> t){
 		if(t == null){
 			return new AvlNode<T>(x, null, null);
