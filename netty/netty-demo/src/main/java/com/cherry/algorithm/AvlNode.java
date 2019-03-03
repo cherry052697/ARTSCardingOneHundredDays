@@ -41,7 +41,6 @@ public class AvlNode<T> {
 				}else{
 					t = doubleWithRightChild(t);
 				}
-					
 			}
 		}else{
 			t.height = Math.max(height(t.left), height(t.right))+1;
