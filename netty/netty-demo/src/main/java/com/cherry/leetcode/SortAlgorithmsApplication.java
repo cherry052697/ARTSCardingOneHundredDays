@@ -1,6 +1,10 @@
 package com.cherry.leetcode;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -99,6 +103,85 @@ public class SortAlgorithmsApplication {
 
 		return A;
 	}
+
+	/*
+	 * 973. K Closest Points to Origin
+	 * 
+	 * We have a list of points on the plane. Find the K closest points to the
+	 * origin (0, 0).
+	 * 
+	 * (Here, the distance between two points on a plane is the Euclidean
+	 * distance.)
+	 * 
+	 * You may return the answer in any order. The answer is guaranteed to be
+	 * unique (except for the order that it is in.)
+	 * 
+	 */
+	public int[][] kClosest(int[][] points, int K) {
+        int N = points.length;
+        int[] dists = new int[N];
+        for (int i = 0; i < N; ++i)
+            dists[i] = dist(points[i]);
+
+        Arrays.sort(dists);
+        int distK = dists[K-1];
+
+        int[][] ans = new int[K][2];
+        int t = 0;
+        for (int i = 0; i < N; ++i)
+            if (dist(points[i]) <= distK)
+                ans[t++] = points[i];
+        return ans;
+    }
+
+    public int dist(int[] point) {
+        return point[0] * point[0] + point[1] * point[1];
+    }
+    
+    public int[][] kClosest2(int[][] points, int K) {
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((p1, p2) -> p2[0] * p2[0] + p2[1] * p2[1] - p1[0] * p1[0] - p1[1] * p1[1]);
+        for (int[] p : points) {
+            pq.offer(p);
+            if (pq.size() > K) {
+                pq.poll();
+            }
+        }
+        int[][] res = new int[K][2];
+        while (K > 0) {
+            res[--K] = pq.poll();
+        }
+        return res;
+    }
+    
+    public int[][] kClosest3(int[][] points, int K) {
+        int len =  points.length, l = 0, r = len - 1;
+        while (l <= r) {
+            int mid = helper(points, l, r);
+            if (mid == K) break;
+            if (mid < K) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return Arrays.copyOfRange(points, 0, K);
+    }
+
+    private int helper(int[][] A, int l, int r) {
+        int[] pivot = A[l];
+        while (l < r) {
+            while (l < r && compare(A[r], pivot) >= 0) r--;
+            A[l] = A[r];
+            while (l < r && compare(A[l], pivot) <= 0) l++;
+            A[r] = A[l];
+        }
+        A[l] = pivot;
+        return l;
+    }
+
+    private int compare(int[] p1, int[] p2) {
+        return p1[0] * p1[0] + p1[1] * p1[1] - p2[0] * p2[0] - p2[1] * p2[1];
+    }
 
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
