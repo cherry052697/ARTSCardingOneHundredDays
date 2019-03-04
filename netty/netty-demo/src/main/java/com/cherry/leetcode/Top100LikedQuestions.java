@@ -3312,30 +3312,31 @@ public class Top100LikedQuestions {
 		}
 		return result;
 	}
+
 	public List<Interval> merge2(List<Interval> intervals) {
-	    if (intervals.size() <= 1)
-	        return intervals;
-	    
-	    intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
-	    
-	    List<Interval> result = new LinkedList<Interval>();
-	    int start = intervals.get(0).start;
-	    int end = intervals.get(0).end;
-	    
-	    for (Interval interval : intervals) {
-	        if (interval.start <= end) 
-	            end = Math.max(end, interval.end);
-	        else {                     
-	            result.add(new Interval(start, end));
-	            start = interval.start;
-	            end = interval.end;
-	        }
-	    }
-	    
-	    result.add(new Interval(start, end));
-	    return result;
+		if (intervals.size() <= 1)
+			return intervals;
+
+		intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
+
+		List<Interval> result = new LinkedList<Interval>();
+		int start = intervals.get(0).start;
+		int end = intervals.get(0).end;
+
+		for (Interval interval : intervals) {
+			if (interval.start <= end)
+				end = Math.max(end, interval.end);
+			else {
+				result.add(new Interval(start, end));
+				start = interval.start;
+				end = interval.end;
+			}
+		}
+
+		result.add(new Interval(start, end));
+		return result;
 	}
-	
+
 	public List<Interval> merge3(List<Interval> intervals) {
 		int n = intervals.size();
 		int[] starts = new int[n];
@@ -3347,7 +3348,7 @@ public class Top100LikedQuestions {
 		Arrays.sort(starts);
 		Arrays.sort(ends);
 		List<Interval> res = new ArrayList<Interval>();
-		for (int i = 0, j = 0; i < n; i++) { 
+		for (int i = 0, j = 0; i < n; i++) {
 			if (i == n - 1 || starts[i + 1] > ends[i]) {
 				res.add(new Interval(starts[j], ends[i]));
 				j = i + 1;
@@ -3363,6 +3364,17 @@ public class Top100LikedQuestions {
 	 * tree.
 	 */
 	public TreeNode buildTree(int[] preorder, int[] inorder) {
+		return null;
+	}
+
+	/*
+	 * 47. Permutations II
+	 * 
+	 * Given a collection of numbers that might contain duplicates, return all
+	 * possible unique permutations.
+	 */
+	public List<List<Integer>> permuteUnique(int[] nums) {
+
 		return null;
 	}
 }
