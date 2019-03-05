@@ -150,32 +150,33 @@ public class Top100LikedQuestions {
 	}
 
 	/*
-	 * 79. Word Search 
+	 * 79. Word Search
 	 * 
-	 * The word can be constructed from letters of sequentially
-	 * adjacent cell, where "adjacent" cells are those horizontally or
-	 * vertically neighboring. The same letter cell may not be used more than
-	 * once.
+	 * The word can be constructed from letters of sequentially adjacent cell,
+	 * where "adjacent" cells are those horizontally or vertically neighboring.
+	 * The same letter cell may not be used more than once.
 	 */
 	public boolean exist(char[][] board, String word) {
-	    char[] w = word.toCharArray();
-	    for (int y=0; y<board.length; y++) {
-	    	for (int x=0; x<board[y].length; x++) {
-	    		if (exist(board, y, x, w, 0)) return true;
-	    	}
-	    }
-	    return false;
+		char[] w = word.toCharArray();
+		for (int y = 0; y < board.length; y++) {
+			for (int x = 0; x < board[y].length; x++) {
+				if (exist(board, y, x, w, 0))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean exist(char[][] board, int y, int x, char[] word, int i) {
-		if (i == word.length) return true;
-		if (y<0 || x<0 || y == board.length || x == board[y].length) return false;
-		if (board[y][x] != word[i]) return false;
+		if (i == word.length)
+			return true;
+		if (y < 0 || x < 0 || y == board.length || x == board[y].length)
+			return false;
+		if (board[y][x] != word[i])
+			return false;
 		board[y][x] ^= 256;
-		boolean exist = exist(board, y, x+1, word, i+1)
-			|| exist(board, y, x-1, word, i+1)
-			|| exist(board, y+1, x, word, i+1)
-			|| exist(board, y-1, x, word, i+1);
+		boolean exist = exist(board, y, x + 1, word, i + 1) || exist(board, y, x - 1, word, i + 1)
+				|| exist(board, y + 1, x, word, i + 1) || exist(board, y - 1, x, word, i + 1);
 		board[y][x] ^= 256;
 		return exist;
 	}
@@ -2926,7 +2927,40 @@ public class Top100LikedQuestions {
 	 * store values 1 ... n?
 	 */
 	public int numTrees(int n) {
-		return 0;
+		int[] G = new int[n + 1];
+		G[0] = G[1] = 1;
+
+		for (int i = 2; i <= n; ++i) {
+			for (int j = 1; j <= i; ++j) {
+				G[i] += G[j - 1] * G[i - j];
+			}
+		}
+
+		return G[n];
+	}
+
+	public int numTrees2(int n) {
+		if (n == 0)
+			return 1;
+		if (n == 1)
+			return 1;
+
+		int result[] = new int[n + 1];
+		result[0] = 1;
+		result[1] = 1;
+		result[2] = 2;
+		if (n < 3) {
+			return result[n];
+		}
+
+		for (int i = 3; i <= n; i++) {
+			for (int k = 1; k <= i; k++) {
+
+				result[i] = result[i] + result[k - 1] * result[i - k];
+			}
+		}
+
+		return result[n];
 	}
 
 	/*
