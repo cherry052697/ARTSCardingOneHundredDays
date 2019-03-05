@@ -3446,6 +3446,44 @@ public class Top100LikedQuestions {
 	 * words.
 	 */
 	public boolean wordBreak(String s, List<String> wordDict) {
+		boolean[] f = new boolean[s.length() + 1];
+
+		f[0] = true;
+		for (int i = 1; i <= s.length(); i++) {
+			for (int j = 0; j < i; j++) {
+				if (f[j] && wordDict.contains(s.substring(j, i))) {
+					f[i] = true;
+					break;
+				}
+			}
+		}
+
+		return f[s.length()];
+	}
+
+	public boolean wordBreak2(String s, List<String> wordDict) {
+		// DFS
+		Set<Integer> set = new HashSet<Integer>();
+		return dfs(s, 0, wordDict, set);
+	}
+
+	private boolean dfs(String s, int index, List<String> dict, Set<Integer> set) {
+		// base case
+		if (index == s.length())
+			return true;
+		// check memory
+		if (set.contains(index))
+			return false;
+		// recursion
+		for (int i = index + 1; i <= s.length(); i++) {
+			String t = s.substring(index, i);
+			if (dict.contains(t))
+				if (dfs(s, i, dict, set))
+					return true;
+				else
+					set.add(i);
+		}
+		set.add(index);
 		return false;
 	}
 
