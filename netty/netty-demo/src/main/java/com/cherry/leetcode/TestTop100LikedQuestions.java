@@ -216,7 +216,9 @@ public class TestTop100LikedQuestions {
 		
 //		System.out.println(JsonUtil.toJson(new TestTop100LikedQuestions().primeNumbers(100)));
 		int[] nums11 = {4,5,6,7,0,1,2};
-		System.out.println(test.search(nums11, 0));
+//		System.out.println(test.search(nums11, 0));
+		char[][] board = {{'a'}};
+		System.out.println(test.exist(board, "b"));
 		
 	}
 	public List<Integer> primeNumbers(int n){
