@@ -1,14 +1,11 @@
 package com.cherry.leetcode;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +14,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -3485,6 +3481,101 @@ public class Top100LikedQuestions {
 		}
 		set.add(index);
 		return false;
+	}
+
+	/*
+	 * 208. Implement Trie (Prefix Tree)
+	 * 
+	 * Implement a trie with insert, search, and startsWith methods.
+	 */
+	class Trie {
+
+		private TrieNode root;
+
+		public Trie() {
+			root = new TrieNode();
+		}
+
+		// Inserts a word into the trie.
+		public void insert(String word) {
+			TrieNode node = root;
+			for (int i = 0; i < word.length(); i++) {
+				char currentChar = word.charAt(i);
+				if (!node.containsKey(currentChar)) {
+					node.put(currentChar, new TrieNode());
+				}
+				node = node.get(currentChar);
+			}
+			node.setEnd();
+		}
+
+		private TrieNode searchPrefix(String word) {
+			TrieNode node = root;
+			for (int i = 0; i < word.length(); i++) {
+				char curLetter = word.charAt(i);
+				if (node.containsKey(curLetter)) {
+					node = node.get(curLetter);
+				} else {
+					return null;
+				}
+			}
+			return node;
+		}
+
+		// Returns if the word is in the trie.
+		public boolean search(String word) {
+			TrieNode node = searchPrefix(word);
+			return node != null && node.isEnd();
+		}
+
+		// Returns if there is any word in the trie
+		// that starts with the given prefix.
+		public boolean startsWith(String prefix) {
+			TrieNode node = searchPrefix(prefix);
+			return node != null;
+		}
+
+	}
+	
+	
+	public class Trie2 {
+	    private TrieNode2 root;
+	    public Trie2() {
+	        root = new TrieNode2();
+	        root.val = ' ';
+	    }
+
+	    public void insert(String word) {
+	        TrieNode2 ws = root;
+	        for(int i = 0; i < word.length(); i++){
+	            char c = word.charAt(i);
+	            if(ws.children[c - 'a'] == null){
+	                ws.children[c - 'a'] = new TrieNode2(c);
+	            }
+	            ws = ws.children[c - 'a'];
+	        }
+	        ws.isWord = true;
+	    }
+
+	    public boolean search(String word) {
+	        TrieNode2 ws = root; 
+	        for(int i = 0; i < word.length(); i++){
+	            char c = word.charAt(i);
+	            if(ws.children[c - 'a'] == null) return false;
+	            ws = ws.children[c - 'a'];
+	        }
+	        return ws.isWord;
+	    }
+
+	    public boolean startsWith(String prefix) {
+	        TrieNode2 ws = root; 
+	        for(int i = 0; i < prefix.length(); i++){
+	            char c = prefix.charAt(i);
+	            if(ws.children[c - 'a'] == null) return false;
+	            ws = ws.children[c - 'a'];
+	        }
+	        return true;
+	    }
 	}
 
 }
