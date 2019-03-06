@@ -218,7 +218,9 @@ public class TestTop100LikedQuestions {
 		int[] nums11 = {4,5,6,7,0,1,2};
 //		System.out.println(test.search(nums11, 0));
 		char[][] board = {{'a'}};
-		System.out.println(test.exist(board, "b"));
+//		System.out.println(test.exist(board, "b"));
+		int[] preorder = {3,9,20,15,7},inorder = {9,3,15,20,7};
+		System.out.println(test.buildTree(preorder, inorder));
 		
 	}
 	public List<Integer> primeNumbers(int n){

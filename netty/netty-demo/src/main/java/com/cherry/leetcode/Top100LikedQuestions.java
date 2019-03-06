@@ -3414,9 +3414,51 @@ public class Top100LikedQuestions {
 	 * tree.
 	 */
 	public TreeNode buildTree(int[] preorder, int[] inorder) {
-		return null;
+		Map<Integer, Integer> inMap = new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < inorder.length; i++) {
+			inMap.put(inorder[i], i);
+		}
+
+		TreeNode root = buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inMap);
+		return root;
 	}
 
+	public TreeNode buildTree(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd,
+			Map<Integer, Integer> inMap) {
+		if (preStart > preEnd || inStart > inEnd)
+			return null;
+
+		TreeNode root = new TreeNode(preorder[preStart]);
+		int inRoot = inMap.get(root.val);
+		int numsLeft = inRoot - inStart;
+
+		root.left = buildTree(preorder, preStart + 1, preStart + numsLeft, inorder, inStart, inRoot - 1, inMap);
+		root.right = buildTree(preorder, preStart + numsLeft + 1, preEnd, inorder, inRoot + 1, inEnd, inMap);
+
+		return root;
+	}
+
+	public TreeNode buildTree2(int[] preorder, int[] inorder) {
+	    return helper(0, 0, inorder.length - 1, preorder, inorder);
+	}
+
+	public TreeNode helper(int preStart, int inStart, int inEnd, int[] preorder, int[] inorder) {
+	    if (preStart > preorder.length - 1 || inStart > inEnd) {
+	        return null;
+	    }
+	    TreeNode root = new TreeNode(preorder[preStart]);
+	    int inIndex = 0; // Index of current root in inorder
+	    for (int i = inStart; i <= inEnd; i++) {
+	        if (inorder[i] == root.val) {
+	            inIndex = i;
+	        }
+	    }
+	    root.left = helper(preStart + 1, inStart, inIndex - 1, preorder, inorder);
+	    root.right = helper(preStart + inIndex - inStart + 1, inIndex + 1, inEnd, preorder, inorder);
+	    return root;
+	}
+	
 	/*
 	 * 47. Permutations II
 	 * 
@@ -3536,46 +3578,48 @@ public class Top100LikedQuestions {
 		}
 
 	}
-	
-	
+
 	public class Trie2 {
-	    private TrieNode2 root;
-	    public Trie2() {
-	        root = new TrieNode2();
-	        root.val = ' ';
-	    }
+		private TrieNode2 root;
 
-	    public void insert(String word) {
-	        TrieNode2 ws = root;
-	        for(int i = 0; i < word.length(); i++){
-	            char c = word.charAt(i);
-	            if(ws.children[c - 'a'] == null){
-	                ws.children[c - 'a'] = new TrieNode2(c);
-	            }
-	            ws = ws.children[c - 'a'];
-	        }
-	        ws.isWord = true;
-	    }
+		public Trie2() {
+			root = new TrieNode2();
+			root.val = ' ';
+		}
 
-	    public boolean search(String word) {
-	        TrieNode2 ws = root; 
-	        for(int i = 0; i < word.length(); i++){
-	            char c = word.charAt(i);
-	            if(ws.children[c - 'a'] == null) return false;
-	            ws = ws.children[c - 'a'];
-	        }
-	        return ws.isWord;
-	    }
+		public void insert(String word) {
+			TrieNode2 ws = root;
+			for (int i = 0; i < word.length(); i++) {
+				char c = word.charAt(i);
+				if (ws.children[c - 'a'] == null) {
+					ws.children[c - 'a'] = new TrieNode2(c);
+				}
+				ws = ws.children[c - 'a'];
+			}
+			ws.isWord = true;
+		}
 
-	    public boolean startsWith(String prefix) {
-	        TrieNode2 ws = root; 
-	        for(int i = 0; i < prefix.length(); i++){
-	            char c = prefix.charAt(i);
-	            if(ws.children[c - 'a'] == null) return false;
-	            ws = ws.children[c - 'a'];
-	        }
-	        return true;
-	    }
+		public boolean search(String word) {
+			TrieNode2 ws = root;
+			for (int i = 0; i < word.length(); i++) {
+				char c = word.charAt(i);
+				if (ws.children[c - 'a'] == null)
+					return false;
+				ws = ws.children[c - 'a'];
+			}
+			return ws.isWord;
+		}
+
+		public boolean startsWith(String prefix) {
+			TrieNode2 ws = root;
+			for (int i = 0; i < prefix.length(); i++) {
+				char c = prefix.charAt(i);
+				if (ws.children[c - 'a'] == null)
+					return false;
+				ws = ws.children[c - 'a'];
+			}
+			return true;
+		}
 	}
 
 }
