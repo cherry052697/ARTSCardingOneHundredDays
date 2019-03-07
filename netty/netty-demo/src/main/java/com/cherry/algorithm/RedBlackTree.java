@@ -5,6 +5,8 @@ import org.hibernate.type.AnyType;
 
 public class RedBlackTree<AnyType extends Comparable<? super AnyType>> {
 	
+	// 参考hashmap.treeNode
+	
 	private static class RedBlackNode<AnyType>{
 		AnyType element;
 		RedBlackNode<AnyType> left;
