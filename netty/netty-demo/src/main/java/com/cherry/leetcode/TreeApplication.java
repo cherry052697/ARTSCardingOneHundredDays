@@ -148,18 +148,36 @@ public class TreeApplication {
 		return minDiff;
 	}
 
+	/*
+	 * 222. Count Complete Tree Nodes
+	 * 
+	 * Given a complete binary tree, count the number of nodes.
+	 */
+	int height(TreeNode root) {
+		return root == null ? -1 : 1 + height(root.left);
+	}
+
+	public int countNodes(TreeNode root) {
+		int h = height(root);
+		return h < 0 ? 0
+				: height(root.right) == h - 1 ? (1 << h) + countNodes(root.right)
+						: (1 << h - 1) + countNodes(root.left);
+	}
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		TreeApplication ta = new TreeApplication();
 		int[] nums = { 3, 2, 1, 6, 0, 5 };
 		// System.out.println(ta.constructMaximumBinaryTree(nums));
 
-		TreeNode node = new TreeNode(4);
+		TreeNode node = new TreeNode(1);
 		node.left = new TreeNode(2);
-		node.right = new TreeNode(6);
-		node.left.left = new TreeNode(1);
-		node.left.right = new TreeNode(3);
-		System.out.println(ta.minDiffInBST(node));
+		node.right = new TreeNode(3);
+		node.left.left = new TreeNode(4);
+		node.left.right = new TreeNode(5);
+		node.right.left = new TreeNode(6);
+		// System.out.println(ta.minDiffInBST(node));
+		System.out.println(ta.countNodes(node));
 
 	}
 
