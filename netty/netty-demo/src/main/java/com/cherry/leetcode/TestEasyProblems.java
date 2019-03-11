@@ -29,7 +29,9 @@ public class TestEasyProblems {
 		String s = "XXCL";
 		// System.out.println(test.romanToInt(s));
 		int[] nums = { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
-		System.out.println(test.maxSubArray(nums));
+//		System.out.println(test.maxSubArray(nums));
+		TreeNode r = new TreeNode(1);
+		System.out.println(test.isBalanced(r));
 
 	}
 
@@ -544,5 +546,34 @@ public class TestEasyProblems {
 		}
 		return result;
 	}
+	
+	/**
+	 * 110. Balanced Binary Tree
+	 * 求二叉树是否高度平衡
+	 * 本题中，一棵高度平衡二叉树定义为：
+		一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。
+	 * @param root
+	 * @return
+	 */
+	boolean notBalance = true;
+	public  boolean isBalanced(TreeNode root) {
+		if(root == null){
+			return true;
+		}
+		treeDeep1(root);
+        return notBalance;
+	}
+	
+	public  int treeDeep1(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		int l_len = treeDeep1(root.left);
+		int r_len = treeDeep1(root.right);
+		if(notBalance)
+			notBalance = Math.abs(l_len - r_len) <= 1;
+		return Math.max(l_len, r_len) + 1;
+	}
+
 
 }
