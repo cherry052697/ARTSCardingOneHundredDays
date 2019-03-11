@@ -16,8 +16,9 @@ public class KMP {
 				j++;t++;
 				next[j] = p[j] != p[t]?t:next[t];
 			}
-			else
+			else{
 				t = next[t];
+			}
 //			System.out.println(",after  j="+j+",t="+t+",next["+j+"]="+next[j]);
 		}
 		return next;
