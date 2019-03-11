@@ -222,6 +222,68 @@ public class SortAlgorithmsApplication {
 		return ans;
 	}
 
+	/*
+	 * 164. Maximum Gap
+	 * 
+	 * Given an unsorted array, find the maximum difference between the
+	 * successive elements in its sorted form. Return 0 if the array contains
+	 * less than 2 elements.
+	 * 
+	 */
+	public int maximumGap(int[] nums) {
+		if (nums == null || nums.length < 2) {
+			return 0;
+		}
+		int maxval = Integer.MIN_VALUE;
+		int minval = Integer.MAX_VALUE;
+		// 求解数组最值
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] > maxval)
+				maxval = nums[i];
+			if (nums[i] < minval)
+				minval = nums[i];
+		}
+
+		// 数组内的元素值相同
+		if (minval == maxval) {
+			return 0;
+		}
+
+		// 数组仅有两个元素
+		if (nums.length == 2) {
+			return maxval - minval;
+		}
+
+		int len = (int) Math.ceil((double) (maxval - minval) / (nums.length - 1)); // 求解桶间差值,向上取整
+		int n = (maxval - minval) / len;
+
+		int maxBuk[] = new int[n + 1];
+		int minBuk[] = new int[n + 1];
+
+		Arrays.fill(maxBuk, Integer.MIN_VALUE);
+		Arrays.fill(minBuk, Integer.MAX_VALUE);
+
+		// 桶映射
+		for (int val : nums) {
+			int temp = (val - minval) / len;
+			maxBuk[temp] = Math.max(val, maxBuk[temp]);
+			minBuk[temp] = Math.min(val, minBuk[temp]);
+		}
+
+		// 求解最大gap,最大差值位于后桶的min-前桶的max
+		int gap = 0;
+		int pre = maxBuk[0];
+		for (int i = 1; i <= n; i++) {
+			if (maxBuk[i] == Integer.MIN_VALUE && minBuk[i] == Integer.MAX_VALUE) { // 忽略空桶
+				continue;
+			}
+			gap = Math.max(gap, minBuk[i] - pre);
+			pre = maxBuk[i];
+		}
+
+		return gap;
+	}
+
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
 		int[] a = { -4, -1, 0, 3, 10 };
