@@ -146,11 +146,42 @@ public class ClassicalAlgorithms {
 	 */
 
 	public void mergeSort(int[] data) {
-		sort2(data, 0, data.length - 1);
+		sort(data, 0, data.length - 1);
 	}
 
-	public void sort2(int[] data, int left, int right) {
+	public void sort(int[] data, int left, int right) {
+		if (left >= right)
+			return;
+		int center = (left + right) / 2;
+		sort(data, left, center);
+		sort(data, center + 1, right);
+		merge(data, left, center, right);
+	}
 
+	private void merge(int[] data, int left, int center, int right) {
+		int[] tmpArr = new int[data.length];
+		int mid = center + 1;
+		int third = left;
+		int tmp = left;
+		while (left <= center && mid <= right) {
+			// 从链各个数组中取出最小的放入临时数组
+			if (data[left] <= data[mid]) {
+				tmpArr[third++] = data[left++];
+			} else {
+				tmpArr[third++] = data[mid++];
+			}
+		}
+		// 剩余部分依次放入临时数组
+		while (mid <= right) {
+			tmpArr[third++] = data[mid++];
+		}
+		while (left <= center) {
+			tmpArr[third++] = data[left++];
+		}
+		// 将临时数组中的内容拷贝回原数组中
+		while (tmp <= right) {
+			data[tmp] = tmpArr[tmp++];
+		}
 	}
 
 	/*
@@ -190,10 +221,10 @@ public class ClassicalAlgorithms {
 		// System.out.println(JsonUtil.toJson(arr2));
 		int[] arrs3 = { 7, 2, 8, 1, 6 };
 		// ca.insertSort(arrs3);
-//		ca.quickSort(arrs3, 0, arrs3.length - 1);
-		ca.shellSort(arrs3);
+		// ca.quickSort(arrs3, 0, arrs3.length - 1);
+//		ca.shellSort(arrs3);
+		ca.mergeSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
-		
 
 	}
 
