@@ -9,8 +9,13 @@ public class KMP {
 		int t = next[0] = -1;
 		while (j < len - 1) {
 //			System.out.print("j="+j+",t="+t);
-			if (0 > t || p[j] == p[t])
-				next[++j] = ++t;
+			if (0 > t || p[j] == p[t]){
+				//版本1.0
+//				next[++j] = ++t;
+				// 版本2.0
+				j++;t++;
+				next[j] = p[j]!=p[t]?t:next[t];
+			}
 			else
 				t = next[t];
 //			System.out.println(",after  j="+j+",t="+t+",next["+j+"]="+next[j]);
@@ -37,6 +42,7 @@ public class KMP {
 	public static void main(String[] args) {
 		KMP kmp = new KMP();
 		System.out.println(JsonUtil.toJson(kmp.buildNext("ababaca".toCharArray())));
+		System.out.println(JsonUtil.toJson(kmp.buildNext("abab".toCharArray())));
 		System.out.println(kmp.kmpMatcher("abcabcababadabcbdf", "abab"));
 	}
 
