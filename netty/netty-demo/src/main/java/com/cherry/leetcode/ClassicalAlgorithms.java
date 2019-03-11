@@ -57,7 +57,17 @@ public class ClassicalAlgorithms {
 	 * 数。如果输入数组是逆序排列的，将出现最坏情况。平均情况与最坏情况一样，其时间代价是(n2)
 	 */
 
-	public void sort(int arr[]) {
+	public void insertSort(int arr[]) {
+		for(int i=1;i<arr.length;i++){
+			int insertVal = arr[i];
+			int index = i-1;
+			while(index >= 0 && insertVal < arr[index]){
+				arr[index+1] = arr[index];
+				index--;
+			}
+			arr[index+1] = insertVal;
+//			System.out.println("i="+i+","+JsonUtil.toJson(arr));
+		}
 
 	}
 
@@ -137,7 +147,10 @@ public class ClassicalAlgorithms {
 //		System.out.println(ca.binarySearch(arr, 8));
 		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13};
 		ca.bubbleSort1(arr2, 8);
-		System.out.println(JsonUtil.toJson(arr2));
+//		System.out.println(JsonUtil.toJson(arr2));
+		int[] arrs3 = {7,2,8,1,6};
+		ca.insertSort(arrs3);
+		System.out.println(JsonUtil.toJson(arrs3));
 	}
 
 }
