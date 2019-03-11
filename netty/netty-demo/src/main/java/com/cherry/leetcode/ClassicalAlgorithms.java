@@ -1,5 +1,8 @@
 package com.cherry.leetcode;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.cherry.netty.utils.JsonUtil;
 
 public class ClassicalAlgorithms {
@@ -187,12 +190,34 @@ public class ClassicalAlgorithms {
 	/*
 	 * 桶排序算法
 	 * 
-	 * 桶排序的基本思想是： 把数组 arr 划分为 n 个大小相同子区间（桶），每个子区间各自排序，最 后合并
-	 * 。计数排序是桶排序的一种特殊情况，可以把计数排序当成每个桶里只有一个元素的情况。 1.找出待排序数组中的最大值 max、最小值 min
-	 * 2.我们使用 动态数组 ArrayList 作为桶，桶里放的元素也用 ArrayList 存储。桶的数量为(max-
-	 * min)/arr.length+1 3.遍历数组 arr，计算每个元素 arr[i] 放的桶 4.每个桶各自排序
+	 * 桶排序的基本思想是： 把数组 arr 划分为 n 个大小相同子区间（桶），每个子区间各自排序，最 后合并。
+	 * 计数排序是桶排序的一种特殊情况，可以把计数排序当成每个桶里只有一个元素的情况。
+	 * 
+	 * 1.找出待排序数组中的最大值 max、最小值 min 2.我们使用 动态数组 ArrayList 作为桶，桶里放的元素也用 ArrayList
+	 * 存储。桶的数量为(max-min)/arr.length+1 3.遍历数组 arr，计算每个元素 arr[i] 放的桶 4.每个桶各自排序
 	 */
 	public void bucketSort(int[] arr) {
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < arr.length; i++) {
+			max = Math.max(arr[i], max);
+			min = Math.min(arr[i], min);
+		}
+		// 创建桶
+		int bucketNum = (max - min) / arr.length + 1;
+		ArrayList<ArrayList<Integer>> bucketArr = new ArrayList<ArrayList<Integer>>(bucketNum);
+		for (int i = 0; i < bucketNum; i++) {
+			bucketArr.add(new ArrayList<Integer>());
+		}
+		// 将每个元素放入桶里
+		for (int i = 0; i < arr.length; i++) {
+			int num = (arr[i] - min) / arr.length;
+			bucketArr.get(num).add(arr[i]);
+		}
+		for (int i = 0; i < bucketArr.size(); i++) {
+			Collections.sort(bucketArr.get(i));
+		}
+		System.out.println(JsonUtil.toJson(bucketArr));
 
 	}
 
@@ -219,11 +244,12 @@ public class ClassicalAlgorithms {
 		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13 };
 		ca.bubbleSort1(arr2, 8);
 		// System.out.println(JsonUtil.toJson(arr2));
-		int[] arrs3 = { 7, 2, 8, 1, 6 };
+		int[] arrs3 = { 7, 2, 8, 1, 9 ,6 };
 		// ca.insertSort(arrs3);
 		// ca.quickSort(arrs3, 0, arrs3.length - 1);
-//		ca.shellSort(arrs3);
-		ca.mergeSort(arrs3);
+		// ca.shellSort(arrs3);
+//		ca.mergeSort(arrs3);
+		ca.bucketSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
 
 	}
