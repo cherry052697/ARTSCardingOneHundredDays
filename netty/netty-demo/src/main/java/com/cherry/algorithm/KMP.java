@@ -14,7 +14,7 @@ public class KMP {
 //				next[++j] = ++t;
 				// 版本2.0
 				j++;t++;
-				next[j] = p[j]!=p[t]?t:next[t];
+				next[j] = p[j] != p[t]?t:next[t];
 			}
 			else
 				t = next[t];
