@@ -33,12 +33,12 @@ public class ClassicalAlgorithms {
 	 */
 
 	public void bubbleSort1(int[] a, int n) {
-		int i,j;
-		for(i=0 ; i<n;i++){
-			for(j=1;j<n-i;j++){
-				if (a[j-1]>a[j]) {
-					int temp = a[j-1];
-					a[j-1] = a[j];
+		int i, j;
+		for (i = 0; i < n; i++) {
+			for (j = 1; j < n - i; j++) {
+				if (a[j - 1] > a[j]) {
+					int temp = a[j - 1];
+					a[j - 1] = a[j];
 					a[j] = temp;
 				}
 			}
@@ -58,15 +58,15 @@ public class ClassicalAlgorithms {
 	 */
 
 	public void insertSort(int arr[]) {
-		for(int i=1;i<arr.length;i++){
+		for (int i = 1; i < arr.length; i++) {
 			int insertVal = arr[i];
-			int index = i-1;
-			while(index >= 0 && insertVal < arr[index]){
-				arr[index+1] = arr[index];
+			int index = i - 1;
+			while (index >= 0 && insertVal < arr[index]) {
+				arr[index + 1] = arr[index];
 				index--;
 			}
-			arr[index+1] = insertVal;
-//			System.out.println("i="+i+","+JsonUtil.toJson(arr));
+			arr[index + 1] = insertVal;
+			// System.out.println("i="+i+","+JsonUtil.toJson(arr));
 		}
 
 	}
@@ -81,7 +81,31 @@ public class ClassicalAlgorithms {
 	 * 较，如果有比基准值大的，交换位置，如果没有继续比较下一个，直到找到第一个比基准值大的
 	 * 值才交换。直到从前往后的比较索引>从后往前比较的索引，结束第一次循环，此时，对于基准值 来说，左右两边就是有序的了。
 	 */
-	public void sort(int[] a, int low, int high) {
+	public void quickSort(int[] a, int low, int high) {
+		int start = low, end = high, key = a[low];
+		while (end > start) {
+			// 从后往前比较
+			while (end > start && a[end] >= key)
+				end--;
+			if (a[end] <= key) {
+				int temp = a[end];
+				a[end] = a[start];
+				a[start] = temp;
+			}
+			// 从前往后比较
+			while (end > start && a[start] <= key)
+				start++;
+			if (a[start] >= key) {
+				int temp = a[start];
+				a[start] = a[end];
+				a[end] = temp;
+			}
+			System.out.println("start="+start+",end="+end+"——"+JsonUtil.toJson(a));
+		}
+		if (start > low)
+			quickSort(a, low, start - 1);
+		if (end < high)
+			quickSort(a, end + 1, high);
 
 	}
 
@@ -123,34 +147,36 @@ public class ClassicalAlgorithms {
 	public void bucketSort(int[] arr) {
 
 	}
-	
+
 	/*
 	 * 最短路径算法
 	 */
-	
+
 	/*
 	 * 最大子数组算法
 	 */
-	
+
 	/*
 	 * 最长公共子序算法
 	 */
-	
+
 	/*
 	 * 最小生成树算法
 	 */
-	
 
 	public static void main(String[] args) {
 		ClassicalAlgorithms ca = new ClassicalAlgorithms();
 		int[] arr = { 1, 2, 3, 5, 6, 8, 12, 13, 18 };
-//		System.out.println(ca.binarySearch(arr, 8));
-		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13};
+		// System.out.println(ca.binarySearch(arr, 8));
+		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13 };
 		ca.bubbleSort1(arr2, 8);
-//		System.out.println(JsonUtil.toJson(arr2));
-		int[] arrs3 = {7,2,8,1,6};
-		ca.insertSort(arrs3);
+		// System.out.println(JsonUtil.toJson(arr2));
+		int[] arrs3 = { 7, 2, 8, 1, 6 };
+//		ca.insertSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
+		ca.quickSort(arrs3, 0, arrs3.length-1);
+		System.out.println(JsonUtil.toJson(arrs3));
+
 	}
 
 }
