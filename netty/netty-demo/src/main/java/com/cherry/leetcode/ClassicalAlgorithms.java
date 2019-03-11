@@ -1,5 +1,7 @@
 package com.cherry.leetcode;
 
+import com.cherry.netty.utils.JsonUtil;
+
 public class ClassicalAlgorithms {
 
 	/*
@@ -31,6 +33,16 @@ public class ClassicalAlgorithms {
 	 */
 
 	public void bubbleSort1(int[] a, int n) {
+		int i,j;
+		for(i=0 ; i<n;i++){
+			for(j=1;j<n-i;j++){
+				if (a[j-1]>a[j]) {
+					int temp = a[j-1];
+					a[j-1] = a[j];
+					a[j] = temp;
+				}
+			}
+		}
 
 	}
 
@@ -120,8 +132,12 @@ public class ClassicalAlgorithms {
 	
 
 	public static void main(String[] args) {
+		ClassicalAlgorithms ca = new ClassicalAlgorithms();
 		int[] arr = { 1, 2, 3, 5, 6, 8, 12, 13, 18 };
-		System.out.println(new ClassicalAlgorithms().binarySearch(arr, 8));
+//		System.out.println(ca.binarySearch(arr, 8));
+		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13};
+		ca.bubbleSort1(arr2, 8);
+		System.out.println(JsonUtil.toJson(arr2));
 	}
 
 }
