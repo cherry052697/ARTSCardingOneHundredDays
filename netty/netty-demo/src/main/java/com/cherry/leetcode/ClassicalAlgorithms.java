@@ -100,7 +100,7 @@ public class ClassicalAlgorithms {
 				a[start] = a[end];
 				a[end] = temp;
 			}
-			System.out.println("start="+start+",end="+end+"——"+JsonUtil.toJson(a));
+			System.out.println("start=" + start + ",end=" + end + "——" + JsonUtil.toJson(a));
 		}
 		if (start > low)
 			quickSort(a, low, start - 1);
@@ -118,7 +118,24 @@ public class ClassicalAlgorithms {
 	 * 时，整个序列作为一个表来处理，表长度即为整个序列的长 度。
 	 */
 	private void shellSort(int[] a) {
+		int dk = a.length / 2;
+		while (dk >= 1) {
+			shellInsertSort(a, dk);
+			dk = dk >> 1;
+		}
 
+	}
+
+	private void shellInsertSort(int[] a, int dk) {
+		for (int i = dk; i < a.length; i++) {
+			if (a[i] < a[i - dk]) {
+				int j, x = a[i];
+				a[i] = a[i - dk];
+				for (j = i - dk; j >= 0 && x < a[j]; j = j - dk)
+					a[j + dk] = a[j];
+				a[j + dk] = x;
+			}
+		}
 	}
 
 	/*
@@ -172,10 +189,11 @@ public class ClassicalAlgorithms {
 		ca.bubbleSort1(arr2, 8);
 		// System.out.println(JsonUtil.toJson(arr2));
 		int[] arrs3 = { 7, 2, 8, 1, 6 };
-//		ca.insertSort(arrs3);
+		// ca.insertSort(arrs3);
+//		ca.quickSort(arrs3, 0, arrs3.length - 1);
+		ca.shellSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
-		ca.quickSort(arrs3, 0, arrs3.length-1);
-		System.out.println(JsonUtil.toJson(arrs3));
+		
 
 	}
 
