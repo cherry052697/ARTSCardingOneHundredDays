@@ -1,9 +1,11 @@
 package com.cherry.leetcode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -3692,6 +3694,56 @@ public class Top100LikedQuestions {
 			}
 		}
 		return head == -1 ? "" : s.substring(head, head + window);
+	}
+
+	/*
+	 * 239. Sliding Window Maximum
+	 * 
+	 * Given an array nums, there is a sliding window of size k which is moving
+	 * from the very left of the array to the very right. You can only see the k
+	 * numbers in the window. Each time the sliding window moves right by one
+	 * position. Return the max sliding window.
+	 */
+	public int[] maxSlidingWindow(int[] nums, int k) {
+		if (nums.length == 0 || (k <= 0 && k > nums.length)) {
+			return new int[0];
+		}
+		int[] result = new int[nums.length - k + 1];
+		for (int i = 0; i < nums.length - k + 1; i++) {
+			int maxNum = Integer.MIN_VALUE;
+			for (int j = i; j < i + k; j++) {
+				maxNum = Math.max(maxNum, nums[j]);
+			}
+			result[i] = maxNum;
+		}
+		return result;
+	}
+
+	public int[] maxSlidingWindow2(int[] nums, int k) {
+		if (nums == null || k <= 0) {
+			return new int[0];
+		}
+		int n = nums.length;
+		int[] r = new int[n - k + 1];
+		int ri = 0;
+		// store index
+		Deque<Integer> q = new ArrayDeque<Integer>();
+		for (int i = 0; i < nums.length; i++) {
+			// remove numbers out of range k
+			while (!q.isEmpty() && q.peek() < i - k + 1) {
+				q.poll();
+			}
+			// remove smaller numbers in k range as they are useless
+			while (!q.isEmpty() && nums[q.peekLast()] < nums[i]) {
+				q.pollLast();
+			}
+			// q contains index... r contains content
+			q.offer(i);
+			if (i >= k - 1) {
+				r[ri++] = nums[q.peek()];
+			}
+		}
+		return r;
 	}
 
 }

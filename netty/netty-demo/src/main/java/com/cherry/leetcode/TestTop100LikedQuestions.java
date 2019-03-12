@@ -221,7 +221,9 @@ public class TestTop100LikedQuestions {
 		int[] preorder = {3,9,20,15,7},inorder = {9,3,15,20,7};
 //		System.out.println(test.buildTree(preorder, inorder));
 		int[] nums12 = {0,1,0,2,1,0,1,3,2,1,2,1};
-		System.out.println(test.trap(nums12));
+//		System.out.println(test.trap(nums12));
+		int[] nums13 = {1,3,-1,-3,5,3,6,7};
+		test.maxSlidingWindow(nums13, 3);
 		
 	}
 	public List<Integer> primeNumbers(int n){
