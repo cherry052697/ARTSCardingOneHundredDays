@@ -85,19 +85,22 @@ public class ClassicalAlgorithms {
 	 * 值才交换。直到从前往后的比较索引>从后往前比较的索引，结束第一次循环，此时，对于基准值 来说，左右两边就是有序的了。
 	 */
 	public void quickSort(int[] a, int low, int high) {
-		int start = low, end = high, key = a[low];
+		int start = low, end = high;
+		int key = a[low];
 		while (end > start) {
-			// 从后往前比较
+			// 从后往前比较,找到首个小于key的(右边)索引作为end
 			while (end > start && a[end] >= key)
 				end--;
+			// a[end] <= key时,交换a[end]←→a[start]
 			if (a[end] <= key) {
 				int temp = a[end];
 				a[end] = a[start];
 				a[start] = temp;
 			}
-			// 从前往后比较
+			// 从前往后比较,找到首个大于key的(左边)索引
 			while (end > start && a[start] <= key)
 				start++;
+			// a[start] >= key时,交换a[end]←→a[start]
 			if (a[start] >= key) {
 				int temp = a[start];
 				a[start] = a[end];
