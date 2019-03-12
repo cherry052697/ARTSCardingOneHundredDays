@@ -42,9 +42,9 @@ public class KMP {
 	}
 	public static void main(String[] args) {
 		KMP kmp = new KMP();
-		System.out.println(JsonUtil.toJson(kmp.buildNext("ababaca".toCharArray())));
-		System.out.println(JsonUtil.toJson(kmp.buildNext("abab".toCharArray())));
-		System.out.println(kmp.kmpMatcher("abcabcababadabcbdf", "abab"));
+//		System.out.println(JsonUtil.toJson(kmp.buildNext("ababaca".toCharArray())));
+//		System.out.println(JsonUtil.toJson(kmp.buildNext("abab".toCharArray())));
+		System.out.println(kmp.kmpMatcher("ADOBECODEBANC", "ABC"));
 	}
 
 }

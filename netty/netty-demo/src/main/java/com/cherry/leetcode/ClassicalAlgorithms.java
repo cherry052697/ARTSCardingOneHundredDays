@@ -123,7 +123,7 @@ public class ClassicalAlgorithms {
 	 * 每趟排序，根据对应的增量 ti，将待排序列分割成若干长度为 m 的子序列，分别对各子表进 行直接插入排序。仅增量因子为1
 	 * 时，整个序列作为一个表来处理，表长度即为整个序列的长 度。
 	 */
-	private void shellSort(int[] a) {
+	public void shellSort(int[] a) {
 		int dk = a.length / 2;
 		while (dk >= 1) {
 			shellInsertSort(a, dk);
@@ -247,17 +247,18 @@ public class ClassicalAlgorithms {
 	 * 最小生成树算法
 	 */
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		ClassicalAlgorithms ca = new ClassicalAlgorithms();
 		int[] arr = { 1, 2, 3, 5, 6, 8, 12, 13, 18 };
 		// System.out.println(ca.binarySearch(arr, 8));
 		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13 };
-		ca.bubbleSort1(arr2, 8);
+//		ca.bubbleSort1(arr2, 8);
 		// System.out.println(JsonUtil.toJson(arr2));
 		int[] arrs3 = { 7, 2, 8, 1, 9 ,6 };
 		// ca.insertSort(arrs3);
 		// ca.quickSort(arrs3, 0, arrs3.length - 1);
-		// ca.shellSort(arrs3);
+//		 ca.shellSort(arrs3);
 //		ca.mergeSort(arrs3);
 		ca.bucketSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
