@@ -3773,4 +3773,36 @@ public class Top100LikedQuestions {
 		return Math.max(left, right) + node.val;
 	}
 
+	/*
+	 * 142. Linked List Cycle II
+	 * 
+	 * Given a linked list, return the node where the cycle begins. If there is
+	 * no cycle, return null.
+	 * 
+	 * To represent a cycle in the given linked list, we use an integer pos
+	 * which represents the position (0-indexed) in the linked list where tail
+	 * connects to. If pos is -1, then there is no cycle in the linked list.
+	 * 
+	 * Note: Do not modify the linked list.
+	 */
+	public ListNode detectCycle(ListNode head) {
+		  ListNode slow = head;
+          ListNode fast = head;
+  
+          while (fast!=null && fast.next!=null){
+              fast = fast.next.next;
+              slow = slow.next;
+              
+              if (fast == slow){
+                  ListNode slow2 = head; 
+                  while (slow2 != slow){
+                      slow = slow.next;
+                      slow2 = slow2.next;
+                  }
+                  return slow;
+              }
+          }
+          return null;
+	}
+
 }

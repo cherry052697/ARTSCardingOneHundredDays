@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.cherry.netty.utils.JsonUtil;
+
 
 
 
@@ -223,7 +225,12 @@ public class TestTop100LikedQuestions {
 		int[] nums12 = {0,1,0,2,1,0,1,3,2,1,2,1};
 //		System.out.println(test.trap(nums12));
 		int[] nums13 = {1,3,-1,-3,5,3,6,7};
-		test.maxSlidingWindow(nums13, 3);
+//		test.maxSlidingWindow(nums13, 3);
+		ListNode listNode = new ListNode(3);
+		listNode.next = new ListNode(2);
+		listNode.next.next = new ListNode(0);
+		listNode.next.next.next = new ListNode(-4);
+		System.out.println(JsonUtil.toJson(test.detectCycle(listNode)));
 		
 	}
 	public List<Integer> primeNumbers(int n){

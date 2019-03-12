@@ -116,7 +116,7 @@ public class ClassicalAlgorithms {
 	}
 
 	/*
-	 * 希尔排序算法
+	 * 希尔排序算法（递减增量法）
 	 * 
 	 * 基本思想：先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，待整个序列 中的记录“基本有序”时，再对全体记录进行依次直接插入排序。
 	 * 1. 操作方法： 选择一个增量序列 t1，t2，…，tk，其中 ti>tj，tk=1； 2. 按增量序列个数 k，对序列进行 k 趟排序； 3.
@@ -124,7 +124,7 @@ public class ClassicalAlgorithms {
 	 * 时，整个序列作为一个表来处理，表长度即为整个序列的长 度。
 	 */
 	public void shellSort(int[] a) {
-		int dk = a.length / 2;
+		int dk = a.length / 2;//步长
 		while (dk >= 1) {
 			shellInsertSort(a, dk);
 			dk = dk >> 1;
@@ -142,6 +142,7 @@ public class ClassicalAlgorithms {
 				a[j + dk] = x;
 			}
 		}
+		System.out.println(JsonUtil.toJson(a));
 	}
 
 	/*
@@ -255,12 +256,12 @@ public class ClassicalAlgorithms {
 		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13 };
 //		ca.bubbleSort1(arr2, 8);
 		// System.out.println(JsonUtil.toJson(arr2));
-		int[] arrs3 = { 7, 2, 8, 1, 9 ,6 };
+		int[] arrs3 = {49,38,65,97,76,13,27,49,55,04 };
 		// ca.insertSort(arrs3);
 		// ca.quickSort(arrs3, 0, arrs3.length - 1);
-//		 ca.shellSort(arrs3);
+		 ca.shellSort(arrs3);
 //		ca.mergeSort(arrs3);
-		ca.bucketSort(arrs3);
+//		ca.bucketSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
 
 	}
