@@ -124,7 +124,7 @@ public class ClassicalAlgorithms {
 	 * 时，整个序列作为一个表来处理，表长度即为整个序列的长 度。
 	 */
 	public void shellSort(int[] a) {
-		int dk = a.length / 2;//步长
+		int dk = a.length / 2;// 步长
 		while (dk >= 1) {
 			shellInsertSort(a, dk);
 			dk = dk >> 1;
@@ -225,13 +225,12 @@ public class ClassicalAlgorithms {
 
 	}
 
-	
 	/*
 	 * 基数排序算法
 	 * 
 	 * 
 	 */
-	
+
 	/*
 	 * 最短路径算法
 	 */
@@ -243,6 +242,82 @@ public class ClassicalAlgorithms {
 	/*
 	 * 最长公共子序算法
 	 */
+	public int longestCommonSubsequence(String A, String B) {
+		int n = A.length();
+		int m = B.length();
+		int f[][] = new int[n + 1][m + 1];
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= m; j++) {
+				f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
+				if (A.charAt(i - 1) == B.charAt(j - 1))
+					f[i][j] = f[i - 1][j - 1] + 1;
+			}
+		}
+		return f[n][m];
+	}
+
+	public static int longestCommonSubsequence2(String A, String B) {
+		// state: f[i][j] is the length of the longest lcs
+		// ended with A[i - 1] & B[j - 1] in A[0..i-1] & B[0..j-1]
+		int m = A.length();
+		int n = B.length();
+		// （由于任何str与空串的LCS都为零：故将第0行/列全部置0！（默认初始化就是0））
+		// 因此 分别以A、B为行、列拼成的棋盘chess，行数列数均需+1（<-第0行/列）
+		int chess[][] = new int[m + 1][n + 1];
+		int i, j;
+		// Stack<Character> stack = null;
+		StringBuffer sb = new StringBuffer();
+
+		// 从第1行/列开始数。
+		for (i = 1; i <= m; i++) {
+			for (j = 1; j <= n; j++) {
+				// 由于i、j均为1起算，故用i、j表示字符串下标时，需要减1（而棋盘chess不需要考虑这个，因为第0行/列本就算做另加的）
+				if (A.charAt(i - 1) == B.charAt(j - 1)) {
+					chess[i][j] = chess[i - 1][j - 1] + 1;
+				} else {
+					chess[i][j] = 0;
+				}
+			}
+		}
+
+		// 求最长公共子序列的长度
+		int max = 0;
+		for (i = 1; i <= m; i++) {
+			for (j = 1; j <= n; j++) {
+				max = Math.max(max, chess[i][j]);
+			}
+		}
+		// 棋盘chess中的值已设置完成。
+
+		// 将i、j下标落到末尾元素上。（以之为起点，一直走到头）
+		i = m;
+		j = n;
+		// 求LCS解（之一）
+		try {
+			while (i != 0 && j != 0) {// 当i、j到达第0行/列时，棋盘走到尽头。
+				if (A.charAt(i - 1) == B.charAt(j - 1)) {
+					// System.out.println("i: "+i+", j: "+j+" "+A.charAt(i -
+					// 1)+" ; "+B.charAt(j - 1)); //Debug
+					sb.append(A.charAt(i - 1));// 将相同的子元素压栈。然后指针前移，直到i、j指向0终止(因为任何字符串
+												// 与0 求公共子序列，都是0)
+					i--;
+					j--;
+				} else { // 若二者不相等，而最长公共子序列一定是由LCS（chess[i][j-1] or
+							// chess[i-1][j]）的较大者得来，故将较大者的指针前移，接着遍历。
+					if (chess[i][j - 1] > chess[i - 1][j]) {
+						j--;
+					} else { // if(chess[i][j-1] <= chess[i-1][j])
+						i--;
+					}
+
+				}
+			}
+			System.out.println("One of the Longest Common Subsequence: " + sb.reverse());
+		} catch (NullPointerException e) {
+			System.err.println("NullPointerException!");
+		}
+		return max;
+	}
 
 	/*
 	 * 最小生成树算法
@@ -254,14 +329,14 @@ public class ClassicalAlgorithms {
 		int[] arr = { 1, 2, 3, 5, 6, 8, 12, 13, 18 };
 		// System.out.println(ca.binarySearch(arr, 8));
 		int[] arr2 = { 4, 9, 3, 7, 6, 8, 1, 13 };
-//		ca.bubbleSort1(arr2, 8);
+		// ca.bubbleSort1(arr2, 8);
 		// System.out.println(JsonUtil.toJson(arr2));
-		int[] arrs3 = {49,38,65,97,76,13,27,49,55,04 };
+		int[] arrs3 = { 49, 38, 65, 97, 76, 13, 27, 49, 55, 04 };
 		// ca.insertSort(arrs3);
 		// ca.quickSort(arrs3, 0, arrs3.length - 1);
-		 ca.shellSort(arrs3);
-//		ca.mergeSort(arrs3);
-//		ca.bucketSort(arrs3);
+		ca.shellSort(arrs3);
+		// ca.mergeSort(arrs3);
+		// ca.bucketSort(arrs3);
 		System.out.println(JsonUtil.toJson(arrs3));
 
 	}

@@ -3786,23 +3786,34 @@ public class Top100LikedQuestions {
 	 * Note: Do not modify the linked list.
 	 */
 	public ListNode detectCycle(ListNode head) {
-		  ListNode slow = head;
-          ListNode fast = head;
-  
-          while (fast!=null && fast.next!=null){
-              fast = fast.next.next;
-              slow = slow.next;
-              
-              if (fast == slow){
-                  ListNode slow2 = head; 
-                  while (slow2 != slow){
-                      slow = slow.next;
-                      slow2 = slow2.next;
-                  }
-                  return slow;
-              }
-          }
-          return null;
+		ListNode slow = head;
+		ListNode fast = head;
+
+		while (fast != null && fast.next != null) {
+			fast = fast.next.next;
+			slow = slow.next;
+
+			if (fast == slow) {
+				ListNode slow2 = head;
+				while (slow2 != slow) {
+					slow = slow.next;
+					slow2 = slow2.next;
+				}
+				return slow;
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * 85. Maximal Rectangle
+	 * 
+	 * Given a 2D binary matrix filled with 0's and 1's, find the largest
+	 * rectangle containing only 1's and return its area.
+	 */
+	public int maximalRectangle(char[][] matrix) {
+		int result = 0;
+		return result;
 	}
 
 }
