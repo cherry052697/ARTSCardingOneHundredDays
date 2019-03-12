@@ -238,6 +238,19 @@ public class ClassicalAlgorithms {
 	/*
 	 * 最大子数组算法
 	 */
+	int maxSubArray(int[] array, int length) {
+		int boundry = array[0];
+		int maxArray = array[0];
+		for (int i = 1; i < length; ++i) {
+			if (boundry + array[i] >= array[i])
+				boundry += array[i];
+			else
+				boundry = array[i];
+			if (maxArray < boundry)
+				maxArray = boundry;
+		}
+		return maxArray;
+	}
 
 	/*
 	 * 最长公共子序算法
