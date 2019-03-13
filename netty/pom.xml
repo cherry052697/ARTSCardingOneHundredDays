@@ -102,5 +102,6 @@
     <module>netty-demo</module>
     <module>rabbitmq-demo</module>
     <module>rabbitmq</module>
+    <module>spring-boot-rabbitmq</module>
   </modules>
 </project>
