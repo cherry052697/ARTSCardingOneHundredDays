@@ -1,4 +1,4 @@
-package com.zpc.rabbitmq.topic;
+package com.cherry.rabbitmq.topic;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

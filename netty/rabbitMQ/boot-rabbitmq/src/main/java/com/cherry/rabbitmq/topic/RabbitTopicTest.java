@@ -1,4 +1,4 @@
-package com.zpc.rabbitmq;
+package com.cherry.rabbitmq.topic;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,21 +8,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RabbitMqHelloTest {
+public class RabbitTopicTest {
 
     @Autowired
-    private HelloSender helloSender;
+    private MsgSender msgSender;
 
     @Test
-    public void hello() throws Exception {
-        helloSender.send();
+    public void send1() throws Exception {
+        msgSender.send1();
     }
 
     @Test
-    public void oneToMany() throws Exception {
-        for (int i=0;i<100;i++){
-            helloSender.send(i);
-            Thread.sleep(200);
-        }
+    public void send2() throws Exception {
+        msgSender.send2();
     }
 }

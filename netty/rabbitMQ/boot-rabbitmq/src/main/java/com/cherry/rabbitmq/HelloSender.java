@@ -1,4 +1,4 @@
-package com.zpc.rabbitmq;
+package com.cherry.rabbitmq;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

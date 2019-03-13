@@ -1,16 +1,16 @@
-package com.zpc.rabbitmq.fanout;
+package com.cherry.rabbitmq;
 
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = "q_fanout_C")
-public class ReceiverC {
+@RabbitListener(queues = "q_hello")
+public class HelloReceiver {
 
     @RabbitHandler
     public void process(String hello) {
-        System.out.println("CReceiver  : " + hello + "/n");
+        System.out.println("Receiver1  : " + hello);
     }
 
 }

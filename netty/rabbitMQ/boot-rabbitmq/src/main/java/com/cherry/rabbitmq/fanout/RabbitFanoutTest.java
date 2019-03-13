@@ -1,4 +1,4 @@
-package com.zpc.rabbitmq.fanout;
+package com.cherry.rabbitmq.fanout;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.zpc.rabbitmq.fanout;
+package com.cherry.rabbitmq.fanout;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

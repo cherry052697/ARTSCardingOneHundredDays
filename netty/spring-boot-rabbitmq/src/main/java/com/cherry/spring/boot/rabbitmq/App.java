@@ -1,4 +1,4 @@
-package org.spring.boot.rabbitmq;
+package com.cherry.spring.boot.rabbitmq;
 
 /**
  * Hello world!
