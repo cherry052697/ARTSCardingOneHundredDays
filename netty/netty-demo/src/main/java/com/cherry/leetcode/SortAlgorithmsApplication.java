@@ -290,17 +290,44 @@ public class SortAlgorithmsApplication {
 	 * If it is impossible to form any triangle of non-zero area, return 0.
 	 */
 	public int largestPerimeter(int[] A) {
-		 Arrays.sort(A);
-	        for (int i = A.length - 3; i >= 0; --i)
-	            if (A[i] + A[i+1] > A[i+2])
-	                return A[i] + A[i+1] + A[i+2];
-	        return 0;
+		Arrays.sort(A);
+		for (int i = A.length - 3; i >= 0; --i)
+			if (A[i] + A[i + 1] > A[i + 2])
+				return A[i] + A[i + 1] + A[i + 2];
+		return 0;
 	}
+
+	/*
+	 * 179. Largest Number
+	 * 
+	 * Given a list of non negative integers, arrange them such that they form
+	 * the largest number.
+	 */
+/*	public String largestNumber(int[] nums) {
+		int n=nums.length; String[] strnums = new String[n]; 
+		for(int i=0;i<n;++i) {//（1）首先将每个整型数转换为字符串
+			strnums[i] = String.valueOf(nums[i]); 
+			} //(2)依据排序规则，将字符串排序 //这里排序的前后规是使得连接字符串较大的排在前面 //如虽然32<321,但是32321>32132,所以32要排在321前面 
+		sort(strnums.begin(), strnums.end(), cmp); 
+		String res = ""; 
+		for(int i=0;i<n;++i) {//(3)将排序后的各字符串连接成一个大字符串
+			res += strnums[i]; } 
+		if(res.charAt(0)=='0') 
+				return "0";//防止输入[0,0]时res="00"等情况
+		return res;
+		}
+	}
+
+	static boolean cmp(String strnum1, String strnum2) {// 利用ab>ba,则a排在b前面
+		String str1 = strnum1+strnum2;
+		String str2 = strnum2+strnum1; 
+		return  str1>str2;//找最大数，则大元素(按自定义规则而言)排在前面
+	}*/
 
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
-		int[] a = { 3,6,2,3 };
-//		System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
+		int[] a = { 3, 6, 2, 3 };
+		// System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
 		System.out.println(saa.largestPerimeter(a));
 	}
 
