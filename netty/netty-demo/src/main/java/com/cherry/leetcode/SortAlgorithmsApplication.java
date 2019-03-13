@@ -281,10 +281,27 @@ public class SortAlgorithmsApplication {
 		return gap;
 	}
 
+	/*
+	 * 976. Largest Perimeter Triangle
+	 * 
+	 * Given an array A of positive lengths, return the largest perimeter of a
+	 * triangle with non-zero area, formed from 3 of these lengths.
+	 * 
+	 * If it is impossible to form any triangle of non-zero area, return 0.
+	 */
+	public int largestPerimeter(int[] A) {
+		 Arrays.sort(A);
+	        for (int i = A.length - 3; i >= 0; --i)
+	            if (A[i] + A[i+1] > A[i+2])
+	                return A[i] + A[i+1] + A[i+2];
+	        return 0;
+	}
+
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
-		int[] a = { -4, -1, 0, 3, 10 };
-		System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
+		int[] a = { 3,6,2,3 };
+//		System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
+		System.out.println(saa.largestPerimeter(a));
 	}
 
 }
