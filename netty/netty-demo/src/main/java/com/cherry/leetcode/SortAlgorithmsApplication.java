@@ -2,6 +2,7 @@ package com.cherry.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -305,29 +306,30 @@ public class SortAlgorithmsApplication {
 	 */
 	public String largestNumber(int[] nums) {
 		String[] strs = new String[nums.length];
-        for(int i=0; i<nums.length; i++) strs[i] = Integer.toString(nums[i]);
-        Arrays.sort(strs, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                if (s1.length() == s2.length()) return s2.compareTo(s1);
-                return (s2+s1).compareTo(s1+s2);
-            }
-        });
-        if ("0".equals(strs[0])) return "0";
-        StringBuilder sb = new StringBuilder();
-        for(int i=0; i<strs.length; i++) {
-            sb.append(strs[i]);
-        }
-        return sb.toString();
+		for (int i = 0; i < nums.length; i++)
+			strs[i] = Integer.toString(nums[i]);
+		Arrays.sort(strs, new Comparator<String>() {
+			@Override
+			public int compare(String s1, String s2) {
+				if (s1.length() == s2.length())
+					return s2.compareTo(s1);
+				return (s2 + s1).compareTo(s1 + s2);
+			}
+		});
+		if ("0".equals(strs[0]))
+			return "0";
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < strs.length; i++) {
+			sb.append(strs[i]);
 		}
-
-	
+		return sb.toString();
+	}
 
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
-		int[] a = { 3, 6, 2, 3 };
+		int[] a = { 10,2 };
 		// System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
-		System.out.println(saa.largestPerimeter(a));
+		System.out.println(saa.largestNumber(a));
 	}
 
 }
