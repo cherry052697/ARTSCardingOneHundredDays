@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -483,6 +485,47 @@ public class SortAlgorithmsApplication {
 		while (i < intervals.size())
 			result.add(intervals.get(i++));
 		return result;
+	}
+
+	/*
+	 * 710. Random Pick with Blacklist
+	 * 
+	 * Given a blacklist B containing unique integers from [0, N), write a
+	 * function to return a uniform random integer from [0, N) which is NOT in
+	 * B.
+	 * 
+	 * Optimize it such that it minimizes the call to system’s Math.random().
+	 */
+	class Solution {
+		int M;
+		Map<Integer, Integer> map;
+		Random r;
+
+		public Solution(int N, int[] blacklist) {
+			M = N - blacklist.length;
+			map = new HashMap<>();
+			r = new Random();
+			for (int tmp : blacklist) {
+				map.put(tmp, -1);
+			}
+
+			for (int tmp : blacklist) {
+				if (tmp < M) {
+					while (map.containsKey(N - 1)) {
+						N--;
+					}
+					map.put(tmp, --N);
+				}
+			}
+		}
+
+		public int pick() {
+			int p = r.nextInt(M);
+			if (map.containsKey(p))
+				return map.get(p);
+			return p;
+		}
+		
 	}
 
 	public static void main(String[] args) {
