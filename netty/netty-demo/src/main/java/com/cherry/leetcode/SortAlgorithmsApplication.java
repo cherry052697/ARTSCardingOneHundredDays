@@ -2,7 +2,9 @@ package com.cherry.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -334,102 +336,166 @@ public class SortAlgorithmsApplication {
 	 */
 	public void wiggleSort(int[] nums) {
 		int n = nums.length, m = (n + 1) >> 1;
-	    int[] copy = Arrays.copyOf(nums, n);
-	    Arrays.sort(copy);
-	    
-	    for (int i = m - 1, j = 0; i >= 0; i--, j += 2) nums[j] = copy[i];
-	    for (int i = n - 1, j = 1; i >= m; i--, j += 2) nums[j] = copy[i];
+		int[] copy = Arrays.copyOf(nums, n);
+		Arrays.sort(copy);
+
+		for (int i = m - 1, j = 0; i >= 0; i--, j += 2)
+			nums[j] = copy[i];
+		for (int i = n - 1, j = 1; i >= m; i--, j += 2)
+			nums[j] = copy[i];
 	}
 
 	public void wiggleSort2(int[] nums) {
-	    int n = nums.length, m = (n + 1) >> 1;
-	    int median = kthSmallestNumber(nums, m);
-	    
-	    for (int i = 0, j = 0, k = n - 1; j <= k;) {
-	        if (nums[A(j, n)] > median) {
-	            swap(nums, A(i++, n), A(j++, n));
-	        } else if (nums[A(j, n)] < median) {
-	            swap(nums, A(j, n), A(k--, n));
-	        } else {
-	            j++;
-	        }
-	    }
+		int n = nums.length, m = (n + 1) >> 1;
+		int median = kthSmallestNumber(nums, m);
+
+		for (int i = 0, j = 0, k = n - 1; j <= k;) {
+			if (nums[A(j, n)] > median) {
+				swap(nums, A(i++, n), A(j++, n));
+			} else if (nums[A(j, n)] < median) {
+				swap(nums, A(j, n), A(k--, n));
+			} else {
+				j++;
+			}
+		}
 	}
+
 	public void wiggleSort3(int[] nums) {
-	    int n = nums.length, m = (n + 1) >> 1;
-	    int[] copy = Arrays.copyOf(nums, n);
-	    int median = kthSmallestNumber(nums, m);
-	    
-	    for (int i = 0, j = 0, k = n - 1; j <= k;) {
-	        if (copy[j] < median) {
-	            swap(copy, i++, j++);
-	        } else if (copy[j] > median) {
-	            swap(copy, j, k--);
-	        } else {
-	            j++;
-	        }
-	    }
-	        
-	    for (int i = m - 1, j = 0; i >= 0; i--, j += 2) nums[j] = copy[i];
-	    for (int i = n - 1, j = 1; i >= m; i--, j += 2) nums[j] = copy[i];
+		int n = nums.length, m = (n + 1) >> 1;
+		int[] copy = Arrays.copyOf(nums, n);
+		int median = kthSmallestNumber(nums, m);
+
+		for (int i = 0, j = 0, k = n - 1; j <= k;) {
+			if (copy[j] < median) {
+				swap(copy, i++, j++);
+			} else if (copy[j] > median) {
+				swap(copy, j, k--);
+			} else {
+				j++;
+			}
+		}
+
+		for (int i = m - 1, j = 0; i >= 0; i--, j += 2)
+			nums[j] = copy[i];
+		for (int i = n - 1, j = 1; i >= m; i--, j += 2)
+			nums[j] = copy[i];
 	}
+
 	private int kthSmallestNumber(int[] nums, int k) {
-	    Random random = new Random();
-	    
-	    for (int i = nums.length - 1; i >= 0; i--) {
-	        swap(nums, i, random.nextInt(i + 1));
-	    }
-	    
-	    int l = 0, r = nums.length - 1;
-	    k--;
-	        
-	    while (l < r) {
-	        int m = getMiddle(nums, l, r);
-	        
-	        if (m < k) {
-	            l = m + 1;
-	        } else if (m > k) {
-	            r = m - 1;
-	        } else {
-	            break;
-	        }
-	    }
-	    
-	    return nums[k];
+		Random random = new Random();
+
+		for (int i = nums.length - 1; i >= 0; i--) {
+			swap(nums, i, random.nextInt(i + 1));
+		}
+
+		int l = 0, r = nums.length - 1;
+		k--;
+
+		while (l < r) {
+			int m = getMiddle(nums, l, r);
+
+			if (m < k) {
+				l = m + 1;
+			} else if (m > k) {
+				r = m - 1;
+			} else {
+				break;
+			}
+		}
+
+		return nums[k];
 	}
-	    
+
 	private int getMiddle(int[] nums, int l, int r) {
-	    int i = l;
-	    
-	    for (int j = l + 1; j <= r; j++) {
-	        if (nums[j] < nums[l]) swap(nums, ++i, j);
-	    }
-	    
-	    swap(nums, l, i);
-	    return i;
+		int i = l;
+
+		for (int j = l + 1; j <= r; j++) {
+			if (nums[j] < nums[l])
+				swap(nums, ++i, j);
+		}
+
+		swap(nums, l, i);
+		return i;
 	}
+
 	private void swap(int[] nums, int i, int j) {
-	    int t = nums[i];
-	    nums[i] = nums[j];
-	    nums[j] = t;
+		int t = nums[i];
+		nums[i] = nums[j];
+		nums[j] = t;
 	}
 
 	private int A(int i, int n) {
-	    return (2 * i + 1) % (n | 1);
+		return (2 * i + 1) % (n | 1);
+	}
+
+	/*
+	 * 57. Insert Interval
+	 * 
+	 * Given a set of non-overlapping intervals, insert a new interval into the
+	 * intervals (merge if necessary).
+	 * 
+	 * You may assume that the intervals were initially sorted according to
+	 * their start times.
+	 */
+	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+		List<Interval> result = new ArrayList<Interval>();
+		List<Integer> slist = new ArrayList<Integer>();
+		List<Integer> elist = new ArrayList<Integer>();
+		slist.add(newInterval.start);
+		elist.add(newInterval.end);
+		for(int i=0;i<intervals.size();i++){
+			slist.add(intervals.get(i).start);
+			elist.add(intervals.get(i).end);
+		}
+		Collections.sort(slist);
+		Collections.sort(elist);
+//		System.out.println(JsonUtil.toJson(slist));
+//		System.out.println(JsonUtil.toJson(elist));
+		for (int i = 0; i < slist.size(); i++) {
+			Interval temp = new Interval(slist.get(i), elist.get(i));
+			if (result.size()==0) {
+				result.add(temp);
+			}else{
+				Interval last = result.get(result.size()-1);
+				if (last.end >= temp.start) {
+					last.end = temp.end;
+				}else{
+					result.add(temp);
+				}
+			}
+			
+		}
+		return result;
 	}
 
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
-		int[] a = { 1, 5, 1, 1, 6, 4 };
+//		int[] a = { 1, 5, 1, 1, 6, 4 };
 		// System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
-		saa.wiggleSort(a);
+		/*saa.wiggleSort(a);
 		System.out.println(JsonUtil.toJson(a));
 		int[] a2 = { 1, 5, 1, 1, 6, 4 };
 		saa.wiggleSort2(a2);
 		System.out.println(JsonUtil.toJson(a2));
 		int[] a3 = { 1, 5, 1, 1, 6, 4 };
 		saa.wiggleSort3(a3);
-		System.out.println(JsonUtil.toJson(a3));
+		System.out.println(JsonUtil.toJson(a3));*/
+		
+//		[[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+		Interval in1 = new Interval(1, 2);
+		Interval in2 = new Interval(3,5);
+		Interval in3 = new Interval(6,7);
+		Interval in4 = new Interval(8,10);
+		Interval in5 = new Interval(12,16);
+		Interval newInterval = new Interval(4, 8);
+		List<Interval> intervals = new ArrayList<Interval>();
+		intervals.add(in1);
+		intervals.add(in2);
+		intervals.add(in3);
+		intervals.add(in4);
+		intervals.add(in5);
+		
+		System.out.println(JsonUtil.toJson(saa.insert(intervals, newInterval)));
 	}
 
 }
