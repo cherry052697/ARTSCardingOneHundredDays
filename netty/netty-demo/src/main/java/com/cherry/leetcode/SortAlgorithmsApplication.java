@@ -671,6 +671,36 @@ public class SortAlgorithmsApplication {
 		return String.valueOf(ans);
 	}
 
+	/*
+	 * 350. Intersection of Two Arrays II
+	 * 
+	 * Given two arrays, write a function to compute their intersection.
+	 */
+	public int[] intersect(int[] nums1, int[] nums2) {
+		Arrays.sort(nums1);
+		Arrays.sort(nums2);
+		int pnt1 = 0;
+		int pnt2 = 0;
+		ArrayList<Integer> myList = new ArrayList<Integer>();
+		while ((pnt1 < nums1.length) && (pnt2 < nums2.length)) {
+			if (nums1[pnt1] < nums2[pnt2]) {
+				pnt1++;
+			} else {
+				if (nums1[pnt1] > nums2[pnt2]) {
+					pnt2++;
+				} else {
+					myList.add(nums1[pnt1]);
+					pnt1++;
+					pnt2++;
+				}
+			}
+		}
+		int[] res = new int[myList.size()];
+		for (int i = 0; i < res.length; i++) {
+			res[i] = (Integer) myList.get(i);
+		}
+		return res;
+	}
 
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
@@ -701,7 +731,22 @@ public class SortAlgorithmsApplication {
 		 * node.next.next = new ListNode(1); node.next.next.next = new
 		 * ListNode(3); System.out.println(saa.insertionSortList2(node));
 		 */
-		System.out.println(saa.reorganizeString("aab"));
+		// System.out.println(saa.reorganizeString("aab"));
+		// nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+		int[] nums1 = {4,9,5}, nums2 = {9,4,9,8,4};
+		System.out.println(JsonUtil.toJson(saa.intersect(nums1, nums2)));
+	}
+
+	public static void testFloat() {
+		double x;
+		x = 10 / 4;
+		System.out.println("10/4=" + x);
+		x = 10 / 4.0;
+		System.out.println("10/4.0=" + x);
+		x = 10.0 / 4;
+		System.out.println("10.0/4=" + x);
+		x = 10.0 / 4.0;
+		System.out.println("10.0/4.0=" + x);
 
 	}
 
