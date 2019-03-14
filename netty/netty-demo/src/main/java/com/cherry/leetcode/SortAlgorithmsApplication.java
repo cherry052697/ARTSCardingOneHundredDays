@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -443,50 +444,64 @@ public class SortAlgorithmsApplication {
 		List<Integer> elist = new ArrayList<Integer>();
 		slist.add(newInterval.start);
 		elist.add(newInterval.end);
-		for(int i=0;i<intervals.size();i++){
+		for (int i = 0; i < intervals.size(); i++) {
 			slist.add(intervals.get(i).start);
 			elist.add(intervals.get(i).end);
 		}
 		Collections.sort(slist);
 		Collections.sort(elist);
-//		System.out.println(JsonUtil.toJson(slist));
-//		System.out.println(JsonUtil.toJson(elist));
+		// System.out.println(JsonUtil.toJson(slist));
+		// System.out.println(JsonUtil.toJson(elist));
 		for (int i = 0; i < slist.size(); i++) {
 			Interval temp = new Interval(slist.get(i), elist.get(i));
-			if (result.size()==0) {
+			if (result.size() == 0) {
 				result.add(temp);
-			}else{
-				Interval last = result.get(result.size()-1);
+			} else {
+				Interval last = result.get(result.size() - 1);
 				if (last.end >= temp.start) {
 					last.end = temp.end;
-				}else{
+				} else {
 					result.add(temp);
 				}
 			}
-			
+
 		}
+		return result;
+	}
+
+	public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
+		List<Interval> result = new LinkedList<>();
+		int i = 0;
+		while (i < intervals.size() && intervals.get(i).end < newInterval.start)
+			result.add(intervals.get(i++));
+		while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+			newInterval = new Interval(Math.min(newInterval.start, intervals.get(i).start),
+					Math.max(newInterval.end, intervals.get(i).end));
+			i++;
+		}
+		result.add(newInterval);
+		while (i < intervals.size())
+			result.add(intervals.get(i++));
 		return result;
 	}
 
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
-//		int[] a = { 1, 5, 1, 1, 6, 4 };
+		// int[] a = { 1, 5, 1, 1, 6, 4 };
 		// System.out.println(JsonUtil.toJson(saa.sortedSquares(a)));
-		/*saa.wiggleSort(a);
-		System.out.println(JsonUtil.toJson(a));
-		int[] a2 = { 1, 5, 1, 1, 6, 4 };
-		saa.wiggleSort2(a2);
-		System.out.println(JsonUtil.toJson(a2));
-		int[] a3 = { 1, 5, 1, 1, 6, 4 };
-		saa.wiggleSort3(a3);
-		System.out.println(JsonUtil.toJson(a3));*/
-		
-//		[[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+		/*
+		 * saa.wiggleSort(a); System.out.println(JsonUtil.toJson(a)); int[] a2 =
+		 * { 1, 5, 1, 1, 6, 4 }; saa.wiggleSort2(a2);
+		 * System.out.println(JsonUtil.toJson(a2)); int[] a3 = { 1, 5, 1, 1, 6,
+		 * 4 }; saa.wiggleSort3(a3); System.out.println(JsonUtil.toJson(a3));
+		 */
+
+		// [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
 		Interval in1 = new Interval(1, 2);
-		Interval in2 = new Interval(3,5);
-		Interval in3 = new Interval(6,7);
-		Interval in4 = new Interval(8,10);
-		Interval in5 = new Interval(12,16);
+		Interval in2 = new Interval(3, 5);
+		Interval in3 = new Interval(6, 7);
+		Interval in4 = new Interval(8, 10);
+		Interval in5 = new Interval(12, 16);
 		Interval newInterval = new Interval(4, 8);
 		List<Interval> intervals = new ArrayList<Interval>();
 		intervals.add(in1);
@@ -494,7 +509,7 @@ public class SortAlgorithmsApplication {
 		intervals.add(in3);
 		intervals.add(in4);
 		intervals.add(in5);
-		
+
 		System.out.println(JsonUtil.toJson(saa.insert(intervals, newInterval)));
 	}
 
