@@ -10,7 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 import com.cherry.netty.utils.JsonUtil;
 
@@ -556,6 +558,83 @@ public class SortAlgorithmsApplication {
 		return h - 1;
 	}
 
+	/*
+	 * 147. Insertion Sort List
+	 * 
+	 * Sort a linked list using insertion sort.
+	 * 
+	 * A graphical example of insertion sort. The partial sorted list (black)
+	 * initially contains only the first element in the list. With each
+	 * iteration one element (red) is removed from the input data and inserted
+	 * in-place into the sorted list
+	 * 
+	 * 
+	 * Algorithm of Insertion Sort:
+	 * 
+	 * Insertion sort iterates, consuming one input element each repetition, and
+	 * growing a sorted output list. At each iteration, insertion sort removes
+	 * one element from the input data, finds the location it belongs within the
+	 * sorted list, and inserts it there. It repeats until no input elements
+	 * remain.
+	 */
+	public ListNode insertionSortList(ListNode head) {
+		if (head == null) {
+			return head;
+		}
+
+		ListNode helper = new ListNode(0);
+		ListNode cur = head;
+		ListNode pre = helper;
+		ListNode next = null;
+		while (cur != null) {
+			next = cur.next;
+			while (pre.next != null && pre.next.val < cur.val) {
+				pre = pre.next;
+			}
+			cur.next = pre.next;
+			pre.next = cur;
+			pre = helper;
+			cur = next;
+		}
+
+		return helper.next;
+	}
+
+	public ListNode insertionSortList2(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+
+		ListNode sortedHead = head, sortedTail = head;
+		head = head.next;
+		sortedHead.next = null;
+
+		while (head != null) {
+			ListNode temp = head;
+			head = head.next;
+			temp.next = null;
+
+			if (temp.val <= sortedHead.val) {
+				temp.next = sortedHead;
+				sortedTail = sortedHead.next == null ? sortedHead : sortedTail;
+				sortedHead = temp;
+			} else if (temp.val >= sortedTail.val) {
+				sortedTail.next = temp;
+				sortedTail = sortedTail.next;
+			} else {
+				ListNode current = sortedHead;
+				while (current.next != null && current.next.val < temp.val) {
+					current = current.next;
+				}
+
+				temp.next = current.next;
+				current.next = temp;
+			}
+		}
+
+		return sortedHead;
+	}
+
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
 		// int[] a = { 1, 5, 1, 1, 6, 4 };
@@ -568,20 +647,24 @@ public class SortAlgorithmsApplication {
 		 */
 
 		// [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
-		Interval in1 = new Interval(1, 2);
-		Interval in2 = new Interval(3, 5);
-		Interval in3 = new Interval(6, 7);
-		Interval in4 = new Interval(8, 10);
-		Interval in5 = new Interval(12, 16);
-		Interval newInterval = new Interval(4, 8);
-		List<Interval> intervals = new ArrayList<Interval>();
-		intervals.add(in1);
-		intervals.add(in2);
-		intervals.add(in3);
-		intervals.add(in4);
-		intervals.add(in5);
+		/*
+		 * Interval in1 = new Interval(1, 2); Interval in2 = new Interval(3, 5);
+		 * Interval in3 = new Interval(6, 7); Interval in4 = new Interval(8,
+		 * 10); Interval in5 = new Interval(12, 16); Interval newInterval = new
+		 * Interval(4, 8); List<Interval> intervals = new ArrayList<Interval>();
+		 * intervals.add(in1); intervals.add(in2); intervals.add(in3);
+		 * intervals.add(in4); intervals.add(in5);
+		 * 
+		 * System.out.println(JsonUtil.toJson(saa.insert(intervals,
+		 * newInterval)));
+		 */
+		// 4->2->1->3 Output: 1->2->3->4
+		ListNode node = new ListNode(4);
+		node.next = new ListNode(2);
+		node.next.next = new ListNode(1);
+		node.next.next.next = new ListNode(3);
+		System.out.println(saa.insertionSortList2(node));
 
-		System.out.println(JsonUtil.toJson(saa.insert(intervals, newInterval)));
 	}
 
 }
