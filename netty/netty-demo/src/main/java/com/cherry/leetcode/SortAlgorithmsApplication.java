@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -702,6 +703,80 @@ public class SortAlgorithmsApplication {
 		return res;
 	}
 
+	/*
+	 * 524. Longest Word in Dictionary through Deleting
+	 * 
+	 * Given a string and a string dictionary, find the longest string in the
+	 * dictionary that can be formed by deleting some characters of the given
+	 * string. If there are more than one possible results, return the longest
+	 * word with the smallest lexicographical order. If there is no possible
+	 * result, return the empty string.
+	 */
+	public String findLongestWord(String s, List<String> d) {
+		HashSet<String> set = new HashSet<>(d);
+		List<String> l = new ArrayList<>();
+		generate(s, "", 0, l);
+		String max_str = "";
+		for (String str : l) {
+			if (set.contains(str))
+				if (str.length() > max_str.length() || (str.length() == max_str.length() && str.compareTo(max_str) < 0))
+					max_str = str;
+		}
+		return max_str;
+	}
+
+	public void generate(String s, String str, int i, List<String> l) {
+		if (i == s.length())
+			l.add(str);
+		else {
+			generate(s, str + s.charAt(i), i + 1, l);
+			generate(s, str, i + 1, l);
+		}
+	}
+
+	public String findLongestWord2(String s, List<String> d) {
+		String longest = "";
+		for (String dictWord : d) {
+			int i = 0;
+			for (char c : s.toCharArray())
+				if (i < dictWord.length() && c == dictWord.charAt(i))
+					i++;
+
+			if (i == dictWord.length() && dictWord.length() >= longest.length())
+				if (dictWord.length() > longest.length() || dictWord.compareTo(longest) < 0)
+					longest = dictWord;
+		}
+		return longest;
+	}
+
+	public String findLongestWord3(String s, List<String> d) {
+		String longest = null;
+		Iterator<String> itr = d.iterator();
+		while (itr.hasNext()) {
+			String dd = itr.next();
+			int start = -1;
+			boolean flag = true;
+			for (int i = 0; i < dd.length(); i++) {
+				start = s.indexOf(dd.charAt(i), start + 1);
+				if (start < 0) {
+					flag = false;
+					break;
+				}
+			}
+			if (!flag)
+				continue;
+			if (longest == null)
+				longest = dd;
+			else {
+				if (dd.length() > longest.length())
+					longest = dd;
+				if (dd.length() == longest.length() && dd.compareTo(longest) < 0)
+					longest = dd;
+			}
+		}
+		return longest == null ? "" : longest;
+	}
+
 	public static void main(String[] args) {
 		SortAlgorithmsApplication saa = new SortAlgorithmsApplication();
 		// int[] a = { 1, 5, 1, 1, 6, 4 };
@@ -733,8 +808,17 @@ public class SortAlgorithmsApplication {
 		 */
 		// System.out.println(saa.reorganizeString("aab"));
 		// nums1 = [4,9,5], nums2 = [9,4,9,8,4]
-		int[] nums1 = {4,9,5}, nums2 = {9,4,9,8,4};
-		System.out.println(JsonUtil.toJson(saa.intersect(nums1, nums2)));
+		/*
+		 * int[] nums1 = { 4, 9, 5 }, nums2 = { 9, 4, 9, 8, 4 };
+		 * System.out.println(JsonUtil.toJson(saa.intersect(nums1, nums2)));
+		 */
+		// s = "abpcplea", d = ["ale","apple","monkey","plea"]
+		List<String> list = new ArrayList<String>();
+		list.add("ale");
+		list.add("apple");
+		list.add("monkey");
+		list.add("plea");
+		System.out.println(saa.findLongestWord("abpcplea", list));
 	}
 
 	public static void testFloat() {
