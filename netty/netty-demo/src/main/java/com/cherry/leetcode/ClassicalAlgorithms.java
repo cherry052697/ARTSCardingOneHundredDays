@@ -234,6 +234,23 @@ public class ClassicalAlgorithms {
 	/*
 	 * 最短路径算法
 	 */
+	
+	/*
+	 *最大子序列和 
+	 */
+	public int maxSubSum(int[] a){
+		int maxSum = 0,thisSum = 0;
+		for(int j = 0; j < a.length ; j++){
+			thisSum += a[j];
+			if (thisSum > maxSum) 
+				maxSum = thisSum;
+			else if(thisSum < 0)
+				thisSum = 0;
+		}
+		return maxSum;
+	}
+	
+	
 
 	/*
 	 * 最大子数组算法
@@ -347,10 +364,12 @@ public class ClassicalAlgorithms {
 		int[] arrs3 = { 49, 38, 65, 97, 76, 13, 27, 49, 55, 04 };
 		// ca.insertSort(arrs3);
 		// ca.quickSort(arrs3, 0, arrs3.length - 1);
-		ca.shellSort(arrs3);
+//		ca.shellSort(arrs3);
 		// ca.mergeSort(arrs3);
 		// ca.bucketSort(arrs3);
-		System.out.println(JsonUtil.toJson(arrs3));
+//		System.out.println(JsonUtil.toJson(arrs3));
+		int [] nums = {4,-3,5,-2,-1,2,6,-2};
+		System.out.println(ca.maxSubSum(nums));
 
 	}
 
