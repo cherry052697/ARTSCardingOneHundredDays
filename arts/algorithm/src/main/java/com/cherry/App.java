@@ -1,4 +1,4 @@
-package org.algorithm;
+package com.cherry;
 
 /**
  * Hello world!
