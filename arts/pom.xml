@@ -103,5 +103,8 @@
     <module>rabbitmq-demo</module>
     <module>rabbitmq</module>
     <module>spring-boot-rabbitmq</module>
+    <module/>  <module>algorithm</module>
+    <mo
+  	e>reviewreview</module>
   </modules>
 </project>
